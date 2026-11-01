@@ -24,13 +24,16 @@ function renderCats(){
 }
 function renderGrid(){
   const words=st.q.toLowerCase().split(/\s+/).filter(Boolean);
-  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")).toLowerCase().includes(w)));
+  const norm=x=>x.toLowerCase().replace(/[^a-z0-9]/g,"");
+  const qn=norm(st.q).replace(/^a(?=\d)/,"");
+  const nums=p=>[p.sku||"",...(p.oem||[]),...(p.cross||[])].map(n=>norm(n).replace(/^a(?=\d)/,""));
+  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")+" "+(p.cross||[]).join(" ")).toLowerCase().includes(w))));
   r.sort((a,b)=>(b.available-a.available));
   $("listTitle").textContent=st.q?`Results for "${st.q}"`:(st.cat||"All parts");
   $("resultCount").innerHTML=`${r.length} part${r.length===1?"":"s"}${st.cat||st.q?' · <button class="clear" type="button" data-clear>Show all</button>':""}`;
   $("grid").innerHTML=r.length?r.map(p=>`<button class="card" type="button" data-open="${p.id}">
     <div class="pic">${pic(p)}</div>
-    <div class="body"><h3>${p.name}</h3><span class="pn">Suits MP4 / MP5 Actros</span>
+    <div class="body"><h3>${p.name}</h3><span class="pn">${p.oem&&p.oem.length?"OE "+p.oem[0]:"Part no. "+p.sku}</span>
     <div class="foot"><div>${p.price!=null?`<div class="price">${money(p.price)}</div>`:`<div class="price ask">Call for price</div>`}
     <div class="stock ${p.available?"":"out"}">${p.available?"In stock":"Sold out, ask us"}</div></div><span class="view">View</span></div></div></button>`).join("")
     :`<div class="empty">No parts match that search. Call or text 0481 309 893 and we'll find it for you.</div>`;
@@ -56,10 +59,14 @@ function renderCart(){
 function openPart(id){
   const p=P.find(x=>x.id===id);if(!p)return;current=p;
   $("pTitle").textContent=p.name;$("pPic").innerHTML=pic(p);
-  $("pPn").textContent="Suits "+DATA.truck+(p.sku?" · Part no. "+p.sku:"");
+  $("pPn").textContent="Part no. "+p.sku;
   $("pPrice").textContent=p.price!=null?money(p.price):"Call for price";
   $("pStock").textContent=p.available?"In stock":"Sold out";$("pStock").className="stock"+(p.available?"":" out");
-  $("pSpec").innerHTML=`<dt>Fits</dt><dd>${DATA.truck}</dd><dt>Category</dt><dd>${p.cat}</dd>`;
+  $("pSpec").innerHTML=`<dt>Fits</dt><dd>${DATA.truck}</dd>`+
+    (p.oem&&p.oem.length?`<dt>Replaces OE</dt><dd class="mono">${p.oem.join("<br>")}</dd>`:"")+
+    (p.cross&&p.cross.length?`<dt>Cross-ref</dt><dd class="mono">${p.cross.join("<br>")}</dd>`:"")+
+    `<dt>Our part no.</dt><dd class="mono">${p.sku}</dd>`;
+  $("pDesc").textContent=p.desc||"";
   $("pOptWrap").hidden=!p.options;
   if(p.options)$("pOpt").innerHTML=p.options.map(o=>`<option>${o}</option>`).join("");
   const canBuy=p.available&&p.price!=null;
