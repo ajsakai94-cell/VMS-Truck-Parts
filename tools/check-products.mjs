@@ -21,7 +21,7 @@ for (const p of data.products || []) {
   if (p.slug && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(p.slug)) err(id, `slug "${p.slug}" must be lowercase words joined by -`);
   if (typeof p.available !== "boolean") err(id, "available must be true or false");
   if (p.price !== null && !(typeof p.price === "number" && p.price > 0)) err(id, "price must be a positive number or null");
-  if (p.available && p.price === null) err(id, "available but has no price");
+  // available + price null is allowed: shows "In stock, call for price" and checkout refuses it.
   if (/mercedes|benz|daimler/i.test(p.brand || "")) err(id, "brand must not be Mercedes-Benz/Daimler (Merchant Center rejects aftermarket parts branded as OE)");
   if (typeof p.identifierExists !== "boolean") err(id, "identifierExists must be true or false");
   if (p.identifierExists && !p.gtin) err(id, "identifierExists is true but there is no gtin");
