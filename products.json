@@ -24,16 +24,21 @@
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4Actrosoilfilter.png?v=1759026875",
    "oldHandle": "oil-filter-to-suit-mp4-mp5-mercedes-actros",
    "oem": [
-    "A 473 180 00 09",
-    "A 472 184 04 25"
+    "A 472 184 04 25",
+    "A 472 184 05 25",
+    "A 472 180 03 09",
+    "A 472 180 01 09",
+    "A 473 180 00 09"
    ],
    "cross": [
     "MAHLE OX 832D",
     "MANN HU 12 001 z",
-    "Hengst E510H07 D129"
+    "Hengst E510H07 D129",
+    "LP5090",
+    "P7505"
    ],
    "desc": "Engine oil filter element for the OM471 / OM473. Change at every oil service.",
-   "brand": "VMS",
+   "brand": "Hydwell",
    "mpn": "MP4OF",
    "identifierExists": false,
    "condition": "new",
@@ -67,8 +72,8 @@
     "MANN PU 12 002-2 z",
     "Hengst E445KP D314-2"
    ],
-   "desc": "Main fuel filter element for the OM471 / OM473. Keeps dirt out of the injection system. Change at every service.",
-   "brand": "VMS",
+   "desc": "Main fuel filter kit for the OM471 / OM473: filter element, small mesh pre-strainer and O-rings. Keeps dirt out of the injection system. Change at every service.",
+   "brand": "Hydwell",
    "mpn": "VMS-F02",
    "identifierExists": false,
    "condition": "new",
