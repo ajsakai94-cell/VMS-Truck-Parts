@@ -412,10 +412,14 @@
     "A 007 151 45 01"
    ],
    "cross": [
-    "Prestolite (TRP 1549007)"
+    "Prestolite (TRP 1549007)",
+    "S5307S",
+    "DRS1034",
+    "11139182",
+    "AZG4879"
    ],
    "desc": "24V 7.5kW starter motor for the OM471.",
-   "brand": "VMS",
+   "brand": "JuBoHui",
    "mpn": "VMS-E01",
    "identifierExists": false,
    "condition": "new",
