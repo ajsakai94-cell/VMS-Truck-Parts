@@ -28,6 +28,7 @@ const CATS = {
   Engine: { path: "engine", title: "Actros MP4 / MP5 Engine Parts", intro: "Starter motors, cylinder heads, liner kits, oil separators and sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
   Brakes: { path: "brakes", title: "Actros MP4 / MP5 Brake and Air Parts", intro: "Brake hoses and air-line fittings for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
   Cab: { path: "cab", title: "Actros MP4 / MP5 Cab Parts", intro: "Mirror covers and other cab parts for the MP4 and MP5 Mercedes-Benz Actros." },
+  Workshop: { path: "workshop-equipment", title: "Workshop Equipment", intro: "Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any workshop, not just the Actros." },
   Tools: { path: "workshop-tools", title: "Actros MP4 / MP5 Workshop Tools", intro: "Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
 };
 
@@ -36,7 +37,8 @@ const money = n => "$" + n.toLocaleString("en-AU", { minimumFractionDigits: 2, m
 const shortMoney = n => "$" + (Number.isInteger(n) ? n.toLocaleString("en-AU") : n.toFixed(2));
 const partUrl = p => `/parts/${p.slug}/`;
 const catUrl = cat => `/${CATS[cat].path}/`;
-const fitsText = p => "MP4 / MP5 Mercedes-Benz Actros" + (p.fits.engines.length ? `, ${p.fits.engines.join(" / ")} engine` : "");
+const truckPart = p => p.fits.models.length > 0;
+const fitsText = p => !truckPart(p) ? "Any workshop (not vehicle-specific)" : "MP4 / MP5 Mercedes-Benz Actros" + (p.fits.engines.length ? `, ${p.fits.engines.join(" / ")} engine` : "");
 const products = data.products;
 
 for (const p of products) if (!CATS[p.cat]) throw new Error(`No category page set up for "${p.cat}" (part ${p.id}). Add it to CATS in build.mjs.`);
@@ -101,7 +103,7 @@ const crumbs = items => `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items
   i === items.length - 1 ? `<li aria-current="page">${esc(t)}</li>` : `<li><a href="${u}">${esc(t)}</a></li>`).join("")}</ol></nav>`;
 
 const pic = (p, cls = "") => p.image
-  ? `<img src="${esc(p.image)}" alt="${esc(p.name)} to suit Mercedes-Benz Actros MP4 / MP5"${cls === "big" ? "" : ' loading="lazy"'}>`
+  ? `<img src="${esc(p.image)}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}"${cls === "big" ? "" : ' loading="lazy"'}>`
   : `<span class="noimg">${esc(p.cat)}</span>`;
 
 const priceHtml = p => p.price != null ? `<div class="price">${money(p.price)}</div>` : `<div class="price ask">Call for price</div>`;
@@ -117,8 +119,8 @@ const sortParts = list => [...list].sort((a, b) => (b.available - a.available) |
 function partPage(p) {
   const oe = p.oem[0] ? ` ${p.oem[0]}` : "";
   const eng = p.fits.engines.length ? ` ${p.fits.engines.join("/")}` : "";
-  const title = `${p.name}${oe} – suits Actros MP4/MP5${eng}${p.price != null ? " | " + shortMoney(p.price) : ""} | ${SITE.name}`;
-  const desc = `${p.name} to suit the Mercedes-Benz Actros MP4 / MP5${eng}.${p.oem.length ? " Replaces OE " + p.oem.join(", ") + "." : ""} ${p.price != null ? shortMoney(p.price) + ", " : ""}${p.available ? "in stock" : "ask us for stock"}, shipped Australia-wide from ${SITE.region.split(",")[0]}.`;
+  const title = `${p.name}${oe}${truckPart(p) ? " – suits Actros MP4/MP5" + eng : ""}${p.price != null ? " | " + shortMoney(p.price) : ""} | ${SITE.name}`;
+  const desc = `${p.name}${truckPart(p) ? " to suit the Mercedes-Benz Actros MP4 / MP5" + eng : ""}.${p.oem.length ? " Replaces OE " + p.oem.join(", ") + "." : ""} ${p.price != null ? shortMoney(p.price) + ", " : ""}${p.available ? "in stock" : "ask us for stock"}, shipped Australia-wide from ${SITE.region.split(",")[0]}.`;
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
@@ -136,7 +138,7 @@ function partPage(p) {
 <article class="pdp">
   <div class="pic big">${pic(p, "big")}</div>
   <div class="info">
-    <h1>${esc(p.name)} <small>to suit Mercedes-Benz Actros MP4 / MP5</small></h1>
+    <h1>${esc(p.name)}${truckPart(p) ? " <small>to suit Mercedes-Benz Actros MP4 / MP5</small>" : ""}</h1>
     <span class="pn">${p.oem.length ? "OE " + esc(p.oem[0]) + " · " : ""}Part no. ${esc(p.sku)}</span>
     ${priceHtml(p).replace("price", "price big")}
     ${stockHtml(p)}
@@ -144,7 +146,7 @@ function partPage(p) {
 ${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>\n` : ""}    ${canBuy
       ? `<button class="primary" type="button" id="pAdd">Add to cart</button>`
       : `<p class="note">${p.available ? "Call for a price" : "This part is sold out online"}. Call or text <b><a href="tel:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a></b> or email <b>${esc(C.email)}</b> for a price and lead time.</p>`}
-    <p class="note">Not sure it fits? Text your VIN to <a href="sms:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> and we'll check before you pay.</p>
+    ${truckPart(p) ? `<p class="note">Not sure it fits? Text your VIN to <a href="sms:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> and we'll check before you pay.</p>` : ""}
     <dl>${spec}</dl>
     <details><summary>Shipping and returns</summary><p>${shipNote} Unused parts can be returned within 30 days. <a href="/policies.html#shipping">Shipping</a> · <a href="/policies.html#returns">Returns</a></p></details>
   </div>
