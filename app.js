@@ -81,8 +81,10 @@ function openPart(id){
   $("pdp").hidden=false;
   try{history.replaceState(null,"","?p="+p.id)}catch(e){}
 }
-function closeAll(){$("pdp").hidden=true;$("drawer").hidden=true;try{history.replaceState(null,"",location.pathname+location.hash)}catch(e){}}
-function all(){renderCats();renderGrid();renderCart()}
+const HOME=!!$("grid"); // home page has the grid and pop-up; part and category pages only have the cart
+const on=(id,ev,fn)=>{const el=$(id);if(el)el.addEventListener(ev,fn)};
+function closeAll(){if($("pdp"))$("pdp").hidden=true;$("drawer").hidden=true;if(HOME)try{history.replaceState(null,"",location.pathname+location.hash)}catch(e){}}
+function all(){if(HOME){renderCats();renderGrid()}renderCart()}
 
 document.addEventListener("click",e=>{
   const t=e.target.closest("button");
@@ -94,12 +96,12 @@ document.addEventListener("click",e=>{
   else if(t.dataset.inc){const {p}=parse(t.dataset.inc);if(p&&p.maxQty&&cart[t.dataset.inc]>=p.maxQty)return;cart[t.dataset.inc]++;save();renderCart()}
   else if(t.dataset.dec){if(--cart[t.dataset.dec]<=0)delete cart[t.dataset.dec];save();renderCart()}
 });
-$("pAdd").onclick=()=>{const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`};
-$("searchForm").addEventListener("submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();$("parts").scrollIntoView({behavior:"smooth"})});
-$("q").addEventListener("input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid()});
-$("openCart").onclick=()=>{$("drawer").hidden=false};
+on("pAdd","click",()=>{if(!current)return;const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`});
+on("searchForm","submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();$("parts").scrollIntoView({behavior:"smooth"})});
+on("q","input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid()});
+on("openCart","click",()=>{$("drawer").hidden=false});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
-$("checkout").onclick=async()=>{
+on("checkout","click",async()=>{
   const b=$("checkout");b.disabled=true;b.textContent="Opening secure checkout…";
   try{
     const items=Object.entries(cart).map(([k,q])=>{const [id,option]=k.split("|");return {id,option:option||null,qty:q}});
@@ -111,15 +113,17 @@ $("checkout").onclick=async()=>{
     $("checkoutNote").textContent="Checkout didn't open: "+err.message+". Please call or text 0481 309 893 and we'll take your order by phone.";
     b.disabled=false;b.textContent="Checkout";
   }
-};
+});
 
 window.__ic=ICONS;
-$("yr").textContent=new Date().getFullYear();
+if($("yr"))$("yr").textContent=new Date().getFullYear();
 load();
 fetch("/products.json").then(r=>r.json()).then(d=>{
   DATA=d;P=d.products;
   Object.keys(cart).forEach(k=>{const {p}=parse(k);if(!p||!p.available||p.price==null)delete cart[k]});
   all();
-  const id=new URLSearchParams(location.search).get("p");if(id)openPart(id);
+  const part=document.body.dataset.part;if(part)current=P.find(x=>x.id===part)||null;
+  const id=new URLSearchParams(location.search).get("p");if(id&&HOME)openPart(id);
+  if(location.hash==="#cart")$("drawer").hidden=false;
 });
 })();
