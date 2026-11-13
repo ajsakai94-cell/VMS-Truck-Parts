@@ -62,9 +62,11 @@ function openPart(id){
   $("pPn").textContent="Part no. "+p.sku;
   $("pPrice").textContent=p.price!=null?money(p.price):"Call for price";
   $("pStock").textContent=p.available?"In stock":"Sold out";$("pStock").className="stock"+(p.available?"":" out");
-  $("pSpec").innerHTML=`<dt>Fits</dt><dd>${DATA.truck}</dd>`+
+  const f=p.fits||{};
+  $("pSpec").innerHTML=`<dt>Fits</dt><dd>${DATA.truck}${f.engines&&f.engines.length?"<br>"+f.engines.join(" / ")+" engine":""}</dd>`+
     (p.oem&&p.oem.length?`<dt>Replaces OE</dt><dd class="mono">${p.oem.join("<br>")}</dd>`:"")+
     (p.cross&&p.cross.length?`<dt>Cross-ref</dt><dd class="mono">${p.cross.join("<br>")}</dd>`:"")+
+    (p.brand?`<dt>Brand</dt><dd>${p.brand}</dd>`:"")+
     `<dt>Our part no.</dt><dd class="mono">${p.sku}</dd>`;
   $("pDesc").textContent=p.desc||"";
   $("pOptWrap").hidden=!p.options;
