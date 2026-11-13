@@ -246,10 +246,12 @@
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4ActrosBrakeHose.jpg?v=1759040471",
    "oldHandle": "brake-hose-with-fittings-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-B01",
-   "oem": [],
+   "oem": [
+    "A 002 420 93 48"
+   ],
    "cross": [],
    "desc": "Brake hose with fittings attached, ready to fit.",
-   "brand": "VMS",
+   "brand": "Kazcioglu",
    "mpn": "VMS-B01",
    "identifierExists": false,
    "condition": "new",
@@ -521,6 +523,94 @@
    },
    "freightQuote": true,
    "maxQty": 1
+  },
+  {
+   "id": "oil-separator",
+   "slug": "oil-separator-mp4-mp5-actros",
+   "name": "Crankcase Oil Separator",
+   "cat": "Engine",
+   "price": 350.0,
+   "available": true,
+   "sku": "VMS-E04",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 471 010 01 62",
+    "A 472 010 31 62"
+   ],
+   "cross": [],
+   "desc": "Crankcase ventilation oil separator for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
+   "brand": "VMS",
+   "mpn": "VMS-E04",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM472"
+    ]
+   },
+   "maxQty": 2
+  },
+  {
+   "id": "battery-sensor",
+   "slug": "battery-sensor-mp4-mp5-actros",
+   "name": "Battery Sensor (Negative Terminal)",
+   "cat": "Engine",
+   "price": 150.0,
+   "available": true,
+   "sku": "VMS-E05",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 012 542 62 18"
+   ],
+   "cross": [],
+   "desc": "Battery sensor on the negative battery terminal. Check the number on your old sensor matches A 012 542 62 18, or send us your VIN and we'll confirm.",
+   "brand": "VMS",
+   "mpn": "VMS-E05",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "maxQty": 5
+  },
+  {
+   "id": "air-line-connector-m22",
+   "slug": "air-line-connector-m22-mp4-mp5-actros",
+   "name": "Air Line Push-in Connector M22x1.5",
+   "cat": "Brakes",
+   "price": 25.0,
+   "available": true,
+   "sku": "VMS-B02",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 000 997 81 34"
+   ],
+   "cross": [],
+   "desc": "Brass push-in connector for air lines, M22x1.5 thread, with seal. Check the number on your old fitting matches A 000 997 81 34.",
+   "brand": "Kazcioglu",
+   "mpn": "VMS-B02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "maxQty": 20
   }
  ]
 }
