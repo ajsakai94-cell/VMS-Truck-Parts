@@ -239,7 +239,7 @@
   {
    "id": "brake-hose",
    "slug": "brake-hose-mp4-mp5-actros",
-   "name": "Brake Hose with Fittings",
+   "name": "Brake Hose Set with M22 Connectors",
    "cat": "Brakes",
    "price": 150.0,
    "available": true,
@@ -247,10 +247,11 @@
    "oldHandle": "brake-hose-with-fittings-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-B01",
    "oem": [
-    "A 002 420 93 48"
+    "A 002 420 93 48",
+    "A 000 997 81 34"
    ],
    "cross": [],
-   "desc": "Brake hose with fittings attached, ready to fit.",
+   "desc": "Brake hose (OE A 002 420 93 48) supplied as a set with 2 brass push-in connectors (OE A 000 997 81 34, M22x1.5 thread, with seals), ready to fit.",
    "brand": "Kazcioglu",
    "mpn": "VMS-B01",
    "identifierExists": false,
@@ -261,7 +262,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "maxQty": 10
   },
   {
    "id": "long-mirror-cover",
@@ -583,34 +585,6 @@
     "engines": []
    },
    "maxQty": 5
-  },
-  {
-   "id": "air-line-connector-m22",
-   "slug": "air-line-connector-m22-mp4-mp5-actros",
-   "name": "Air Line Push-in Connector M22x1.5",
-   "cat": "Brakes",
-   "price": 25.0,
-   "available": true,
-   "sku": "VMS-B02",
-   "image": "",
-   "oldHandle": "",
-   "oem": [
-    "A 000 997 81 34"
-   ],
-   "cross": [],
-   "desc": "Brass push-in connector for air lines, M22x1.5 thread, with seal. Check the number on your old fitting matches A 000 997 81 34.",
-   "brand": "Kazcioglu",
-   "mpn": "VMS-B02",
-   "identifierExists": false,
-   "condition": "new",
-   "fits": {
-    "models": [
-     "MP4",
-     "MP5"
-    ],
-    "engines": []
-   },
-   "maxQty": 20
   }
  ]
 }
