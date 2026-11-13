@@ -270,10 +270,12 @@
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4ActrosLongMirrorCover_5a3fec1c-f611-49d7-9a33-3f9c4030b6de.png?v=1759039768",
    "oldHandle": "long-mirror-cover-to-suit-mp4-mp5-mercedes-actros-lh-rh",
    "sku": "VMS-C01",
-   "oem": [],
+   "oem": [
+    "A 960 811 14 07"
+   ],
    "cross": [],
    "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side.",
-   "brand": "VMS",
+   "brand": "Nuopei",
    "mpn": "VMS-C01",
    "identifierExists": false,
    "condition": "new",
