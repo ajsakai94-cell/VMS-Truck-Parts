@@ -489,6 +489,38 @@
     ],
     "engines": []
    }
+  },
+  {
+   "id": "cylinder-head-om473",
+   "slug": "cylinder-head-om473-mp4-mp5-actros",
+   "name": "Cylinder Head (OM473)",
+   "cat": "Engine",
+   "price": 8000.0,
+   "available": true,
+   "sku": "VMS-E03",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 473 010 14 20"
+   ],
+   "cross": [],
+   "desc": "Complete bare cylinder head for the OM473 (also listed for the OM472 and the DD15 / DD16). One in stock. Freight isn't included: it's quoted on request, or pick up free in Melbourne. Send us your VIN or engine number and we'll confirm fit before you pay.",
+   "brand": "VMS",
+   "mpn": "VMS-E03",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM472",
+     "OM473"
+    ]
+   },
+   "freightQuote": true,
+   "maxQty": 1
   }
  ]
 }

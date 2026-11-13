@@ -14,8 +14,11 @@ if (!(s.flatRate > 0) || !(s.freeOver > 0)) err("shipping", "flatRate and freeOv
 const ids = new Set(), slugs = new Set();
 for (const p of data.products || []) {
   const id = p.id || "(no id)";
-  for (const k of ["id", "slug", "name", "cat", "sku", "image", "brand", "mpn", "condition", "desc"])
+  for (const k of ["id", "slug", "name", "cat", "sku", "brand", "mpn", "condition", "desc"])
     if (typeof p[k] !== "string" || !p[k].trim()) err(id, `missing ${k}`);
+  if (typeof p.image !== "string") err(id, "image must be a string (empty = icon until a photo is added)");
+  if (p.freightQuote !== undefined && typeof p.freightQuote !== "boolean") err(id, "freightQuote must be true or false");
+  if (p.maxQty !== undefined && !(Number.isInteger(p.maxQty) && p.maxQty >= 1)) err(id, "maxQty must be a whole number of at least 1");
   if (ids.has(p.id)) err(id, "duplicate id"); ids.add(p.id);
   if (slugs.has(p.slug)) err(id, "duplicate slug"); slugs.add(p.slug);
   if (p.slug && !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(p.slug)) err(id, `slug "${p.slug}" must be lowercase words joined by -`);
@@ -31,7 +34,7 @@ for (const p of data.products || []) {
   const f = p.fits || {};
   if (!Array.isArray(f.models) || !f.models.length) err(id, "fits.models must list at least one model");
   if (!Array.isArray(f.engines)) err(id, "fits.engines must be a list (can be empty)");
-  for (const e of f.engines || []) if (!/^OM47[013]$/.test(e)) err(id, `unknown engine "${e}"`);
+  for (const e of f.engines || []) if (!/^OM47[0-3]$/.test(e)) err(id, `unknown engine "${e}"`);
   if (p.options && (!Array.isArray(p.options) || !p.options.length)) err(id, "options must be a non-empty list");
 }
 
