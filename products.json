@@ -15,6 +15,7 @@
  "products": [
   {
    "id": "oil-filter",
+   "slug": "oil-filter-mp4-mp5-actros",
    "name": "Oil Filter",
    "cat": "Filters",
    "price": 40.0,
@@ -23,18 +24,38 @@
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4Actrosoilfilter.png?v=1759026875",
    "oldHandle": "oil-filter-to-suit-mp4-mp5-mercedes-actros",
    "oem": [
-    "A 473 180 00 09",
-    "A 472 184 04 25"
+    "A 472 184 04 25",
+    "A 472 184 05 25",
+    "A 472 180 03 09",
+    "A 472 180 01 09",
+    "A 473 180 00 09"
    ],
    "cross": [
     "MAHLE OX 832D",
     "MANN HU 12 001 z",
-    "Hengst E510H07 D129"
+    "Hengst E510H07 D129",
+    "LP5090",
+    "P7505"
    ],
-   "desc": "Engine oil filter element for the OM471 / OM473. Change at every oil service."
+   "desc": "Engine oil filter element for the OM471 / OM473. Change at every oil service.",
+   "brand": "Hydwell",
+   "mpn": "MP4OF",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   }
   },
   {
    "id": "fuel-filter",
+   "slug": "fuel-filter-mp4-mp5-actros",
    "name": "Fuel Filter",
    "cat": "Filters",
    "price": 60.0,
@@ -42,15 +63,37 @@
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4ActrosFuelFilter.png?v=1759027556",
    "oldHandle": "fuel-filter-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-F02",
-   "oem": [],
-   "cross": [],
-   "desc": "Fuel filter element. Keeps dirt out of the injection system. Change at every service."
+   "oem": [
+    "A 471 090 27 55",
+    "A 471 090 24 55"
+   ],
+   "cross": [
+    "MAHLE KX 581KIT",
+    "MANN PU 12 002-2 z",
+    "Hengst E445KP D314-2"
+   ],
+   "desc": "Main fuel filter kit for the OM471 / OM473: filter element, small mesh pre-strainer and O-rings. Keeps dirt out of the injection system. Change at every service.",
+   "brand": "Hydwell",
+   "mpn": "VMS-F02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   }
   },
   {
    "id": "air-filter",
+   "slug": "air-filter-mp4-mp5-actros",
    "name": "Air Filter",
    "cat": "Filters",
-   "price": 100.0,
+   "price": 120.0,
    "available": true,
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4ActrosAirFilter.png?v=1759038374",
    "oldHandle": "air-filter-for-mp4-mp5-mercedes-actros",
@@ -64,10 +107,25 @@
     "MANN C 50 004/1",
     "Hengst E2059L"
    ],
-   "desc": "Engine air filter element. Check at every service and replace when the restriction indicator shows."
+   "desc": "Engine air filter element. Check at every service and replace when the restriction indicator shows.",
+   "brand": "VMS",
+   "mpn": "VMS-F03",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   }
   },
   {
    "id": "cabin-filter",
+   "slug": "cabin-filter-mp4-mp5-actros",
    "name": "Cabin Filter",
    "cat": "Filters",
    "price": 40.0,
@@ -75,12 +133,28 @@
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4ActrosCabinFilter_b9e912b7-02f8-4e01-9e60-ecdfc96c4690.png?v=1759028875",
    "oldHandle": "cabin-filter-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-F04",
-   "oem": [],
-   "cross": [],
-   "desc": "Cab pollen filter for the heater and air conditioning. Replace yearly or when airflow drops."
+   "oem": [
+    "A 960 830 02 18"
+   ],
+   "cross": [
+    "MAHLE LA 1006"
+   ],
+   "desc": "Cab pollen filter for the heater and air conditioning on the MP4 / MP5 cab. Replace yearly or when airflow drops. A carbon version (A 960 830 01 18) is also fitted to some trucks, so send us your VIN if unsure.",
+   "brand": "VMS",
+   "mpn": "VMS-F04",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "adblue-filter",
+   "slug": "adblue-filter-mp4-mp5-actros",
    "name": "AdBlue Filter",
    "cat": "Filters",
    "price": 55.0,
@@ -90,11 +164,23 @@
    "sku": "VMS-F05",
    "oem": [],
    "cross": [],
-   "desc": "AdBlue (urea) pump filter. A blocked filter can trigger an emissions warning and power loss."
+   "desc": "AdBlue (urea) pump filter. A blocked filter can trigger an emissions warning and power loss.",
+   "brand": "VMS",
+   "mpn": "VMS-F05",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "diesel-water-separator",
-   "name": "Diesel Water Separator",
+   "slug": "diesel-water-separator-mp4-mp5-actros",
+   "name": "Diesel Water Separator (Fuel Pre-filter)",
    "cat": "Filters",
    "price": 50.0,
    "available": true,
@@ -109,10 +195,25 @@
     "MANN PL 420/7 x",
     "Hengst H356WK"
    ],
-   "desc": "Fuel pre-filter with water separator. Drain the water regularly and replace at service."
+   "desc": "Spin-on fuel pre-filter / water separator can for the OM471 / OM473, supplied with a new O-ring. Traps water and coarse dirt before the main fuel filter. Change at every service and drain water as needed.",
+   "brand": "Hydwell",
+   "mpn": "VMS-F06",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   }
   },
   {
    "id": "power-steering-filter",
+   "slug": "power-steering-filter-mp4-mp5-actros",
    "name": "Power Steering Filter",
    "cat": "Filters",
    "price": 15.0,
@@ -122,23 +223,51 @@
    "sku": "VMS-F07",
    "oem": [],
    "cross": [],
-   "desc": "Power steering hydraulic filter. Replace when changing steering fluid."
+   "desc": "Power steering hydraulic filter. Replace when changing steering fluid.",
+   "brand": "VMS",
+   "mpn": "VMS-F07",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "brake-hose",
-   "name": "Brake Hose with Fittings",
+   "slug": "brake-hose-mp4-mp5-actros",
+   "name": "Brake Hose Set with M22 Connectors",
    "cat": "Brakes",
    "price": 150.0,
    "available": true,
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4ActrosBrakeHose.jpg?v=1759040471",
    "oldHandle": "brake-hose-with-fittings-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-B01",
-   "oem": [],
+   "oem": [
+    "A 002 420 93 48",
+    "A 000 997 81 34"
+   ],
    "cross": [],
-   "desc": "Brake hose with fittings attached, ready to fit."
+   "desc": "Brake hose (OE A 002 420 93 48) supplied as a set with 2 brass push-in connectors (OE A 000 997 81 34, M22x1.5 thread, with seals), ready to fit.",
+   "brand": "Kazcioglu",
+   "mpn": "VMS-B01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "maxQty": 10
   },
   {
    "id": "long-mirror-cover",
+   "slug": "long-mirror-cover-mp4-mp5-actros",
    "name": "Long Mirror Cover",
    "cat": "Cab",
    "price": 70.0,
@@ -150,12 +279,26 @@
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/MP4ActrosLongMirrorCover_5a3fec1c-f611-49d7-9a33-3f9c4030b6de.png?v=1759039768",
    "oldHandle": "long-mirror-cover-to-suit-mp4-mp5-mercedes-actros-lh-rh",
    "sku": "VMS-C01",
-   "oem": [],
+   "oem": [
+    "A 960 811 14 07"
+   ],
    "cross": [],
-   "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side."
+   "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side.",
+   "brand": "Nuopei",
+   "mpn": "VMS-C01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "viscous-fan-clutch",
+   "slug": "viscous-fan-clutch-mp4-mp5-actros",
    "name": "Clutch Viscous Fan",
    "cat": "Cooling",
    "price": 750.0,
@@ -171,10 +314,22 @@
     "Nissens 86140",
     "MAHLE CFC 173 000P"
    ],
-   "desc": "Viscous fan clutch for the engine cooling fan. Replace if the fan won't engage or the engine runs hot."
+   "desc": "Viscous fan clutch for the engine cooling fan. Replace if the fan won't engage or the engine runs hot.",
+   "brand": "VMS",
+   "mpn": "VMS-K01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "expansion-tank",
+   "slug": "expansion-tank-mp4-mp5-actros",
    "name": "Expansion Tank",
    "cat": "Cooling",
    "price": 525.0,
@@ -189,10 +344,22 @@
     "MAHLE CRT 235 000P",
     "Nissens 996053"
    ],
-   "desc": "Coolant expansion (header) tank. Replace if cracked or leaking."
+   "desc": "Coolant expansion (header) tank. Replace if cracked or leaking.",
+   "brand": "VMS",
+   "mpn": "VMS-K02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "clutch-kit",
+   "slug": "clutch-kit-mp4-mp5-actros",
    "name": "Clutch Kit",
    "cat": "Clutch",
    "price": 1500.0,
@@ -202,27 +369,51 @@
    "sku": "VMS-L01",
    "oem": [],
    "cross": [],
-   "desc": "Complete clutch kit for the MP4 / MP5 Actros."
+   "desc": "Complete clutch kit for the MP4 / MP5 Actros.",
+   "brand": "VMS",
+   "mpn": "VMS-L01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "clutch-actuator",
+   "slug": "clutch-actuator-mp4-mp5-actros",
    "name": "Clutch Actuator",
    "cat": "Clutch",
-   "price": null,
-   "available": false,
+   "price": 600.0,
+   "available": true,
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/H97d0524dc13a4b21b60ad711c4daf584Z.jpg?v=1759305971",
    "oldHandle": "clutch-actuator-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-L02",
    "oem": [],
    "cross": [],
-   "desc": "Clutch actuator for the automated (PowerShift) gearbox."
+   "desc": "Clutch actuator for the automated (PowerShift) gearbox.",
+   "brand": "VMS",
+   "mpn": "VMS-L02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
   },
   {
    "id": "starter-motor",
+   "slug": "starter-motor-mp4-mp5-actros",
    "name": "Starter Motor",
    "cat": "Engine",
    "price": 475.0,
-   "available": false,
+   "available": true,
    "image": "https://cdn.shopify.com/s/files/1/0724/9051/6617/files/H6d3d85bc4be54ba9a7b41625678a58b98.png?v=1759306569",
    "oldHandle": "starter-motor-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-E01",
@@ -230,12 +421,30 @@
     "A 007 151 45 01"
    ],
    "cross": [
-    "Prestolite (TRP 1549007)"
+    "Prestolite (TRP 1549007)",
+    "S5307S",
+    "DRS1034",
+    "11139182",
+    "AZG4879"
    ],
-   "desc": "24V 7.5kW starter motor for the OM471."
+   "desc": "24V 7.5kW starter motor for the OM471.",
+   "brand": "JuBoHui",
+   "mpn": "VMS-E01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471"
+    ]
+   }
   },
   {
    "id": "cylinder-liner-kit-om473",
+   "slug": "cylinder-liner-kit-om473-mp4-mp5-actros",
    "name": "Cylinder Liner Kit (OM473)",
    "cat": "Engine",
    "price": 215.0,
@@ -245,10 +454,24 @@
    "sku": "VMS-E02",
    "oem": [],
    "cross": [],
-   "desc": "Cylinder liner kit for the OM473 engine."
+   "desc": "Cylinder liner kit for the OM473 engine.",
+   "brand": "VMS",
+   "mpn": "VMS-E02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM473"
+    ]
+   }
   },
   {
    "id": "timing-tool-kit",
+   "slug": "timing-tool-kit-mp4-mp5-actros",
    "name": "Timing Tool Kit",
    "cat": "Tools",
    "price": 750.0,
@@ -258,7 +481,133 @@
    "sku": "VMS-T01",
    "oem": [],
    "cross": [],
-   "desc": "Engine timing tool kit for the MP4 / MP5 Actros."
+   "desc": "Engine timing tool kit for the MP4 / MP5 Actros.",
+   "brand": "VMS",
+   "mpn": "VMS-T01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   }
+  },
+  {
+   "id": "cylinder-head-om473",
+   "slug": "cylinder-head-om473-mp4-mp5-actros",
+   "name": "Cylinder Head (OM473)",
+   "cat": "Engine",
+   "price": 8000.0,
+   "available": true,
+   "sku": "VMS-E03",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 473 010 14 20"
+   ],
+   "cross": [],
+   "desc": "Complete bare cylinder head for the OM473 (also listed for the OM472 and the DD15 / DD16). One in stock. Freight isn't included: it's quoted on request, or pick up free in Melbourne. Send us your VIN or engine number and we'll confirm fit before you pay.",
+   "brand": "VMS",
+   "mpn": "VMS-E03",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM472",
+     "OM473"
+    ]
+   },
+   "freightQuote": true,
+   "maxQty": 1
+  },
+  {
+   "id": "oil-separator",
+   "slug": "oil-separator-mp4-mp5-actros",
+   "name": "Crankcase Oil Separator",
+   "cat": "Engine",
+   "price": 350.0,
+   "available": true,
+   "sku": "VMS-E04",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 471 010 01 62",
+    "A 472 010 31 62"
+   ],
+   "cross": [],
+   "desc": "Crankcase ventilation oil separator for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
+   "brand": "VMS",
+   "mpn": "VMS-E04",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM472"
+    ]
+   },
+   "maxQty": 2
+  },
+  {
+   "id": "battery-sensor",
+   "slug": "battery-sensor-mp4-mp5-actros",
+   "name": "Battery Sensor (Negative Terminal)",
+   "cat": "Engine",
+   "price": 150.0,
+   "available": true,
+   "sku": "VMS-E05",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 012 542 62 18"
+   ],
+   "cross": [],
+   "desc": "Battery sensor on the negative battery terminal. Check the number on your old sensor matches A 012 542 62 18, or send us your VIN and we'll confirm.",
+   "brand": "VMS",
+   "mpn": "VMS-E05",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "maxQty": 5
+  },
+  {
+   "id": "pneumatic-oil-pump",
+   "slug": "pneumatic-oil-drum-pump",
+   "name": "Pneumatic Oil Drum Pump with Hose and Gun",
+   "cat": "Workshop",
+   "price": 750.0,
+   "available": true,
+   "sku": "VMS-W01",
+   "image": "",
+   "oldHandle": "",
+   "oem": [],
+   "cross": [],
+   "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and dispensing gun. Runs off workshop compressed air. Suits any truck or workshop.",
+   "brand": "VMS",
+   "mpn": "VMS-W01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [],
+    "engines": []
+   },
+   "maxQty": 3
   }
  ]
 }

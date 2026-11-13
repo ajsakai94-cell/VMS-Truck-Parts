@@ -20,6 +20,7 @@ export async function onRequestPost({ request, env }) {
 
   const form = new URLSearchParams();
   let subtotal = 0;
+  let freightQuote = false; // a bulky item (e.g. cylinder head): no free shipping, freight quoted after the order
   let i = 0;
   for (const it of items) {
     const p = byId[it.id];
@@ -28,6 +29,8 @@ export async function onRequestPost({ request, env }) {
       return json({ error: `${p ? p.name : "A part"} can't be ordered online right now` }, 400);
     }
     if (p.options && !p.options.includes(it.option)) return json({ error: `Pick a side for ${p.name}` }, 400);
+    if (p.maxQty && qty > p.maxQty) return json({ error: `Only ${p.maxQty} ${p.name} available` }, 400);
+    if (p.freightQuote) freightQuote = true;
     const name = p.name + (it.option ? ` (${it.option})` : "") + ` to suit ${data.truck}`;
     const cents = Math.round(p.price * 100);
     subtotal += cents * qty;
@@ -41,10 +44,10 @@ export async function onRequestPost({ request, env }) {
 
   const s = data.shipping;
   const shipCents = subtotal >= Math.round(s.freeOver * 100) ? 0 : Math.round(s.flatRate * 100);
-  const options = [
-    { name: shipCents ? "Standard shipping, Australia-wide" : "Free standard shipping", amount: shipCents, min: 2, max: 7 },
-  ];
-  if (s.pickup) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
+  const options = freightQuote
+    ? [{ name: "Delivery: freight quoted separately (we'll call you before sending)", amount: 0 }]
+    : [{ name: shipCents ? "Standard shipping, Australia-wide" : "Free standard shipping", amount: shipCents, min: 2, max: 7 }];
+  if (s.pickup || freightQuote) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
   options.forEach((o, n) => {
     const k = `shipping_options[${n}][shipping_rate_data]`;
     form.append(`${k}[type]`, "fixed_amount");

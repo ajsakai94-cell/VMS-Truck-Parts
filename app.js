@@ -6,7 +6,8 @@ const ICONS={
  Engine:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 24h8l4-6h14l4 6h8v24H12z"/><path d="M4 30v12h8M60 30v12h-8M26 18v-6h12v6"/></svg>',
  Brakes:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="32" cy="32" r="24"/><circle cx="32" cy="32" r="8"/><path d="M14 18a24 24 0 0 1 14-10l3 10a14 14 0 0 0-8 6z"/></svg>',
  Cab:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M10 50V18c0-3 2-6 6-6h22l14 16v22z"/><path d="M16 18h20v12H16z"/><circle cx="20" cy="52" r="5"/><circle cx="44" cy="52" r="5"/></svg>',
- Tools:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 8a12 12 0 0 0-11 16L8 45l11 11 21-21a12 12 0 0 0 16-11l-7 4-8-4-1-9z"/></svg>'
+ Tools:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 8a12 12 0 0 0-11 16L8 45l11 11 21-21a12 12 0 0 0 16-11l-7 4-8-4-1-9z"/></svg>',
+ Workshop:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 8a12 12 0 0 0-11 16L8 45l11 11 21-21a12 12 0 0 0 16-11l-7 4-8-4-1-9z"/></svg>'
 };
 const $=id=>document.getElementById(id);
 const money=n=>"$"+n.toFixed(2);
@@ -42,17 +43,18 @@ function totals(){
   const items=Object.entries(cart);
   const n=items.reduce((s,[,q])=>s+q,0);
   const sub=items.reduce((s,[k,q])=>{const {p}=parse(k);return s+(p&&p.price?p.price*q:0)},0);
-  const ship=n?(sub>=DATA.shipping.freeOver?0:DATA.shipping.flatRate):0;
-  return {items,n,sub,ship};
+  const quote=items.some(([k])=>{const {p}=parse(k);return p&&p.freightQuote});
+  const ship=n&&!quote?(sub>=DATA.shipping.freeOver?0:DATA.shipping.flatRate):0;
+  return {items,n,sub,ship,quote};
 }
 function renderCart(){
-  const {items,n,sub,ship}=totals();
+  const {items,n,sub,ship,quote}=totals();
   $("cartCount").textContent=n;
   $("lines").innerHTML=n?items.map(([k,q])=>{const {p,opt}=parse(k);if(!p)return"";return `<div class="line"><strong>${p.name}${opt?" ("+opt+")":""}</strong><span>${money(p.price*q)}</span>
     <span class="pn">${money(p.price)} each</span><span class="qty"><button type="button" data-dec="${k}" aria-label="Remove one">−</button>${q}<button type="button" data-inc="${k}" aria-label="Add one">+</button></span></div>`}).join("")
     :`<p class="note" style="padding:20px 0">Your cart is empty.</p>`;
   $("sub").textContent=money(sub);
-  $("ship").textContent=n?(ship?money(ship)+" or free pickup":"Free"):"—";
+  $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":(ship?money(ship)+" or free pickup":"Free");
   $("total").textContent=money(sub+ship);
   $("checkout").disabled=!n;
 }
@@ -62,11 +64,14 @@ function openPart(id){
   $("pPn").textContent="Part no. "+p.sku;
   $("pPrice").textContent=p.price!=null?money(p.price):"Call for price";
   $("pStock").textContent=p.available?"In stock":"Sold out";$("pStock").className="stock"+(p.available?"":" out");
-  $("pSpec").innerHTML=`<dt>Fits</dt><dd>${DATA.truck}</dd>`+
+  const f=p.fits||{};
+  $("pSpec").innerHTML=(f.models&&f.models.length?`<dt>Fits</dt><dd>${DATA.truck}${f.engines&&f.engines.length?"<br>"+f.engines.join(" / ")+" engine":""}</dd>`:"")+
     (p.oem&&p.oem.length?`<dt>Replaces OE</dt><dd class="mono">${p.oem.join("<br>")}</dd>`:"")+
     (p.cross&&p.cross.length?`<dt>Cross-ref</dt><dd class="mono">${p.cross.join("<br>")}</dd>`:"")+
+    (p.brand?`<dt>Brand</dt><dd>${p.brand}</dd>`:"")+
     `<dt>Our part no.</dt><dd class="mono">${p.sku}</dd>`;
   $("pDesc").textContent=p.desc||"";
+  $("pShip").textContent=p.freightQuote?"Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria. Unused parts can be returned within 30 days.":"$19.95 Australia-wide, free over $"+DATA.shipping.freeOver+", or free pickup in Victoria. Unused parts can be returned within 30 days.";
   $("pOptWrap").hidden=!p.options;
   if(p.options)$("pOpt").innerHTML=p.options.map(o=>`<option>${o}</option>`).join("");
   const canBuy=p.available&&p.price!=null;
@@ -86,10 +91,10 @@ document.addEventListener("click",e=>{
   else if("clear" in t.dataset){st.cat=null;st.q="";$("q").value="";all()}
   else if(t.dataset.open)openPart(t.dataset.open);
   else if(t.dataset.close)closeAll();
-  else if(t.dataset.inc){cart[t.dataset.inc]++;save();renderCart()}
+  else if(t.dataset.inc){const {p}=parse(t.dataset.inc);if(p&&p.maxQty&&cart[t.dataset.inc]>=p.maxQty)return;cart[t.dataset.inc]++;save();renderCart()}
   else if(t.dataset.dec){if(--cart[t.dataset.dec]<=0)delete cart[t.dataset.dec];save();renderCart()}
 });
-$("pAdd").onclick=()=>{const k=key(current.id,current.options?$("pOpt").value:null);cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`};
+$("pAdd").onclick=()=>{const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`};
 $("searchForm").addEventListener("submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();$("parts").scrollIntoView({behavior:"smooth"})});
 $("q").addEventListener("input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid()});
 $("openCart").onclick=()=>{$("drawer").hidden=false};
