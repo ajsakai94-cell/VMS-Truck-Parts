@@ -17,7 +17,7 @@ function load(){try{cart=JSON.parse(localStorage.getItem("vms-cart")||"{}")}catc
 function save(){try{localStorage.setItem("vms-cart",JSON.stringify(cart))}catch(e){}}
 const key=(id,opt)=>opt?id+"|"+opt:id;
 const parse=k=>{const [id,opt]=k.split("|");return {p:P.find(x=>x.id===id),opt}};
-function pic(p){return `<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.replaceWith(document.createRange().createContextualFragment(window.__ic['${p.cat}']))">`}
+function pic(p,big){if(!p.image)return window.__ic[p.cat]||"";return `<img src="${big?p.image:(p.thumb||p.image)}" alt="${p.name}" width="${big?1000:400}" height="${big?1000:400}" loading="lazy" onerror="this.replaceWith(document.createRange().createContextualFragment(window.__ic['${p.cat}']))">`}
 
 function renderCats(){
   const cats=[...new Set(P.map(p=>p.cat))];
@@ -60,7 +60,7 @@ function renderCart(){
 }
 function openPart(id){
   const p=P.find(x=>x.id===id);if(!p)return;current=p;
-  $("pTitle").textContent=p.name;$("pPic").innerHTML=pic(p);
+  $("pTitle").textContent=p.name;$("pPic").innerHTML=pic(p,true);
   $("pPn").textContent="Part no. "+p.sku;
   $("pPrice").textContent=p.price!=null?money(p.price):"Call for price";
   $("pStock").textContent=p.available?"In stock":"Sold out";$("pStock").className="stock"+(p.available?"":" out");

@@ -1,6 +1,6 @@
 // Checks products.json before it ships: run `node tools/check-products.mjs`.
 // Fails (exit 1) on anything that would break checkout, the cart or Google Merchant Center.
-import { readFileSync } from "node:fs";
+import { readFileSync, existsSync } from "node:fs";
 
 const file = new URL("../products.json", import.meta.url);
 const data = JSON.parse(readFileSync(file, "utf8"));
@@ -17,6 +17,9 @@ for (const p of data.products || []) {
   for (const k of ["id", "slug", "name", "cat", "sku", "brand", "mpn", "condition", "desc"])
     if (typeof p[k] !== "string" || !p[k].trim()) err(id, `missing ${k}`);
   if (typeof p.image !== "string") err(id, "image must be a string (empty = icon until a photo is added)");
+  if (p.image && !/^\/images\/[a-z0-9-]+\.webp$/.test(p.image)) err(id, `image "${p.image}" must be a local /images/*.webp file`);
+  if (p.thumb !== undefined && !/^\/images\/[a-z0-9-]+\.webp$/.test(p.thumb)) err(id, `thumb "${p.thumb}" must be a local /images/*.webp file`);
+  for (const f of [p.image, p.thumb]) if (f && !existsSync(new URL(".." + f, import.meta.url))) err(id, `${f} is missing from the repo`);
   if (p.freightQuote !== undefined && typeof p.freightQuote !== "boolean") err(id, "freightQuote must be true or false");
   if (p.maxQty !== undefined && !(Number.isInteger(p.maxQty) && p.maxQty >= 1)) err(id, "maxQty must be a whole number of at least 1");
   if (ids.has(p.id)) err(id, "duplicate id"); ids.add(p.id);

@@ -103,7 +103,7 @@ const crumbs = items => `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items
   i === items.length - 1 ? `<li aria-current="page">${esc(t)}</li>` : `<li><a href="${u}">${esc(t)}</a></li>`).join("")}</ol></nav>`;
 
 const pic = (p, cls = "") => p.image
-  ? `<img src="${esc(p.image)}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}"${cls === "big" ? "" : ' loading="lazy"'}>`
+  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? "" : ' loading="lazy"'}>`
   : `<span class="noimg">${esc(p.cat)}</span>`;
 
 const priceHtml = p => p.price != null ? `<div class="price">${money(p.price)}</div>` : `<div class="price ask">Call for price</div>`;

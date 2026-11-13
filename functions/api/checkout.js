@@ -38,7 +38,8 @@ export async function onRequestPost({ request, env }) {
     form.append(`line_items[${i}][price_data][currency]`, data.currency);
     form.append(`line_items[${i}][price_data][unit_amount]`, String(cents));
     form.append(`line_items[${i}][price_data][product_data][name]`, name);
-    if (p.image && p.image.startsWith("https://")) form.append(`line_items[${i}][price_data][product_data][images][0]`, p.image);
+    const img = p.image && (p.image.startsWith("https://") ? p.image : p.image.startsWith("/") ? origin + p.image : "");
+    if (img) form.append(`line_items[${i}][price_data][product_data][images][0]`, img);
     i++;
   }
 
