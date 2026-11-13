@@ -6,7 +6,8 @@ const ICONS={
  Engine:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M12 24h8l4-6h14l4 6h8v24H12z"/><path d="M4 30v12h8M60 30v12h-8M26 18v-6h12v6"/></svg>',
  Brakes:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><circle cx="32" cy="32" r="24"/><circle cx="32" cy="32" r="8"/><path d="M14 18a24 24 0 0 1 14-10l3 10a14 14 0 0 0-8 6z"/></svg>',
  Cab:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M10 50V18c0-3 2-6 6-6h22l14 16v22z"/><path d="M16 18h20v12H16z"/><circle cx="20" cy="52" r="5"/><circle cx="44" cy="52" r="5"/></svg>',
- Tools:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 8a12 12 0 0 0-11 16L8 45l11 11 21-21a12 12 0 0 0 16-11l-7 4-8-4-1-9z"/></svg>'
+ Tools:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 8a12 12 0 0 0-11 16L8 45l11 11 21-21a12 12 0 0 0 16-11l-7 4-8-4-1-9z"/></svg>',
+ Workshop:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 8a12 12 0 0 0-11 16L8 45l11 11 21-21a12 12 0 0 0 16-11l-7 4-8-4-1-9z"/></svg>'
 };
 const $=id=>document.getElementById(id);
 const money=n=>"$"+n.toFixed(2);
@@ -64,7 +65,7 @@ function openPart(id){
   $("pPrice").textContent=p.price!=null?money(p.price):"Call for price";
   $("pStock").textContent=p.available?"In stock":"Sold out";$("pStock").className="stock"+(p.available?"":" out");
   const f=p.fits||{};
-  $("pSpec").innerHTML=`<dt>Fits</dt><dd>${DATA.truck}${f.engines&&f.engines.length?"<br>"+f.engines.join(" / ")+" engine":""}</dd>`+
+  $("pSpec").innerHTML=(f.models&&f.models.length?`<dt>Fits</dt><dd>${DATA.truck}${f.engines&&f.engines.length?"<br>"+f.engines.join(" / ")+" engine":""}</dd>`:"")+
     (p.oem&&p.oem.length?`<dt>Replaces OE</dt><dd class="mono">${p.oem.join("<br>")}</dd>`:"")+
     (p.cross&&p.cross.length?`<dt>Cross-ref</dt><dd class="mono">${p.cross.join("<br>")}</dd>`:"")+
     (p.brand?`<dt>Brand</dt><dd>${p.brand}</dd>`:"")+

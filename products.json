@@ -585,6 +585,29 @@
     "engines": []
    },
    "maxQty": 5
+  },
+  {
+   "id": "pneumatic-oil-pump",
+   "slug": "pneumatic-oil-drum-pump",
+   "name": "Pneumatic Oil Drum Pump with Hose and Gun",
+   "cat": "Workshop",
+   "price": 750.0,
+   "available": true,
+   "sku": "VMS-W01",
+   "image": "",
+   "oldHandle": "",
+   "oem": [],
+   "cross": [],
+   "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and dispensing gun. Runs off workshop compressed air. Suits any truck or workshop.",
+   "brand": "VMS",
+   "mpn": "VMS-W01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [],
+    "engines": []
+   },
+   "maxQty": 3
   }
  ]
 }

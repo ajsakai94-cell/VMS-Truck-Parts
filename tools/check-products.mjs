@@ -32,7 +32,7 @@ for (const p of data.products || []) {
   for (const k of ["oem", "cross"]) if (!Array.isArray(p[k])) err(id, `${k} must be a list`);
   for (const n of p.oem || []) if (!/^A \d{3} \d{3} \d{2} \d{2}$/.test(n)) err(id, `OE number "${n}" should look like "A 473 180 00 09"`);
   const f = p.fits || {};
-  if (!Array.isArray(f.models) || !f.models.length) err(id, "fits.models must list at least one model");
+  if (!Array.isArray(f.models) || (!f.models.length && p.cat !== "Workshop")) err(id, "fits.models must list at least one model (only Workshop equipment may leave it empty)");
   if (!Array.isArray(f.engines)) err(id, "fits.engines must be a list (can be empty)");
   for (const e of f.engines || []) if (!/^OM47[0-3]$/.test(e)) err(id, `unknown engine "${e}"`);
   if (p.options && (!Array.isArray(p.options) || !p.options.length)) err(id, "options must be a non-empty list");
