@@ -4,15 +4,22 @@
 //   /404.html                  real "not found" page (also stops Cloudflare's send-everything-to-home fallback)
 //   /guides/<slug>/index.html  guide pages (content in GUIDES below)
 //   /index.html                only the <!--build:...--> regions are filled in (cards, categories, guides, head tags)
+//   /policies.html, /success.html  hand-written; only the ?v= on their styles.css / app.js links is updated
 //   /sitemap.xml, /feed.xml    sitemap for Search Console, product feed for Merchant Center
 // Run:   node build.mjs          write the files
 //        node build.mjs --check  fail if the committed files are out of date (used by the GitHub check)
 // The generated files are committed, so Cloudflare Pages still needs no build step.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
+// Every page links styles.css and app.js with ?v=<hash of the file>, so when either changes the URL changes
+// and browsers fetch the new copy instead of mixing new pages with an old cached stylesheet.
+const ver = f => createHash("sha1").update(readFileSync(join(ROOT, f))).digest("hex").slice(0, 8);
+const CSS = `/styles.css?v=${ver("styles.css")}`, JS = `/app.js?v=${ver("app.js")}`;
+const versionAssets = html => html.replace(/(href=")\/?styles\.css(\?v=[0-9a-f]+)?"/g, `$1${CSS}"`).replace(/(src=")\/?app\.js(\?v=[0-9a-f]+)?"/g, `$1${JS}"`);
 const data = JSON.parse(readFileSync(join(ROOT, "products.json"), "utf8"));
 
 // Brand and site settings live in one place, so a rename or domain change is one edit.
@@ -72,7 +79,7 @@ function layout({ title, desc, path, body, part = "", image = "", type = "websit
 <meta name="description" content="${esc(desc)}">
 ${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="robots" content="noindex">\n`}${og}${jsonld.map(ld).join("")}<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css">
+<link rel="stylesheet" href="${CSS}">
 </head>
 <body${part ? ` data-part="${esc(part)}"` : ""}>
 
@@ -113,7 +120,7 @@ ${body}
   </div>
 </div>
 
-<script src="/app.js"></script>
+<script src="${JS}"></script>
 </body>
 </html>
 `;
@@ -346,7 +353,7 @@ ${ld({ "@context": "https://schema.org", "@graph": [ORG, { "@type": "WebSite", n
   fill("grid", sortParts(products).map(card).join(""));
   fill("ask", ASK);
   fill("guides", GUIDES.map(g => `<a class="guide" href="${g.path}"><b>${esc(g.short)}</b><span>${esc(g.blurb)}</span></a>`).join(""));
-  return html;
+  return versionAssets(html);
 }
 
 // ---- write or check ----
@@ -356,6 +363,8 @@ for (const cat of Object.keys(CATS)) if (products.some(p => p.cat === cat)) out.
 out.set("404.html", notFound());
 for (const g of GUIDES) out.set(join(g.path.slice(1), "index.html"), guidePage(g));
 out.set("index.html", homePage());
+// hand-written pages: only their stylesheet/script links are updated
+for (const f of ["policies.html", "success.html"]) out.set(f, versionAssets(readFileSync(join(ROOT, f), "utf8")));
 
 // sitemap.xml: home, categories, parts, policies (no lastmod, so --check stays stable)
 const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), ...GUIDES.map(g => g.path), "/policies.html"];
@@ -414,4 +423,4 @@ if (existsSync(partsDir)) for (const slug of readdirSync(partsDir)) {
 if (check) {
   if (stale.length) { console.error("Generated pages are out of date. Run `node build.mjs` and commit:\n  " + stale.join("\n  ")); process.exit(1); }
   console.log(`Generated pages up to date (${out.size} files).`);
-} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 4} categories, ${GUIDES.length} guides, home, 404, sitemap.xml, feed.xml (${feedItems.length} items).`);
+} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 6} categories, ${GUIDES.length} guides, home, 404, policies, success, sitemap.xml, feed.xml (${feedItems.length} items).`);
