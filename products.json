@@ -485,7 +485,7 @@
    "name": "Clutch Kit",
    "cat": "Clutch",
    "price": 1500.0,
-   "available": false,
+   "available": true,
    "image": "/images/clutch-kit-1000.webp",
    "thumb": "/images/clutch-kit-400.webp",
    "oldHandle": "clutch-to-suit-mp4-mp5-mercedes-actros",
@@ -510,7 +510,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "maxQty": 3
   },
   {
    "id": "clutch-actuator",
@@ -691,8 +692,7 @@
    },
    "freightQuote": true,
    "maxQty": 1,
-   "thumb": "/images/cylinder-head-om473-400.webp",
-   "illustration": true
+   "thumb": "/images/cylinder-head-om473-400.webp"
   },
   {
    "id": "oil-separator",
@@ -734,8 +734,7 @@
     ]
    },
    "maxQty": 2,
-   "thumb": "/images/oil-separator-400.webp",
-   "illustration": true
+   "thumb": "/images/oil-separator-400.webp"
   },
   {
    "id": "battery-sensor",
@@ -772,13 +771,12 @@
     "engines": []
    },
    "maxQty": 5,
-   "thumb": "/images/battery-sensor-400.webp",
-   "illustration": true
+   "thumb": "/images/battery-sensor-400.webp"
   },
   {
    "id": "pneumatic-oil-pump",
    "slug": "pneumatic-oil-drum-pump",
-   "name": "Pneumatic Oil Drum Pump with Hose and Gun",
+   "name": "Pneumatic Oil Drum Pump with Hose and Metered Gun",
    "cat": "Workshop",
    "price": 750.0,
    "available": true,
@@ -792,9 +790,12 @@
     "air oil pump",
     "oil dispensing pump",
     "oil transfer pump",
-    "oil gun"
+    "oil gun",
+    "metered oil gun",
+    "oil meter",
+    "oil flow meter"
    ],
-   "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and dispensing gun. Runs off workshop compressed air. Suits any truck or workshop.",
+   "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and a metered dispensing gun that shows how much oil has been pumped. Runs off workshop compressed air. Suits any truck or workshop.",
    "brand": "VMS",
    "mpn": "VMS-W01",
    "identifierExists": false,
