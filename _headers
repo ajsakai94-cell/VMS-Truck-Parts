@@ -1,0 +1,6 @@
+# Browser caching. Photos and fonts rarely change, so phones keep them for a week.
+# When a photo is replaced, give it a new file name (e.g. -v2) so everyone sees it straight away.
+/images/*
+  Cache-Control: public, max-age=604800
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
