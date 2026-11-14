@@ -983,7 +983,7 @@
    "price": 750.0,
    "available": true,
    "sku": "VMS-W01",
-   "image": "/images/pneumatic-oil-pump-1000.webp",
+   "image": "/images/pneumatic-oil-pump-v2-1000.webp",
    "oldHandle": "",
    "oem": [],
    "cross": [],
@@ -1003,7 +1003,7 @@
     "dispensing",
     "air pump"
    ],
-   "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and a metered dispensing gun that shows how much oil has been pumped. Runs off workshop compressed air. Suits any truck or workshop.",
+   "desc": "Air-operated pump for dispensing engine oil from a drum, supplied with a 5 m delivery hose and a metered dispensing gun that shows how much oil has been pumped. Runs off workshop compressed air. Suits any truck or workshop.",
    "brand": "VMS",
    "mpn": "VMS-W01",
    "identifierExists": false,
@@ -1013,8 +1013,9 @@
     "engines": []
    },
    "maxQty": 3,
-   "thumb": "/images/pneumatic-oil-pump-400.webp",
-   "illustration": true,
+   "thumb": "/images/pneumatic-oil-pump-v2-400.webp",
+   "illustration": false,
+  "specs": [["Oil viscosity", "Handles thick oils up to 1200 SAE (maker's rating)"], ["Pressure ratio", "5:1"], ["Operating temperature", "-10°C to 50°C"], ["Max flow", "8 to 10 L/min"], ["Hose length", "5 m"]],
    "shipClass": "heavy"
   }
  ]
