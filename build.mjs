@@ -244,7 +244,41 @@ const SERVICE = [
   ["adblue-filter", "As the maintenance system shows, or if you get an AdBlue / emissions warning."],
   ["power-steering-filter", "Whenever the power steering fluid is changed."],
 ];
+
+// ---- "find my part" help: engine picker (home page) and the text/email request form (home page + guide) ----
+const PHONE = C.phone.replace(/\s/g, "");
+const ASK = `<form class="ask" id="askForm" data-phone="${esc(PHONE)}" data-email="${esc(C.email)}">
+  <label>What part do you need?<input name="part" required placeholder="e.g. fuel filter, starter motor"></label>
+  <label>Rego and state, or VIN<input name="truck" placeholder="e.g. XC12AB VIC, or your 17-character VIN"></label>
+  <label>Your name<input name="name" autocomplete="name"></label>
+  <div class="askbtns"><button class="primary" type="submit" name="how" value="sms">Text us</button><button class="primary alt" type="submit" name="how" value="email">Email us</button></div>
+  <p class="note">This opens your phone's messages or email with the details filled in. Add a photo of the old part or its label and send it. We reply with the right part number and a price.</p>
+  <noscript><p class="note">Or text ${esc(C.phone)} / email ${esc(C.email)} with your rego or VIN and a photo of the old part.</p></noscript>
+</form>`;
+
+const FINDGUIDE = `<p>The quickest way to get the right part is the number printed on the old one. If you can't read it, your rego or VIN lets us look the truck up for you. Here's where to find each.</p>
+<h2>1. The number on the old part</h2>
+<p>Mercedes-Benz part numbers (OE numbers) start with an A and look like <span class="mono">A 472 184 04 25</span>. They're printed or stamped on the part, on a sticker, or on the box. Aftermarket parts carry their own brand's number, such as MAHLE <span class="mono">OX 832D</span> or MANN <span class="mono">HU 12 001 z</span>.</p>
+<p>Type either kind into the <a href="/#q">search box</a>. Spaces and dashes don't matter, and you can leave off the A.</p>
+<h2>2. Which engine you have</h2>
+<p>Every truck part on this site suits the MP4 and MP5 Actros. A few engine parts depend on the engine. The model number on the cab, such as 2653, gives you the power: the last two digits are the horsepower divided by ten.</p>
+<div class="tablewrap"><table><thead><tr><th>Model on the cab</th><th>Power</th><th>Engine (usually)</th></tr></thead><tbody>
+<tr><td>2643, 2646</td><td>430 to 460 hp</td><td>OM471 (12.8 litre)</td></tr>
+<tr><td>2653</td><td>530 hp</td><td>OM471 (12.8 litre)</td></tr>
+<tr><td>2658, 2663</td><td>580 to 630 hp</td><td>OM473 (15.6 litre)</td></tr>
+</tbody></table></div>
+<p>The engine type is also on the plate on the engine block and on your service records. Pick your engine on the <a href="/#finder">home page</a> and we'll only show parts that suit it.</p>
+<h2>3. Your VIN or rego</h2>
+<p>The VIN (Mercedes calls it the FIN) is 17 characters and starts with W. It's on your registration papers and on the vehicle data plate in the door frame. Your rego and state are usually enough for us to look it up.</p>
+<h2>Send it to us and we'll check</h2>
+<p>Fill this in, add a photo of the old part, and send. We'll reply with the right part number and a price.</p>
+${ASK}`;
 const GUIDES = [
+  { path: "/guides/find-actros-part-number/", short: "How to find your part number",
+    title: "How to Find the Right Part Number for Your Actros MP4 / MP5",
+    desc: "Where to find the OE part number, VIN and engine type on a Mercedes-Benz Actros MP4 / MP5, and how to get us to check the right part for your truck.",
+    blurb: "Where the numbers are on the part and the truck, and how we check it for you.",
+    body: () => FINDGUIDE },
   { path: "/guides/actros-mp4-service-intervals/", short: "MP4 service intervals",
     title: "Actros MP4 Service Intervals and Filter Checklist",
     desc: "How service intervals work on the MP4 / MP5 Mercedes-Benz Actros with the OM471 and OM473, which filters are changed at a service, and their OE numbers.",
@@ -310,6 +344,7 @@ function homePage() {
 ${ld({ "@context": "https://schema.org", "@graph": [ORG, { "@type": "WebSite", name: SITE.name, url: SITE.url + "/", publisher: { "@id": ORG["@id"] } }] })}`);
   fill("cats", cats.map(c => `<a class="cat" href="${catUrl(c)}">${ICONS[c] || ""}${esc(c)}<small>${products.filter(p => p.cat === c).length}</small></a>`).join(""));
   fill("grid", sortParts(products).map(card).join(""));
+  fill("ask", ASK);
   fill("guides", GUIDES.map(g => `<a class="guide" href="${g.path}"><b>${esc(g.short)}</b><span>${esc(g.blurb)}</span></a>`).join(""));
   return html;
 }
