@@ -113,7 +113,7 @@
    "cat": "Filters",
    "price": 40.0,
    "available": true,
-   "image": "",
+   "image": "/images/oil-filter-slim-1000.webp",
    "sku": "VMS-F09",
    "oem": [
     "A 473 180 05 09",
@@ -147,7 +147,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "thumb": "/images/oil-filter-slim-400.webp",
+   "illustration": true
   },
   {
    "id": "fuel-filter",
