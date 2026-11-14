@@ -40,6 +40,7 @@ for (const p of data.products || []) {
   if (!Array.isArray(f.engines)) err(id, "fits.engines must be a list (can be empty)");
   for (const e of f.engines || []) if (!/^OM47[0-3]$/.test(e)) err(id, `unknown engine "${e}"`);
   if (p.tags !== undefined && (!Array.isArray(p.tags) || p.tags.some(t => typeof t !== "string" || !t.trim()))) err(id, "tags must be a list of words or phrases");
+  if (p.keywords !== undefined && (!Array.isArray(p.keywords) || p.keywords.some(t => typeof t !== "string" || !t.trim()))) err(id, "keywords must be a list of words or phrases (site search only, never shown)");
   if (p.illustration !== undefined && typeof p.illustration !== "boolean") err(id, "illustration must be true or false");
   if (p.bundle !== undefined && (!Array.isArray(p.bundle) || p.bundle.some(b => !(data.products || []).some(x => x.id === b && !x.bundle)))) err(id, "bundle must list the ids of other (non-kit) parts");
   if (p.options && (!Array.isArray(p.options) || !p.options.length)) err(id, "options must be a non-empty list");

@@ -57,6 +57,14 @@
     "service pack",
     "oil service kit",
     "filter set"
+   ],
+   "keywords": [
+    "servicing",
+    "service parts",
+    "filters",
+    "oil change kit",
+    "A service",
+    "B service"
    ]
   },
   {
@@ -81,14 +89,26 @@
     "MAHLE OX 832D",
     "MANN HU 12 001 z",
     "Hengst E510H07 D129",
-    "LP5090",
-    "P7505"
+    "Luber-finer LP5090",
+    "Baldwin P7505",
+    "Bosch F 026 407 192",
+    "Wix 57909",
+    "Donaldson P551005",
+    "Fleetguard LF17511"
    ],
    "tags": [
     "oil filter",
     "oil filter element",
     "lube filter",
-    "engine oil service"
+    "engine oil service",
+    "oil filter cartridge"
+   ],
+   "keywords": [
+    "filters",
+    "servicing",
+    "oil change",
+    "Arocs",
+    "Antos"
    ],
    "desc": "Engine oil filter element for the OM471 / OM473. Change at every oil service.",
    "brand": "Hydwell",
@@ -124,14 +144,26 @@
     "MANN HU 12 021 z",
     "Hengst E523H D373",
     "Bosch F 026 407 389",
-    "Febi 186424"
+    "Febi 186424",
+    "Fleetguard LF17810",
+    "Sakura EO-57010",
+    "DT Spare Parts 4.72910",
+    "Trucktec 01.18.102"
    ],
    "tags": [
     "oil filter",
     "oil filter element",
     "slim oil filter",
     "lube filter",
-    "engine oil service"
+    "engine oil service",
+    "oil filter cartridge"
+   ],
+   "keywords": [
+    "filters",
+    "servicing",
+    "oil change",
+    "Arocs",
+    "Antos"
    ],
    "desc": "Oil filter element in the newer slim-base style. Check your old filter: if it narrows at the bottom and carries A 473 180 05 09 or A 473 180 08 09, this is the one. Text us your VIN if unsure.",
    "brand": "VMS",
@@ -175,7 +207,13 @@
     "fuel filter",
     "main fuel filter",
     "diesel filter",
-    "fuel filter element"
+    "fuel filter element",
+    "fuel filter cartridge"
+   ],
+   "keywords": [
+    "filters",
+    "servicing",
+    "fuel system"
    ],
    "desc": "Main fuel filter kit for the OM471 / OM473: filter element, small mesh pre-strainer and O-rings. Keeps dirt out of the injection system. Change at every service.",
    "brand": "Hydwell",
@@ -216,7 +254,14 @@
    "tags": [
     "air filter",
     "air cleaner element",
-    "engine air intake filter"
+    "engine air intake filter",
+    "air filter element"
+   ],
+   "keywords": [
+    "filters",
+    "servicing",
+    "intake",
+    "air box"
    ],
    "desc": "Engine air filter element. Check at every service and replace when the restriction indicator shows.",
    "brand": "VMS",
@@ -256,7 +301,15 @@
     "pollen filter",
     "air conditioning filter",
     "heater filter",
-    "A/C filter"
+    "A/C filter",
+    "cabin air filter"
+   ],
+   "keywords": [
+    "filters",
+    "servicing",
+    "aircon",
+    "air con",
+    "HVAC"
    ],
    "desc": "Cab pollen filter for the heater and air conditioning on the MP4 / MP5 cab. Replace yearly or when airflow drops. A carbon version (A 960 830 01 18) is also fitted to some trucks, so send us your VIN if unsure.",
    "brand": "VMS",
@@ -289,7 +342,14 @@
     "urea filter",
     "DEF filter",
     "SCR filter",
-    "emissions filter"
+    "emissions filter",
+    "AdBlue pump filter"
+   ],
+   "keywords": [
+    "filters",
+    "ad blue",
+    "SCR pump",
+    "emissions"
    ],
    "desc": "AdBlue (urea) pump filter. A blocked filter can trigger an emissions warning and power loss.",
    "brand": "VMS",
@@ -328,7 +388,14 @@
     "fuel pre-filter",
     "water trap",
     "spin-on fuel filter",
-    "diesel water separator"
+    "diesel water separator",
+    "primary fuel filter",
+    "fuel water separator"
+   ],
+   "keywords": [
+    "filters",
+    "servicing",
+    "fuel system"
    ],
    "desc": "Spin-on fuel pre-filter / water separator can for the OM471 / OM473, supplied with a new O-ring. Traps water and coarse dirt before the main fuel filter. Change at every service and drain water as needed.",
    "brand": "Hydwell",
@@ -363,6 +430,11 @@
     "steering filter",
     "hydraulic filter",
     "power steering oil filter"
+   ],
+   "keywords": [
+    "filters",
+    "steering",
+    "hydraulic"
    ],
    "desc": "Power steering hydraulic filter. Replace when changing steering fluid.",
    "brand": "VMS",
@@ -401,6 +473,11 @@
     "M22x1.5 fitting",
     "air line fitting"
    ],
+   "keywords": [
+    "brakes",
+    "air brakes",
+    "pneumatic"
+   ],
    "desc": "Brake hose (OE A 002 420 93 48) supplied as a set with 2 brass push-in connectors (OE A 000 997 81 34, M22x1.5 thread, with seals), ready to fit.",
    "brand": "Kazcioglu",
    "mpn": "VMS-B01",
@@ -438,7 +515,14 @@
     "mirror cover",
     "mirror cap",
     "mirror housing cover",
-    "side mirror cover"
+    "side mirror cover",
+    "mirror shell"
+   ],
+   "keywords": [
+    "mirror",
+    "cab",
+    "body parts",
+    "panel"
    ],
    "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side.",
    "brand": "Nuopei",
@@ -476,7 +560,14 @@
     "fan clutch",
     "viscous coupling",
     "viscous fan",
-    "cooling fan clutch"
+    "cooling fan clutch",
+    "viscous fan hub"
+   ],
+   "keywords": [
+    "cooling",
+    "fan",
+    "overheating",
+    "radiator fan"
    ],
    "desc": "Viscous fan clutch for the engine cooling fan. Replace if the fan won't engage or the engine runs hot.",
    "brand": "VMS",
@@ -516,7 +607,15 @@
     "expansion tank",
     "header tank",
     "coolant reservoir",
-    "radiator overflow tank"
+    "radiator overflow tank",
+    "coolant tank",
+    "overflow bottle"
+   ],
+   "keywords": [
+    "cooling",
+    "coolant",
+    "radiator",
+    "overheating"
    ],
    "desc": "Coolant expansion (header) tank. Replace if cracked or leaking.",
    "brand": "VMS",
@@ -550,6 +649,12 @@
     "pressure plate",
     "clutch disc",
     "release bearing"
+   ],
+   "keywords": [
+    "transmission",
+    "gearbox",
+    "driveline",
+    "PowerShift"
    ],
    "desc": "Complete clutch kit for the MP4 / MP5 Actros.",
    "brand": "VMS",
@@ -585,6 +690,12 @@
     "clutch slave",
     "PowerShift actuator",
     "AMT clutch actuator"
+   ],
+   "keywords": [
+    "transmission",
+    "gearbox",
+    "auto clutch",
+    "automated manual"
    ],
    "desc": "Clutch actuator for the automated (PowerShift) gearbox.",
    "brand": "VMS",
@@ -629,6 +740,11 @@
     "2658 starter",
     "OM473 starter"
    ],
+   "keywords": [
+    "electrical",
+    "cranking",
+    "24 volt"
+   ],
    "desc": "24V 7.5kW starter motor for the OM471 and OM473, including the Actros 2658.",
    "brand": "JuBoHui",
    "mpn": "VMS-E01",
@@ -666,6 +782,11 @@
     "engine rebuild",
     "in-frame overhaul"
    ],
+   "keywords": [
+    "engine",
+    "rebuild",
+    "overhaul"
+   ],
    "desc": "Cylinder liner kit for the OM473 engine.",
    "brand": "VMS",
    "mpn": "VMS-E02",
@@ -701,6 +822,11 @@
     "engine timing kit",
     "workshop tool"
    ],
+   "keywords": [
+    "engine",
+    "timing",
+    "special tool"
+   ],
    "desc": "Engine timing tool kit for the MP4 / MP5 Actros.",
    "brand": "VMS",
    "mpn": "VMS-T01",
@@ -735,6 +861,11 @@
     "engine head",
     "DD16"
    ],
+   "keywords": [
+    "engine",
+    "head",
+    "rebuild"
+   ],
    "desc": "Complete bare cylinder head for the OM473 (also listed for the OM472 and the DD15 / DD16). One in stock. Freight isn't included: it's quoted on request, or pick up free in Melbourne. Send us your VIN or engine number and we'll confirm fit before you pay.",
    "brand": "VMS",
    "mpn": "VMS-E03",
@@ -759,7 +890,7 @@
    "slug": "oil-separator-mp4-mp5-actros",
    "name": "Oil Spinner (Crankcase Oil Separator)",
    "cat": "Engine",
-   "price": 350.0,
+   "price": 450.0,
    "available": true,
    "sku": "VMS-E04",
    "image": "/images/oil-separator-1000.webp",
@@ -777,6 +908,11 @@
     "CCV separator",
     "blow-by separator",
     "centrifugal oil separator"
+   ],
+   "keywords": [
+    "engine",
+    "breather",
+    "blow by"
    ],
    "desc": "Oil spinner (crankcase ventilation oil separator) for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
    "brand": "VMS",
@@ -819,6 +955,11 @@
     "IBS sensor",
     "battery monitor sensor"
    ],
+   "keywords": [
+    "electrical",
+    "battery",
+    "terminal"
+   ],
    "desc": "Battery sensor on the negative battery terminal. Check the number on your old sensor matches A 012 542 62 18, or send us your VIN and we'll confirm.",
    "brand": "VMS",
    "mpn": "VMS-E05",
@@ -855,6 +996,12 @@
     "metered oil gun",
     "oil meter",
     "oil flow meter"
+   ],
+   "keywords": [
+    "workshop",
+    "oil drum",
+    "dispensing",
+    "air pump"
    ],
    "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and a metered dispensing gun that shows how much oil has been pumped. Runs off workshop compressed air. Suits any truck or workshop.",
    "brand": "VMS",

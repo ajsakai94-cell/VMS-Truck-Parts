@@ -23,13 +23,24 @@ function renderCats(){
   const cats=[...new Set(P.map(p=>p.cat))];
   $("cats").innerHTML=cats.map(c=>`<button class="cat" type="button" aria-pressed="${c===st.cat}" data-cat="${c}">${ICONS[c]||""}${c}<small>${P.filter(p=>p.cat===c).length}</small></button>`).join("");
 }
+// Search text for a part: name, numbers, synonyms (tags), hidden search-only keywords, and fitment
+// aliases, so "merc om471 oil filter" or "dd15 filter" finds the right part. DD13/15/16 are the
+// Detroit names for the OM470/471/473 engine family.
+const ENG_ALIAS={OM470:"om470 dd13 10.7",OM471:"om471 dd15 12.8",OM472:"om472",OM473:"om473 dd16 15.6"};
+function hay(p){
+  if(p._hay)return p._hay;
+  const f=p.fits||{models:[],engines:[]};
+  return p._hay=[p.name,p.cat,p.sku,p.brand,...(p.oem||[]),...(p.cross||[]),...(p.tags||[]),...(p.keywords||[]),
+    f.models.length?"mercedes-benz mercedes merc benz actros truck "+f.models.join(" ")+(f.models.includes("MP4")?" 963":""):"",
+    ...f.engines.map(e=>ENG_ALIAS[e]||e)].join(" ").toLowerCase();
+}
 function renderGrid(){
   const words=st.q.toLowerCase().split(/\s+/).filter(Boolean);
   const norm=x=>x.toLowerCase().replace(/[^a-z0-9]/g,"");
   const qn=norm(st.q).replace(/^a(?=\d)/,"");
   const nums=p=>[p.sku||"",...(p.oem||[]),...(p.cross||[])].map(n=>norm(n).replace(/^a(?=\d)/,""));
   const fitsEng=p=>!st.eng||!p.fits||!(p.fits.engines||[]).length||p.fits.engines.includes(st.eng);
-  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&fitsEng(p)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")+" "+(p.cross||[]).join(" ")+" "+(p.tags||[]).join(" ")).toLowerCase().includes(w))));
+  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&fitsEng(p)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>hay(p).includes(w))));
   r.sort((a,b)=>(b.available-a.available));
   $("listTitle").textContent=(st.q?`Results for "${st.q}"`:(st.cat||"All parts"))+(st.eng?` for ${st.eng}`:"");
   document.querySelectorAll("[data-eng]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.eng===st.eng&&!!st.eng)));
