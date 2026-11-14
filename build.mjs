@@ -140,9 +140,10 @@ const sortParts = list => [...list].sort((a, b) => (b.available - a.available) |
 
 function partPage(p) {
   const oe = p.oem[0] ? ` ${p.oem[0]}` : "";
-  const eng = p.fits.engines.length ? ` ${p.fits.engines.join("/")}` : "";
-  const title = `${p.name}${oe}${truckPart(p) ? " – suits Actros MP4/MP5" + eng : ""}${p.price != null ? " | " + shortMoney(p.price) : ""} | ${SITE.name}`;
-  const desc = `${p.name}${truckPart(p) ? " to suit the Mercedes-Benz Actros MP4 / MP5" + eng : ""}.${p.oem.length ? " Replaces OE " + p.oem.join(", ") + "." : ""} ${p.price != null ? shortMoney(p.price) + ", " : ""}${p.available ? "in stock" : "ask us for stock"}, shipped Australia-wide from ${SITE.region.split(",")[0]}.`;
+  const eng = p.fits.engines.length && !/OM47\d/.test(p.name) ? ` ${p.fits.engines.join("/")}` : "";
+  // Google title: plain part name, then fitment, then OE number, then price
+  const title = `${p.name}${truckPart(p) ? " for Mercedes Actros MP4/MP5" + eng : ""}${p.oem[0] ? " – OE " + p.oem[0] : ""}${p.price != null ? " | " + shortMoney(p.price) + (p.available ? " In Stock" : "") : ""} | ${SITE.name}`;
+  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : ""}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Free shipping over ${shortMoney(SHIP.freeOver)}, dispatched from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
@@ -339,7 +340,7 @@ out.set("feed.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <description>Parts for the MP4 and MP5 Mercedes-Benz Actros</description>
 ${feedItems.map(p => `<item>
   <g:id>${x(p.id)}</g:id>
-  <g:title>${x((p.name + (p.oem[0] ? " " + p.oem[0] : "") + (truckPart(p) ? " to suit Mercedes-Benz Actros MP4 MP5" : "")).slice(0, 150))}</g:title>
+  <g:title>${x((p.name + (truckPart(p) ? " for Mercedes-Benz Actros MP4 / MP5" + (p.fits.engines.length && !/OM47\d/.test(p.name) ? " " + p.fits.engines.join("/") : "") : "") + (p.oem[0] ? " – OE " + p.oem[0] : "")).slice(0, 150))}</g:title>
   <g:description>${x(p.desc + (p.oem.length ? " Replaces OE " + p.oem.join(", ") + "." : "") + (p.cross.length ? " Cross-reference: " + p.cross.join(", ") + "." : ""))}</g:description>
   <g:link>${SITE.url}${partUrl(p)}</g:link>
   <g:image_link>${x(abs(p.image))}</g:image_link>
