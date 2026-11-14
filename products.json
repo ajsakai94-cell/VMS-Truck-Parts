@@ -776,7 +776,7 @@
   {
    "id": "pneumatic-oil-pump",
    "slug": "pneumatic-oil-drum-pump",
-   "name": "Pneumatic Oil Drum Pump with Hose and Gun",
+   "name": "Pneumatic Oil Drum Pump with Hose and Metered Gun",
    "cat": "Workshop",
    "price": 750.0,
    "available": true,
@@ -790,9 +790,12 @@
     "air oil pump",
     "oil dispensing pump",
     "oil transfer pump",
-    "oil gun"
+    "oil gun",
+    "metered oil gun",
+    "oil meter",
+    "oil flow meter"
    ],
-   "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and dispensing gun. Runs off workshop compressed air. Suits any truck or workshop.",
+   "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and a metered dispensing gun that shows how much oil has been pumped. Runs off workshop compressed air. Suits any truck or workshop.",
    "brand": "VMS",
    "mpn": "VMS-W01",
    "identifierExists": false,
