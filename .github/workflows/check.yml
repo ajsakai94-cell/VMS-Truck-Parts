@@ -17,3 +17,5 @@ jobs:
         run: |
           node --check app.js
           cp functions/api/checkout.js /tmp/checkout.mjs && node --check /tmp/checkout.mjs
+      - name: Generated pages are up to date
+        run: node build.mjs --check

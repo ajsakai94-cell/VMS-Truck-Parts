@@ -17,7 +17,7 @@ function load(){try{cart=JSON.parse(localStorage.getItem("vms-cart")||"{}")}catc
 function save(){try{localStorage.setItem("vms-cart",JSON.stringify(cart))}catch(e){}}
 const key=(id,opt)=>opt?id+"|"+opt:id;
 const parse=k=>{const [id,opt]=k.split("|");return {p:P.find(x=>x.id===id),opt}};
-function pic(p){return `<img src="${p.image}" alt="${p.name}" loading="lazy" onerror="this.replaceWith(document.createRange().createContextualFragment(window.__ic['${p.cat}']))">`}
+function pic(p,big){if(!p.image)return window.__ic[p.cat]||"";return `<img src="${big?p.image:(p.thumb||p.image)}" alt="${p.name}" width="${big?1000:400}" height="${big?1000:400}" loading="lazy" onerror="this.replaceWith(document.createRange().createContextualFragment(window.__ic['${p.cat}']))">`}
 
 function renderCats(){
   const cats=[...new Set(P.map(p=>p.cat))];
@@ -28,15 +28,15 @@ function renderGrid(){
   const norm=x=>x.toLowerCase().replace(/[^a-z0-9]/g,"");
   const qn=norm(st.q).replace(/^a(?=\d)/,"");
   const nums=p=>[p.sku||"",...(p.oem||[]),...(p.cross||[])].map(n=>norm(n).replace(/^a(?=\d)/,""));
-  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")+" "+(p.cross||[]).join(" ")).toLowerCase().includes(w))));
+  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")+" "+(p.cross||[]).join(" ")+" "+(p.tags||[]).join(" ")).toLowerCase().includes(w))));
   r.sort((a,b)=>(b.available-a.available));
   $("listTitle").textContent=st.q?`Results for "${st.q}"`:(st.cat||"All parts");
   $("resultCount").innerHTML=`${r.length} part${r.length===1?"":"s"}${st.cat||st.q?' · <button class="clear" type="button" data-clear>Show all</button>':""}`;
-  $("grid").innerHTML=r.length?r.map(p=>`<button class="card" type="button" data-open="${p.id}">
+  $("grid").innerHTML=r.length?r.map(p=>`<a class="card" href="/parts/${p.slug}/">
     <div class="pic">${pic(p)}</div>
     <div class="body"><h3>${p.name}</h3><span class="pn">${p.oem&&p.oem.length?"OE "+p.oem[0]:"Part no. "+p.sku}</span>
     <div class="foot"><div>${p.price!=null?`<div class="price">${money(p.price)}</div>`:`<div class="price ask">Call for price</div>`}
-    <div class="stock ${p.available?"":"out"}">${p.available?"In stock":"Sold out, ask us"}</div></div><span class="view">View</span></div></div></button>`).join("")
+    <div class="stock ${p.available?"":"out"}">${p.available?"In stock":"Sold out, ask us"}</div></div><span class="view">View</span></div></div></a>`).join("")
     :`<div class="empty">No parts match that search. Call or text 0481 309 893 and we'll find it for you.</div>`;
 }
 function totals(){
@@ -58,48 +58,26 @@ function renderCart(){
   $("total").textContent=money(sub+ship);
   $("checkout").disabled=!n;
 }
-function openPart(id){
-  const p=P.find(x=>x.id===id);if(!p)return;current=p;
-  $("pTitle").textContent=p.name;$("pPic").innerHTML=pic(p);
-  $("pPn").textContent="Part no. "+p.sku;
-  $("pPrice").textContent=p.price!=null?money(p.price):"Call for price";
-  $("pStock").textContent=p.available?"In stock":"Sold out";$("pStock").className="stock"+(p.available?"":" out");
-  const f=p.fits||{};
-  $("pSpec").innerHTML=(f.models&&f.models.length?`<dt>Fits</dt><dd>${DATA.truck}${f.engines&&f.engines.length?"<br>"+f.engines.join(" / ")+" engine":""}</dd>`:"")+
-    (p.oem&&p.oem.length?`<dt>Replaces OE</dt><dd class="mono">${p.oem.join("<br>")}</dd>`:"")+
-    (p.cross&&p.cross.length?`<dt>Cross-ref</dt><dd class="mono">${p.cross.join("<br>")}</dd>`:"")+
-    (p.brand?`<dt>Brand</dt><dd>${p.brand}</dd>`:"")+
-    `<dt>Our part no.</dt><dd class="mono">${p.sku}</dd>`;
-  $("pDesc").textContent=p.desc||"";
-  $("pShip").textContent=p.freightQuote?"Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria. Unused parts can be returned within 30 days.":"$19.95 Australia-wide, free over $"+DATA.shipping.freeOver+", or free pickup in Victoria. Unused parts can be returned within 30 days.";
-  $("pOptWrap").hidden=!p.options;
-  if(p.options)$("pOpt").innerHTML=p.options.map(o=>`<option>${o}</option>`).join("");
-  const canBuy=p.available&&p.price!=null;
-  $("pAdd").hidden=!canBuy;$("pAdd").textContent="Add to cart";
-  $("pAsk").hidden=canBuy;
-  $("pAsk").innerHTML=`This part is sold out online. Call or text <b>${DATA.contact.phone}</b> or email <b>${DATA.contact.email}</b> for a price and lead time.`;
-  $("pdp").hidden=false;
-  try{history.replaceState(null,"","?p="+p.id)}catch(e){}
-}
-function closeAll(){$("pdp").hidden=true;$("drawer").hidden=true;try{history.replaceState(null,"",location.pathname+location.hash)}catch(e){}}
-function all(){renderCats();renderGrid();renderCart()}
+const HOME=!!$("grid"); // home page has the search grid; every page has the cart
+const on=(id,ev,fn)=>{const el=$(id);if(el)el.addEventListener(ev,fn)};
+function closeAll(){$("drawer").hidden=true}
+function all(){if(HOME){renderCats();renderGrid()}renderCart()}
 
 document.addEventListener("click",e=>{
   const t=e.target.closest("button");
   if(!t){if(e.target.classList&&e.target.classList.contains("overlay"))closeAll();return}
   if(t.dataset.cat){st.cat=st.cat===t.dataset.cat?null:t.dataset.cat;st.q="";$("q").value="";all();$("parts").scrollIntoView({behavior:"smooth"})}
   else if("clear" in t.dataset){st.cat=null;st.q="";$("q").value="";all()}
-  else if(t.dataset.open)openPart(t.dataset.open);
   else if(t.dataset.close)closeAll();
   else if(t.dataset.inc){const {p}=parse(t.dataset.inc);if(p&&p.maxQty&&cart[t.dataset.inc]>=p.maxQty)return;cart[t.dataset.inc]++;save();renderCart()}
   else if(t.dataset.dec){if(--cart[t.dataset.dec]<=0)delete cart[t.dataset.dec];save();renderCart()}
 });
-$("pAdd").onclick=()=>{const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`};
-$("searchForm").addEventListener("submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();$("parts").scrollIntoView({behavior:"smooth"})});
-$("q").addEventListener("input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid()});
-$("openCart").onclick=()=>{$("drawer").hidden=false};
+on("pAdd","click",()=>{if(!current)return;const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`});
+on("searchForm","submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();$("parts").scrollIntoView({behavior:"smooth"})});
+on("q","input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid()});
+on("openCart","click",()=>{$("drawer").hidden=false});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
-$("checkout").onclick=async()=>{
+on("checkout","click",async()=>{
   const b=$("checkout");b.disabled=true;b.textContent="Opening secure checkout…";
   try{
     const items=Object.entries(cart).map(([k,q])=>{const [id,option]=k.split("|");return {id,option:option||null,qty:q}});
@@ -111,15 +89,17 @@ $("checkout").onclick=async()=>{
     $("checkoutNote").textContent="Checkout didn't open: "+err.message+". Please call or text 0481 309 893 and we'll take your order by phone.";
     b.disabled=false;b.textContent="Checkout";
   }
-};
+});
 
 window.__ic=ICONS;
-$("yr").textContent=new Date().getFullYear();
+if($("yr"))$("yr").textContent=new Date().getFullYear();
 load();
 fetch("/products.json").then(r=>r.json()).then(d=>{
   DATA=d;P=d.products;
   Object.keys(cart).forEach(k=>{const {p}=parse(k);if(!p||!p.available||p.price==null)delete cart[k]});
   all();
-  const id=new URLSearchParams(location.search).get("p");if(id)openPart(id);
+  const part=document.body.dataset.part;if(part)current=P.find(x=>x.id===part)||null;
+  const id=new URLSearchParams(location.search).get("p"),old=id&&P.find(x=>x.id===id);if(old&&HOME)location.replace("/parts/"+old.slug+"/"); // old ?p= links
+  if(location.hash==="#cart")$("drawer").hidden=false;
 });
 })();
