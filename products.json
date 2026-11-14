@@ -571,9 +571,11 @@
     "starter motor",
     "starter",
     "starting motor",
-    "24V starter"
+    "24V starter",
+    "2658 starter",
+    "OM473 starter"
    ],
-   "desc": "24V 7.5kW starter motor for the OM471.",
+   "desc": "24V 7.5kW starter motor for the OM471 and OM473, including the Actros 2658.",
    "brand": "JuBoHui",
    "mpn": "VMS-E01",
    "identifierExists": false,
@@ -584,7 +586,8 @@
      "MP5"
     ],
     "engines": [
-     "OM471"
+     "OM471",
+     "OM473"
     ]
    }
   },
