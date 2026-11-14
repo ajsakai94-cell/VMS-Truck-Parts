@@ -485,7 +485,7 @@
    "name": "Clutch Kit",
    "cat": "Clutch",
    "price": 1500.0,
-   "available": false,
+   "available": true,
    "image": "/images/clutch-kit-1000.webp",
    "thumb": "/images/clutch-kit-400.webp",
    "oldHandle": "clutch-to-suit-mp4-mp5-mercedes-actros",
@@ -510,7 +510,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "maxQty": 3
   },
   {
    "id": "clutch-actuator",
