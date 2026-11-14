@@ -14,6 +14,48 @@
  },
  "products": [
   {
+   "id": "service-kit",
+   "slug": "service-kit-om471-om473-mp4-mp5-actros",
+   "name": "Service Filter Kit (OM471 / OM473)",
+   "cat": "Filters",
+   "price": 290.0,
+   "available": true,
+   "sku": "VMS-KIT01",
+   "image": "/images/service-kit-1000.webp",
+   "thumb": "/images/service-kit-400.webp",
+   "oem": [],
+   "cross": [],
+   "desc": "Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately, and over $250 so shipping is free.",
+   "brand": "VMS",
+   "mpn": "VMS-KIT01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   },
+   "bundle": [
+    "oil-filter",
+    "fuel-filter",
+    "diesel-water-separator",
+    "air-filter",
+    "cabin-filter"
+   ],
+   "tags": [
+    "service kit",
+    "filter kit",
+    "service pack",
+    "oil service kit",
+    "filter set"
+   ]
+  },
+  {
    "id": "oil-filter",
    "slug": "oil-filter-mp4-mp5-actros",
    "name": "Engine Oil Filter",

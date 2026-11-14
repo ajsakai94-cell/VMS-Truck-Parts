@@ -2,6 +2,8 @@
 //   /parts/<slug>/index.html   one page per part
 //   /<category>/index.html     one page per category
 //   /404.html                  real "not found" page (also stops Cloudflare's send-everything-to-home fallback)
+//   /guides/<slug>/index.html  guide pages (content in GUIDES below)
+//   /index.html                only the <!--build:...--> regions are filled in (cards, categories, guides, head tags)
 //   /sitemap.xml, /feed.xml    sitemap for Search Console, product feed for Merchant Center
 // Run:   node build.mjs          write the files
 //        node build.mjs --check  fail if the committed files are out of date (used by the GitHub check)
@@ -91,6 +93,7 @@ ${body}
 <footer><div class="wrap">
   <div><b>${esc(SITE.name)}</b><span>${esc(SITE.region)}</span><span>${esc(C.phone)}</span><span>${esc(C.email)}</span></div>
   <div><b>Shop</b>${Object.entries(CATS).filter(([k]) => products.some(p => p.cat === k)).map(([k, v]) => `<a href="/${v.path}/">${esc(k)}</a>`).join("")}</div>
+  <div><b>Guides</b>${GUIDES.map(g => `<a href="${g.path}">${esc(g.short)}</a>`).join("")}</div>
   <div><b>Help</b><a href="/#faq">FAQ</a><a href="/policies.html#shipping">Shipping</a><a href="/policies.html#returns">Returns and refunds</a><a href="/policies.html#privacy">Privacy</a><a href="/policies.html#terms">Terms</a></div>
   <p class="legal">VMS Truck Parts is an independent parts supplier, not affiliated with Mercedes-Benz or Daimler Truck. Mercedes-Benz and Actros are their owners' trademarks, used only to show which trucks our parts suit. OE numbers are for reference.</p>
 </div></footer>
@@ -163,7 +166,7 @@ function partPage(p) {
     ${priceHtml(p).replace("price", "price big")}
     ${stockHtml(p)}
     <p class="desc">${esc(p.desc)}</p>
-${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>\n` : ""}    ${canBuy
+${p.bundle ? `    <p><b>In this kit:</b></p><ul class="kit">${p.bundle.map(id => products.find(x => x.id === id)).map(x => `<li><a href="${partUrl(x)}">${esc(x.name)}</a>${x.oem[0] ? ` <span class="mono">${esc(x.oem[0])}</span>` : ""}</li>`).join("")}</ul>\n` : ""}${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>\n` : ""}    ${canBuy
       ? `<button class="primary" type="button" id="pAdd">Add to cart</button>`
       : `<p class="note">${p.available ? "Call for a price" : "This part is sold out online"}. Call or text <b><a href="tel:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a></b> or email <b>${esc(C.email)}</b> for a price and lead time.</p>`}
     ${truckPart(p) ? `<p class="note">Not sure it fits? Text your VIN to <a href="sms:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> and we'll check before you pay.</p>` : ""}
@@ -224,14 +227,99 @@ function notFound() {
   return layout({ title: `Page not found | ${SITE.name}`, desc: "Page not found.", path: "", body });
 }
 
+// ---- guides ----
+const byId = id => products.find(p => p.id === id);
+const link = p => `<a href="${partUrl(p)}">${esc(p.name)}</a>`;
+const mono = list => list.length ? `<span class="mono">${list.map(esc).join("<br>")}</span>` : "–";
+const SERVICE = [
+  ["oil-filter", "Every oil service, with the engine oil."],
+  ["fuel-filter", "Commonly changed with the oil. Follow the maintenance display."],
+  ["diesel-water-separator", "Commonly changed with the oil. Drain water from the bowl whenever the warning shows."],
+  ["air-filter", "When the restriction indicator shows. Check it more often on dusty roads."],
+  ["cabin-filter", "Yearly, or sooner if airflow from the vents drops."],
+  ["adblue-filter", "As the maintenance system shows, or if you get an AdBlue / emissions warning."],
+  ["power-steering-filter", "Whenever the power steering fluid is changed."],
+];
+const GUIDES = [
+  { path: "/guides/actros-mp4-service-intervals/", short: "MP4 service intervals",
+    title: "Actros MP4 Service Intervals and Filter Checklist",
+    desc: "How service intervals work on the MP4 / MP5 Mercedes-Benz Actros with the OM471 and OM473, which filters are changed at a service, and their OE numbers.",
+    blurb: "How the MP4 works out when it's due, and which filters to change.",
+    body: () => `<p>The MP4 Actros doesn't run on one fixed service interval. Its maintenance system works out when each service is due from how the truck is used: the load, the kilometres, idle time, the fuel and the oil specification. It shows the result on the instrument cluster. Two MP4s doing different work can be due at very different kilometres, so always go by your truck's maintenance display and service records rather than a number from the internet.</p>
+<p>What doesn't change much is <b>what</b> gets replaced. Here's the filter checklist for an OM471 or OM473 service, with the OE numbers so you can match the parts.</p>
+<h2>Filter checklist</h2>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>When</th><th>OE number</th><th>Price</th></tr></thead><tbody>
+${SERVICE.map(([id, when]) => byId(id)).map((p, i) => `<tr><td>${link(p)}</td><td>${esc(SERVICE[i][1])}</td><td>${mono(p.oem.slice(0, 2))}</td><td>${p.price != null ? money(p.price) : "Call"}</td></tr>`).join("")}
+</tbody></table></div>
+${byId("service-kit") ? `<p>Doing a full service? The <a href="${partUrl(byId("service-kit"))}">service filter kit</a> has the oil, fuel, water separator, air and cabin filters in one box for ${money(byId("service-kit").price)}, with free shipping.</p>` : ""}
+<h2>Tips for Australian conditions</h2>
+<ul>
+<li>Dust is the big one. On gravel or in dry country, check the air filter restriction indicator every few days rather than waiting for the service.</li>
+<li>Water in the fuel shows up fast on the MP4's water separator. If the warning comes on, drain the bowl, and change the pre-filter if it keeps happening.</li>
+<li>An AdBlue warning with power loss is often a blocked AdBlue pump filter, which is a cheap part to try first.</li>
+<li>Keep the old filter until the new one is fitted, so you can compare the number printed on it.</li>
+</ul>
+<h2>Not sure which part suits your truck?</h2>
+<p>Text your VIN to <a href="sms:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> and we'll confirm the right parts for your build before you pay.</p>` },
+  { path: "/guides/om471-om473-filter-part-numbers/", short: "OM471 / OM473 filter numbers",
+    title: "OM471 / OM473 Filter Part Numbers for the Actros MP4 / MP5",
+    desc: "Mercedes-Benz OE numbers and MAHLE, MANN and Hengst cross-references for every OM471 / OM473 filter on the MP4 / MP5 Actros.",
+    blurb: "OE numbers and MAHLE, MANN and Hengst equivalents in one table.",
+    body: () => `<p>These are the filters for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. The OE number is printed on the old filter or its box, and looks like <span class="mono">A 472 184 04 25</span>. When you search this site you can type it with or without the spaces and the leading A.</p>
+<p>Where one part has several OE numbers, they're superseded or alternative numbers for the same filter. Cross-references are the equivalent MAHLE, MANN, Hengst and other aftermarket numbers.</p>
+<h2>Filter part numbers</h2>
+<div class="tablewrap"><table><thead><tr><th>Filter</th><th>OE numbers</th><th>Cross-reference</th><th>Price</th></tr></thead><tbody>
+${sortParts(products.filter(p => p.cat === "Filters" && !p.bundle)).map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.cross)}</td><td>${p.price != null ? money(p.price) : "Call"}</td></tr>`).join("")}
+</tbody></table></div>
+<p>Can't find your number? Call or text <a href="tel:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> with the number off your old filter and we'll match it.</p>` },
+];
+function guidePage(g) {
+  const body = `${crumbs([["Home", "/"], [g.short, ""]])}
+<article class="block article">
+  <h1>${esc(g.title)}</h1>
+${g.body()}
+</article>`;
+  return layout({ title: `${g.title} | ${SITE.name}`, desc: g.desc, path: g.path, body,
+    jsonld: [{ "@context": "https://schema.org", "@type": "Article", headline: g.title, description: g.desc, url: SITE.url + g.path, publisher: { "@id": ORG["@id"] } }, crumbLd([["Home", "/"], [g.short, g.path]])] });
+}
+
+// ---- home page: fill the marked regions of index.html so the page works without JavaScript ----
+const ICONS = Function(readFileSync(join(ROOT, "app.js"), "utf8").match(/const ICONS=(\{[\s\S]*?\n\});/)[1].replace(/^/, "return "))();
+function homePage() {
+  let html = readFileSync(join(ROOT, "index.html"), "utf8");
+  const fill = (name, content) => {
+    const re = new RegExp(`<!--build:${name}-->[\\s\\S]*?<!--/build:${name}-->`);
+    if (!re.test(html)) throw new Error(`index.html is missing <!--build:${name}--> markers`);
+    html = html.replace(re, () => `<!--build:${name}-->${content}<!--/build:${name}-->`);
+  };
+  const cats = Object.keys(CATS).filter(c => products.some(p => p.cat === c));
+  fill("head", `
+<link rel="canonical" href="${SITE.url}/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="${esc(SITE.name)}">
+<meta property="og:locale" content="en_AU">
+<meta property="og:title" content="Actros MP4 Parts Specialists | ${esc(SITE.name)}">
+<meta property="og:description" content="Parts for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number and shipped Australia-wide.">
+<meta property="og:url" content="${SITE.url}/">
+<meta property="og:image" content="${SITE.url}${DEFAULT_IMG}">
+<meta name="twitter:card" content="summary_large_image">
+${ld({ "@context": "https://schema.org", "@graph": [ORG, { "@type": "WebSite", name: SITE.name, url: SITE.url + "/", publisher: { "@id": ORG["@id"] } }] })}`);
+  fill("cats", cats.map(c => `<a class="cat" href="${catUrl(c)}">${ICONS[c] || ""}${esc(c)}<small>${products.filter(p => p.cat === c).length}</small></a>`).join(""));
+  fill("grid", sortParts(products).map(card).join(""));
+  fill("guides", GUIDES.map(g => `<a class="guide" href="${g.path}"><b>${esc(g.short)}</b><span>${esc(g.blurb)}</span></a>`).join(""));
+  return html;
+}
+
 // ---- write or check ----
 const out = new Map();
 for (const p of products) out.set(join("parts", p.slug, "index.html"), partPage(p));
 for (const cat of Object.keys(CATS)) if (products.some(p => p.cat === cat)) out.set(join(CATS[cat].path, "index.html"), catPage(cat));
 out.set("404.html", notFound());
+for (const g of GUIDES) out.set(join(g.path.slice(1), "index.html"), guidePage(g));
+out.set("index.html", homePage());
 
 // sitemap.xml: home, categories, parts, policies (no lastmod, so --check stays stable)
-const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), "/policies.html"];
+const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), ...GUIDES.map(g => g.path), "/policies.html"];
 out.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `  <url><loc>${SITE.url}${u}</loc></url>`).join("\n")}
@@ -263,7 +351,7 @@ ${feedItems.map(p => `<item>
   <g:condition>${x(p.condition || "new")}</g:condition>
   <g:google_product_category>${x(GCAT[p.cat] || "Vehicles & Parts > Vehicle Parts & Accessories > Motor Vehicle Parts")}</g:google_product_category>
   <g:product_type>${x((truckPart(p) ? "Actros MP4 MP5 > " : "") + p.cat)}</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${(p.price >= SHIP.freeOver ? 0 : SHIP.flatRate).toFixed(2)} AUD</g:price></g:shipping>
+${p.bundle ? "  <g:is_bundle>yes</g:is_bundle>\n" : ""}  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${(p.price >= SHIP.freeOver ? 0 : SHIP.flatRate).toFixed(2)} AUD</g:price></g:shipping>
 </item>`).join("\n")}
 </channel>
 </rss>
@@ -287,4 +375,4 @@ if (existsSync(partsDir)) for (const slug of readdirSync(partsDir)) {
 if (check) {
   if (stale.length) { console.error("Generated pages are out of date. Run `node build.mjs` and commit:\n  " + stale.join("\n  ")); process.exit(1); }
   console.log(`Generated pages up to date (${out.size} files).`);
-} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - 3} categories, 404, sitemap.xml, feed.xml (${feedItems.length} items).`);
+} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 4} categories, ${GUIDES.length} guides, home, 404, sitemap.xml, feed.xml (${feedItems.length} items).`);

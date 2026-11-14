@@ -5,6 +5,23 @@
 <link>https://vmstruckparts.com.au/</link>
 <description>Parts for the MP4 and MP5 Mercedes-Benz Actros</description>
 <item>
+  <g:id>service-kit</g:id>
+  <g:title>Service Filter Kit (OM471 / OM473) to suit Mercedes-Benz Actros MP4 MP5</g:title>
+  <g:description>Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately, and over $250 so shipping is free.</g:description>
+  <g:link>https://vmstruckparts.com.au/parts/service-kit-om471-om473-mp4-mp5-actros/</g:link>
+  <g:image_link>https://vmstruckparts.com.au/images/service-kit-1000.webp</g:image_link>
+  <g:availability>in_stock</g:availability>
+  <g:price>290.00 AUD</g:price>
+  <g:brand>VMS</g:brand>
+  <g:mpn>VMS-KIT01</g:mpn>
+  <g:identifier_exists>no</g:identifier_exists>
+  <g:condition>new</g:condition>
+  <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
+  <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+  <g:is_bundle>yes</g:is_bundle>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>0.00 AUD</g:price></g:shipping>
+</item>
+<item>
   <g:id>oil-filter</g:id>
   <g:title>Engine Oil Filter A 472 184 04 25 to suit Mercedes-Benz Actros MP4 MP5</g:title>
   <g:description>Engine oil filter element for the OM471 / OM473. Change at every oil service. Replaces OE A 472 184 04 25, A 472 184 05 25, A 472 180 03 09, A 472 180 01 09, A 473 180 00 09. Cross-reference: MAHLE OX 832D, MANN HU 12 001 z, Hengst E510H07 D129, LP5090, P7505.</g:description>
