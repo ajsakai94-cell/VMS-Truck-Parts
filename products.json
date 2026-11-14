@@ -662,7 +662,7 @@
    "price": 8000.0,
    "available": true,
    "sku": "VMS-E03",
-   "image": "",
+   "image": "/images/cylinder-head-om473-1000.webp",
    "oldHandle": "",
    "oem": [
     "A 473 010 14 20"
@@ -690,7 +690,9 @@
     ]
    },
    "freightQuote": true,
-   "maxQty": 1
+   "maxQty": 1,
+   "thumb": "/images/cylinder-head-om473-400.webp",
+   "illustration": true
   },
   {
    "id": "oil-separator",
@@ -700,7 +702,7 @@
    "price": 350.0,
    "available": true,
    "sku": "VMS-E04",
-   "image": "",
+   "image": "/images/oil-separator-1000.webp",
    "oldHandle": "",
    "oem": [
     "A 471 010 01 62",
@@ -731,7 +733,9 @@
      "OM472"
     ]
    },
-   "maxQty": 2
+   "maxQty": 2,
+   "thumb": "/images/oil-separator-400.webp",
+   "illustration": true
   },
   {
    "id": "battery-sensor",
@@ -741,7 +745,7 @@
    "price": 150.0,
    "available": true,
    "sku": "VMS-E05",
-   "image": "",
+   "image": "/images/battery-sensor-1000.webp",
    "oldHandle": "",
    "oem": [
     "A 012 542 62 18"
@@ -767,7 +771,9 @@
     ],
     "engines": []
    },
-   "maxQty": 5
+   "maxQty": 5,
+   "thumb": "/images/battery-sensor-400.webp",
+   "illustration": true
   },
   {
    "id": "pneumatic-oil-pump",
@@ -777,7 +783,7 @@
    "price": 750.0,
    "available": true,
    "sku": "VMS-W01",
-   "image": "",
+   "image": "/images/pneumatic-oil-pump-1000.webp",
    "oldHandle": "",
    "oem": [],
    "cross": [],
@@ -797,7 +803,9 @@
     "models": [],
     "engines": []
    },
-   "maxQty": 3
+   "maxQty": 3,
+   "thumb": "/images/pneumatic-oil-pump-400.webp",
+   "illustration": true
   }
  ]
 }
