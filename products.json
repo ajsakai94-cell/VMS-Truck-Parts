@@ -4,6 +4,10 @@
  "shipping": {
   "flatRate": 19.95,
   "freeOver": 250,
+  "heavyRates": {
+   "heavy": 39.95,
+   "extraHeavy": 79.95
+  },
   "pickup": true,
   "pickupNote": "Pickup in Victoria. We'll message you when it's ready."
  },
@@ -101,6 +105,51 @@
      "OM473"
     ]
    }
+  },
+  {
+   "id": "oil-filter-slim",
+   "slug": "oil-filter-slim-base-mp4-mp5-actros",
+   "name": "Engine Oil Filter (Slim Base)",
+   "cat": "Filters",
+   "price": 40.0,
+   "available": true,
+   "image": "/images/oil-filter-slim-1000.webp",
+   "sku": "VMS-F09",
+   "oem": [
+    "A 473 180 05 09",
+    "A 473 180 08 09"
+   ],
+   "cross": [
+    "MAHLE OX 1389D",
+    "MANN HU 12 021 z",
+    "Hengst E523H D373",
+    "Bosch F 026 407 389",
+    "Febi 186424"
+   ],
+   "tags": [
+    "oil filter",
+    "oil filter element",
+    "slim oil filter",
+    "lube filter",
+    "engine oil service"
+   ],
+   "desc": "Oil filter element in the newer slim-base style. Check your old filter: if it narrows at the bottom and carries A 473 180 05 09 or A 473 180 08 09, this is the one. Text us your VIN if unsure.",
+   "brand": "VMS",
+   "mpn": "VMS-F09",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   },
+   "thumb": "/images/oil-filter-slim-400.webp",
+   "illustration": true
   },
   {
    "id": "fuel-filter",
@@ -442,7 +491,8 @@
     "engines": [
      "OM471"
     ]
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "expansion-tank",
@@ -513,7 +563,8 @@
     ],
     "engines": []
    },
-   "maxQty": 3
+   "maxQty": 3,
+   "shipClass": "extraHeavy"
   },
   {
    "id": "clutch-actuator",
@@ -546,7 +597,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "starter-motor",
@@ -591,7 +643,8 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "cylinder-liner-kit-om473",
@@ -626,7 +679,8 @@
     "engines": [
      "OM473"
     ]
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "timing-tool-kit",
@@ -658,7 +712,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "cylinder-head-om473",
@@ -739,7 +794,8 @@
     ]
    },
    "maxQty": 2,
-   "thumb": "/images/oil-separator-400.webp"
+   "thumb": "/images/oil-separator-400.webp",
+   "shipClass": "heavy"
   },
   {
    "id": "battery-sensor",
@@ -749,7 +805,7 @@
    "price": 150.0,
    "available": true,
    "sku": "VMS-E05",
-   "image": "/images/battery-sensor-1000.webp",
+   "image": "/images/battery-sensor-v2-1000.webp",
    "oldHandle": "",
    "oem": [
     "A 012 542 62 18"
@@ -776,7 +832,7 @@
     "engines": []
    },
    "maxQty": 5,
-   "thumb": "/images/battery-sensor-400.webp"
+   "thumb": "/images/battery-sensor-v2-400.webp"
   },
   {
    "id": "pneumatic-oil-pump",
@@ -811,7 +867,8 @@
    },
    "maxQty": 3,
    "thumb": "/images/pneumatic-oil-pump-400.webp",
-   "illustration": true
+   "illustration": true,
+   "shipClass": "heavy"
   }
  ]
 }

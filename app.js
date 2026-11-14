@@ -44,7 +44,8 @@ function totals(){
   const n=items.reduce((s,[,q])=>s+q,0);
   const sub=items.reduce((s,[k,q])=>{const {p}=parse(k);return s+(p&&p.price?p.price*q:0)},0);
   const quote=items.some(([k])=>{const {p}=parse(k);return p&&p.freightQuote});
-  const ship=n&&!quote?(sub>=DATA.shipping.freeOver?0:DATA.shipping.flatRate):0;
+  const heavy=items.reduce((m,[k])=>{const {p}=parse(k);return p&&p.shipClass?Math.max(m,DATA.shipping.heavyRates[p.shipClass]):m},0);
+  const ship=n&&!quote?(sub>=DATA.shipping.freeOver?0:heavy||DATA.shipping.flatRate):0;
   return {items,n,sub,ship,quote};
 }
 function renderCart(){
