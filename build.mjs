@@ -70,9 +70,8 @@ function layout({ title, desc, path, body, part = "", image = "", type = "websit
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="robots" content="noindex">\n`}${og}${jsonld.map(ld).join("")}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="robots" content="noindex">\n`}${og}${jsonld.map(ld).join("")}<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
 </head>
 <body${part ? ` data-part="${esc(part)}"` : ""}>
@@ -126,7 +125,7 @@ const crumbs = items => `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items
 const crumbLd = items => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([t, u], i) => ({ "@type": "ListItem", position: i + 1, name: t, ...(u ? { item: SITE.url + u } : {}) })) });
 
 const pic = (p, cls = "") => p.image
-  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? "" : ' loading="lazy"'}>`
+  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? ' fetchpriority="high"' : ' loading="lazy"'}>`
   : `<span class="noimg">${esc(p.cat)}</span>`;
 const picBig = p => pic(p, "big") + (p.image && p.illustration ? `<p class="illus">Illustration – actual part may vary</p>` : "");
 
