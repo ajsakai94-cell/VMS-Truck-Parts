@@ -803,7 +803,7 @@
    "price": 150.0,
    "available": true,
    "sku": "VMS-E05",
-   "image": "/images/battery-sensor-1000.webp",
+   "image": "/images/battery-sensor-v2-1000.webp",
    "oldHandle": "",
    "oem": [
     "A 012 542 62 18"
@@ -830,7 +830,7 @@
     "engines": []
    },
    "maxQty": 5,
-   "thumb": "/images/battery-sensor-400.webp"
+   "thumb": "/images/battery-sensor-v2-400.webp"
   },
   {
    "id": "pneumatic-oil-pump",
