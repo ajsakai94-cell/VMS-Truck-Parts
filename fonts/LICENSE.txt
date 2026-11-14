@@ -1,0 +1,2 @@
+Barlow Condensed, IBM Plex Sans and IBM Plex Mono: Latin subsets from Google Fonts,
+licensed under the SIL Open Font License 1.1 (https://openfontlicense.org).
