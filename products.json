@@ -691,8 +691,7 @@
    },
    "freightQuote": true,
    "maxQty": 1,
-   "thumb": "/images/cylinder-head-om473-400.webp",
-   "illustration": true
+   "thumb": "/images/cylinder-head-om473-400.webp"
   },
   {
    "id": "oil-separator",
@@ -734,8 +733,7 @@
     ]
    },
    "maxQty": 2,
-   "thumb": "/images/oil-separator-400.webp",
-   "illustration": true
+   "thumb": "/images/oil-separator-400.webp"
   },
   {
    "id": "battery-sensor",
@@ -772,8 +770,7 @@
     "engines": []
    },
    "maxQty": 5,
-   "thumb": "/images/battery-sensor-400.webp",
-   "illustration": true
+   "thumb": "/images/battery-sensor-400.webp"
   },
   {
    "id": "pneumatic-oil-pump",

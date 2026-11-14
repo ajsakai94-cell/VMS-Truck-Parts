@@ -277,5 +277,37 @@
   <g:product_type>Actros MP4 MP5 &gt; Tools</g:product_type>
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>0.00 AUD</g:price></g:shipping>
 </item>
+<item>
+  <g:id>oil-separator</g:id>
+  <g:title>Oil Spinner (Crankcase Oil Separator) for Mercedes-Benz Actros MP4 / MP5 OM471/OM472 – OE A 471 010 01 62</g:title>
+  <g:description>Oil spinner (crankcase ventilation oil separator) for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we&#39;ll confirm. Replaces OE A 471 010 01 62, A 472 010 31 62.</g:description>
+  <g:link>https://vmstruckparts.com.au/parts/oil-separator-mp4-mp5-actros/</g:link>
+  <g:image_link>https://vmstruckparts.com.au/images/oil-separator-1000.webp</g:image_link>
+  <g:availability>in_stock</g:availability>
+  <g:price>350.00 AUD</g:price>
+  <g:brand>VMS</g:brand>
+  <g:mpn>VMS-E04</g:mpn>
+  <g:identifier_exists>no</g:identifier_exists>
+  <g:condition>new</g:condition>
+  <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
+  <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>0.00 AUD</g:price></g:shipping>
+</item>
+<item>
+  <g:id>battery-sensor</g:id>
+  <g:title>Battery Terminal Sensor (Negative) for Mercedes-Benz Actros MP4 / MP5 – OE A 012 542 62 18</g:title>
+  <g:description>Battery sensor on the negative battery terminal. Check the number on your old sensor matches A 012 542 62 18, or send us your VIN and we&#39;ll confirm. Replaces OE A 012 542 62 18.</g:description>
+  <g:link>https://vmstruckparts.com.au/parts/battery-sensor-mp4-mp5-actros/</g:link>
+  <g:image_link>https://vmstruckparts.com.au/images/battery-sensor-1000.webp</g:image_link>
+  <g:availability>in_stock</g:availability>
+  <g:price>150.00 AUD</g:price>
+  <g:brand>VMS</g:brand>
+  <g:mpn>VMS-E05</g:mpn>
+  <g:identifier_exists>no</g:identifier_exists>
+  <g:condition>new</g:condition>
+  <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
+  <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>19.95 AUD</g:price></g:shipping>
+</item>
 </channel>
 </rss>
