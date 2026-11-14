@@ -736,7 +736,7 @@
   {
    "id": "battery-sensor",
    "slug": "battery-sensor-mp4-mp5-actros",
-   "name": "Battery Sensor (Negative Terminal)",
+   "name": "Battery Terminal Sensor (Negative)",
    "cat": "Engine",
    "price": 150.0,
    "available": true,
@@ -748,10 +748,12 @@
    ],
    "cross": [],
    "tags": [
+    "battery terminal",
+    "battery terminal sensor",
     "battery sensor",
+    "negative battery terminal",
     "IBS sensor",
-    "battery monitor sensor",
-    "negative terminal sensor"
+    "battery monitor sensor"
    ],
    "desc": "Battery sensor on the negative battery terminal. Check the number on your old sensor matches A 012 542 62 18, or send us your VIN and we'll confirm.",
    "brand": "VMS",
