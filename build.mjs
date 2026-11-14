@@ -23,6 +23,8 @@ const SITE = {
   ...(data.site || {}),
 };
 const C = data.contact, SHIP = data.shipping;
+// shipping for one unit of a part on its own: free over the threshold, else its heavy rate or the flat rate
+const shipRate = p => p.price >= SHIP.freeOver ? 0 : (p.shipClass ? SHIP.heavyRates[p.shipClass] : SHIP.flatRate);
 
 const CATS = {
   Filters: { path: "filters", title: "Actros MP4 / MP5 Filters", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
@@ -147,7 +149,9 @@ function partPage(p) {
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
-    : `${money(SHIP.flatRate)} Australia-wide, free over ${shortMoney(SHIP.freeOver)}, or free pickup in Victoria.`;
+    : p.shipClass
+      ? `Heavy item: ${money(SHIP.heavyRates[p.shipClass])} Australia-wide, free on orders over ${shortMoney(SHIP.freeOver)}, or free pickup in Victoria.`
+      : `${money(SHIP.flatRate)} Australia-wide, free over ${shortMoney(SHIP.freeOver)}, or free pickup in Victoria.`;
   const related = sortParts(products.filter(x => x.cat === p.cat && x.id !== p.id)).slice(0, 4);
   const spec = [
     ["Fits", esc(fitsText(p))],
@@ -192,7 +196,7 @@ ${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLo
       seller: { "@id": ORG["@id"] },
       ...(p.freightQuote ? {} : { shippingDetails: {
         "@type": "OfferShippingDetails",
-        shippingRate: { "@type": "MonetaryAmount", value: p.price >= SHIP.freeOver ? 0 : SHIP.flatRate, currency: "AUD" },
+        shippingRate: { "@type": "MonetaryAmount", value: shipRate(p), currency: "AUD" },
         shippingDestination: { "@type": "DefinedRegion", addressCountry: "AU" },
         deliveryTime: { "@type": "ShippingDeliveryTime",
           handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
@@ -352,7 +356,7 @@ ${feedItems.map(p => `<item>
   <g:condition>${x(p.condition || "new")}</g:condition>
   <g:google_product_category>${x(GCAT[p.cat] || "Vehicles & Parts > Vehicle Parts & Accessories > Motor Vehicle Parts")}</g:google_product_category>
   <g:product_type>${x((truckPart(p) ? "Actros MP4 MP5 > " : "") + p.cat)}</g:product_type>
-${p.bundle ? "  <g:is_bundle>yes</g:is_bundle>\n" : ""}  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${(p.price >= SHIP.freeOver ? 0 : SHIP.flatRate).toFixed(2)} AUD</g:price></g:shipping>
+${p.bundle ? "  <g:is_bundle>yes</g:is_bundle>\n" : ""}  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${shipRate(p).toFixed(2)} AUD</g:price></g:shipping>
 </item>`).join("\n")}
 </channel>
 </rss>

@@ -4,6 +4,10 @@
  "shipping": {
   "flatRate": 19.95,
   "freeOver": 250,
+  "heavyRates": {
+   "heavy": 39.95,
+   "extraHeavy": 79.95
+  },
   "pickup": true,
   "pickupNote": "Pickup in Victoria. We'll message you when it's ready."
  },
@@ -442,7 +446,8 @@
     "engines": [
      "OM471"
     ]
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "expansion-tank",
@@ -513,7 +518,8 @@
     ],
     "engines": []
    },
-   "maxQty": 3
+   "maxQty": 3,
+   "shipClass": "extraHeavy"
   },
   {
    "id": "clutch-actuator",
@@ -546,7 +552,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "starter-motor",
@@ -591,7 +598,8 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "cylinder-liner-kit-om473",
@@ -626,7 +634,8 @@
     "engines": [
      "OM473"
     ]
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "timing-tool-kit",
@@ -658,7 +667,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "shipClass": "heavy"
   },
   {
    "id": "cylinder-head-om473",
@@ -739,7 +749,8 @@
     ]
    },
    "maxQty": 2,
-   "thumb": "/images/oil-separator-400.webp"
+   "thumb": "/images/oil-separator-400.webp",
+   "shipClass": "heavy"
   },
   {
    "id": "battery-sensor",
@@ -811,7 +822,8 @@
    },
    "maxQty": 3,
    "thumb": "/images/pneumatic-oil-pump-400.webp",
-   "illustration": true
+   "illustration": true,
+   "shipClass": "heavy"
   }
  ]
 }
