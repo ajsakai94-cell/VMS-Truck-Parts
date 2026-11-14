@@ -16,7 +16,7 @@
   {
    "id": "oil-filter",
    "slug": "oil-filter-mp4-mp5-actros",
-   "name": "Oil Filter",
+   "name": "Engine Oil Filter",
    "cat": "Filters",
    "price": 40.0,
    "available": true,
@@ -38,6 +38,12 @@
     "LP5090",
     "P7505"
    ],
+   "tags": [
+    "oil filter",
+    "oil filter element",
+    "lube filter",
+    "engine oil service"
+   ],
    "desc": "Engine oil filter element for the OM471 / OM473. Change at every oil service.",
    "brand": "Hydwell",
    "mpn": "MP4OF",
@@ -57,7 +63,7 @@
   {
    "id": "fuel-filter",
    "slug": "fuel-filter-mp4-mp5-actros",
-   "name": "Fuel Filter",
+   "name": "Fuel Filter Kit",
    "cat": "Filters",
    "price": 60.0,
    "available": true,
@@ -73,6 +79,12 @@
     "MAHLE KX 581KIT",
     "MANN PU 12 002-2 z",
     "Hengst E445KP D314-2"
+   ],
+   "tags": [
+    "fuel filter",
+    "main fuel filter",
+    "diesel filter",
+    "fuel filter element"
    ],
    "desc": "Main fuel filter kit for the OM471 / OM473: filter element, small mesh pre-strainer and O-rings. Keeps dirt out of the injection system. Change at every service.",
    "brand": "Hydwell",
@@ -93,7 +105,7 @@
   {
    "id": "air-filter",
    "slug": "air-filter-mp4-mp5-actros",
-   "name": "Air Filter",
+   "name": "Engine Air Filter",
    "cat": "Filters",
    "price": 120.0,
    "available": true,
@@ -109,6 +121,11 @@
     "MAHLE LX 5437",
     "MANN C 50 004/1",
     "Hengst E2059L"
+   ],
+   "tags": [
+    "air filter",
+    "air cleaner element",
+    "engine air intake filter"
    ],
    "desc": "Engine air filter element. Check at every service and replace when the restriction indicator shows.",
    "brand": "VMS",
@@ -129,7 +146,7 @@
   {
    "id": "cabin-filter",
    "slug": "cabin-filter-mp4-mp5-actros",
-   "name": "Cabin Filter",
+   "name": "Cabin Pollen Filter",
    "cat": "Filters",
    "price": 40.0,
    "available": true,
@@ -142,6 +159,13 @@
    ],
    "cross": [
     "MAHLE LA 1006"
+   ],
+   "tags": [
+    "cabin filter",
+    "pollen filter",
+    "air conditioning filter",
+    "heater filter",
+    "A/C filter"
    ],
    "desc": "Cab pollen filter for the heater and air conditioning on the MP4 / MP5 cab. Replace yearly or when airflow drops. A carbon version (A 960 830 01 18) is also fitted to some trucks, so send us your VIN if unsure.",
    "brand": "VMS",
@@ -159,7 +183,7 @@
   {
    "id": "adblue-filter",
    "slug": "adblue-filter-mp4-mp5-actros",
-   "name": "AdBlue Filter",
+   "name": "AdBlue Pump Filter",
    "cat": "Filters",
    "price": 55.0,
    "available": true,
@@ -169,6 +193,13 @@
    "sku": "VMS-F05",
    "oem": [],
    "cross": [],
+   "tags": [
+    "AdBlue filter",
+    "urea filter",
+    "DEF filter",
+    "SCR filter",
+    "emissions filter"
+   ],
    "desc": "AdBlue (urea) pump filter. A blocked filter can trigger an emissions warning and power loss.",
    "brand": "VMS",
    "mpn": "VMS-F05",
@@ -185,7 +216,7 @@
   {
    "id": "diesel-water-separator",
    "slug": "diesel-water-separator-mp4-mp5-actros",
-   "name": "Diesel Water Separator (Fuel Pre-filter)",
+   "name": "Fuel Pre-filter / Water Separator",
    "cat": "Filters",
    "price": 50.0,
    "available": true,
@@ -200,6 +231,13 @@
     "MAHLE KC 505D",
     "MANN PL 420/7 x",
     "Hengst H356WK"
+   ],
+   "tags": [
+    "water separator",
+    "fuel pre-filter",
+    "water trap",
+    "spin-on fuel filter",
+    "diesel water separator"
    ],
    "desc": "Spin-on fuel pre-filter / water separator can for the OM471 / OM473, supplied with a new O-ring. Traps water and coarse dirt before the main fuel filter. Change at every service and drain water as needed.",
    "brand": "Hydwell",
@@ -230,6 +268,11 @@
    "sku": "VMS-F07",
    "oem": [],
    "cross": [],
+   "tags": [
+    "steering filter",
+    "hydraulic filter",
+    "power steering oil filter"
+   ],
    "desc": "Power steering hydraulic filter. Replace when changing steering fluid.",
    "brand": "VMS",
    "mpn": "VMS-F07",
@@ -259,6 +302,14 @@
     "A 000 997 81 34"
    ],
    "cross": [],
+   "tags": [
+    "brake hose",
+    "air brake hose",
+    "brake line",
+    "push-in connector",
+    "M22x1.5 fitting",
+    "air line fitting"
+   ],
    "desc": "Brake hose (OE A 002 420 93 48) supplied as a set with 2 brass push-in connectors (OE A 000 997 81 34, M22x1.5 thread, with seals), ready to fit.",
    "brand": "Kazcioglu",
    "mpn": "VMS-B01",
@@ -276,7 +327,7 @@
   {
    "id": "long-mirror-cover",
    "slug": "long-mirror-cover-mp4-mp5-actros",
-   "name": "Long Mirror Cover",
+   "name": "Main Mirror Cover (Long)",
    "cat": "Cab",
    "price": 70.0,
    "available": true,
@@ -292,6 +343,12 @@
     "A 960 811 14 07"
    ],
    "cross": [],
+   "tags": [
+    "mirror cover",
+    "mirror cap",
+    "mirror housing cover",
+    "side mirror cover"
+   ],
    "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side.",
    "brand": "Nuopei",
    "mpn": "VMS-C01",
@@ -308,7 +365,7 @@
   {
    "id": "viscous-fan-clutch",
    "slug": "viscous-fan-clutch-mp4-mp5-actros",
-   "name": "Clutch Viscous Fan",
+   "name": "Viscous Fan Clutch",
    "cat": "Cooling",
    "price": 750.0,
    "available": true,
@@ -323,6 +380,12 @@
     "NRF 49159",
     "Nissens 86140",
     "MAHLE CFC 173 000P"
+   ],
+   "tags": [
+    "fan clutch",
+    "viscous coupling",
+    "viscous fan",
+    "cooling fan clutch"
    ],
    "desc": "Viscous fan clutch for the engine cooling fan. Replace if the fan won't engage or the engine runs hot.",
    "brand": "VMS",
@@ -340,7 +403,7 @@
   {
    "id": "expansion-tank",
    "slug": "expansion-tank-mp4-mp5-actros",
-   "name": "Expansion Tank",
+   "name": "Coolant Expansion Tank",
    "cat": "Cooling",
    "price": 525.0,
    "available": false,
@@ -354,6 +417,12 @@
    "cross": [
     "MAHLE CRT 235 000P",
     "Nissens 996053"
+   ],
+   "tags": [
+    "expansion tank",
+    "header tank",
+    "coolant reservoir",
+    "radiator overflow tank"
    ],
    "desc": "Coolant expansion (header) tank. Replace if cracked or leaking.",
    "brand": "VMS",
@@ -381,6 +450,13 @@
    "sku": "VMS-L01",
    "oem": [],
    "cross": [],
+   "tags": [
+    "clutch",
+    "clutch plate",
+    "pressure plate",
+    "clutch disc",
+    "release bearing"
+   ],
    "desc": "Complete clutch kit for the MP4 / MP5 Actros.",
    "brand": "VMS",
    "mpn": "VMS-L01",
@@ -397,7 +473,7 @@
   {
    "id": "clutch-actuator",
    "slug": "clutch-actuator-mp4-mp5-actros",
-   "name": "Clutch Actuator",
+   "name": "Clutch Actuator (PowerShift)",
    "cat": "Clutch",
    "price": 600.0,
    "available": true,
@@ -407,6 +483,13 @@
    "sku": "VMS-L02",
    "oem": [],
    "cross": [],
+   "tags": [
+    "clutch actuator",
+    "clutch servo",
+    "clutch slave",
+    "PowerShift actuator",
+    "AMT clutch actuator"
+   ],
    "desc": "Clutch actuator for the automated (PowerShift) gearbox.",
    "brand": "VMS",
    "mpn": "VMS-L02",
@@ -423,7 +506,7 @@
   {
    "id": "starter-motor",
    "slug": "starter-motor-mp4-mp5-actros",
-   "name": "Starter Motor",
+   "name": "Starter Motor 24V 7.5kW",
    "cat": "Engine",
    "price": 475.0,
    "available": true,
@@ -440,6 +523,12 @@
     "DRS1034",
     "11139182",
     "AZG4879"
+   ],
+   "tags": [
+    "starter motor",
+    "starter",
+    "starting motor",
+    "24V starter"
    ],
    "desc": "24V 7.5kW starter motor for the OM471.",
    "brand": "JuBoHui",
@@ -469,6 +558,13 @@
    "sku": "VMS-E02",
    "oem": [],
    "cross": [],
+   "tags": [
+    "cylinder liner",
+    "liner kit",
+    "sleeve kit",
+    "engine rebuild",
+    "in-frame overhaul"
+   ],
    "desc": "Cylinder liner kit for the OM473 engine.",
    "brand": "VMS",
    "mpn": "VMS-E02",
@@ -487,7 +583,7 @@
   {
    "id": "timing-tool-kit",
    "slug": "timing-tool-kit-mp4-mp5-actros",
-   "name": "Timing Tool Kit",
+   "name": "Engine Timing Tool Kit",
    "cat": "Tools",
    "price": 750.0,
    "available": false,
@@ -497,6 +593,12 @@
    "sku": "VMS-T01",
    "oem": [],
    "cross": [],
+   "tags": [
+    "timing tool",
+    "camshaft locking tool",
+    "engine timing kit",
+    "workshop tool"
+   ],
    "desc": "Engine timing tool kit for the MP4 / MP5 Actros.",
    "brand": "VMS",
    "mpn": "VMS-T01",
@@ -524,6 +626,12 @@
     "A 473 010 14 20"
    ],
    "cross": [],
+   "tags": [
+    "cylinder head",
+    "bare head",
+    "engine head",
+    "DD16"
+   ],
    "desc": "Complete bare cylinder head for the OM473 (also listed for the OM472 and the DD15 / DD16). One in stock. Freight isn't included: it's quoted on request, or pick up free in Melbourne. Send us your VIN or engine number and we'll confirm fit before you pay.",
    "brand": "VMS",
    "mpn": "VMS-E03",
@@ -557,6 +665,13 @@
     "A 472 010 31 62"
    ],
    "cross": [],
+   "tags": [
+    "oil separator",
+    "crankcase breather",
+    "CCV separator",
+    "blow-by separator",
+    "breather"
+   ],
    "desc": "Crankcase ventilation oil separator for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
    "brand": "VMS",
    "mpn": "VMS-E04",
@@ -588,6 +703,12 @@
     "A 012 542 62 18"
    ],
    "cross": [],
+   "tags": [
+    "battery sensor",
+    "IBS sensor",
+    "battery monitor sensor",
+    "negative terminal sensor"
+   ],
    "desc": "Battery sensor on the negative battery terminal. Check the number on your old sensor matches A 012 542 62 18, or send us your VIN and we'll confirm.",
    "brand": "VMS",
    "mpn": "VMS-E05",
@@ -614,6 +735,13 @@
    "oldHandle": "",
    "oem": [],
    "cross": [],
+   "tags": [
+    "oil drum pump",
+    "air oil pump",
+    "oil dispensing pump",
+    "oil transfer pump",
+    "oil gun"
+   ],
    "desc": "Air-operated gear pump for dispensing engine oil from a drum, supplied with delivery hose and dispensing gun. Runs off workshop compressed air. Suits any truck or workshop.",
    "brand": "VMS",
    "mpn": "VMS-W01",

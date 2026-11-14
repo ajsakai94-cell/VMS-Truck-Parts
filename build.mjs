@@ -2,6 +2,7 @@
 //   /parts/<slug>/index.html   one page per part
 //   /<category>/index.html     one page per category
 //   /404.html                  real "not found" page (also stops Cloudflare's send-everything-to-home fallback)
+//   /sitemap.xml, /feed.xml    sitemap for Search Console, product feed for Merchant Center
 // Run:   node build.mjs          write the files
 //        node build.mjs --check  fail if the committed files are out of date (used by the GitHub check)
 // The generated files are committed, so Cloudflare Pages still needs no build step.
@@ -43,7 +44,21 @@ const products = data.products;
 
 for (const p of products) if (!CATS[p.cat]) throw new Error(`No category page set up for "${p.cat}" (part ${p.id}). Add it to CATS in build.mjs.`);
 
-function layout({ title, desc, path, body, part = "" }) {
+const abs = u => u && (u.startsWith("http") ? u : SITE.url + u);
+const ld = obj => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>\n`;
+const DEFAULT_IMG = "/images/og-default.png";
+const ORG = { "@type": "Organization", "@id": SITE.url + "/#org", name: SITE.name, url: SITE.url + "/", telephone: "+61" + C.phone.replace(/\s/g, "").replace(/^0/, ""), email: C.email };
+
+function layout({ title, desc, path, body, part = "", image = "", type = "website", jsonld = [] }) {
+  const og = path ? `<meta property="og:type" content="${type}">
+<meta property="og:site_name" content="${esc(SITE.name)}">
+<meta property="og:locale" content="en_AU">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(desc)}">
+<meta property="og:url" content="${SITE.url}${path}">
+<meta property="og:image" content="${esc(abs(image || DEFAULT_IMG))}">
+<meta name="twitter:card" content="summary_large_image">
+` : "";
   return `<!doctype html>
 <html lang="en-AU">
 <head>
@@ -51,7 +66,7 @@ function layout({ title, desc, path, body, part = "" }) {
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="robots" content="noindex">\n`}<link rel="preconnect" href="https://fonts.googleapis.com">
+${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="robots" content="noindex">\n`}${og}${jsonld.map(ld).join("")}<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
 <link rel="stylesheet" href="/styles.css">
@@ -77,6 +92,7 @@ ${body}
   <div><b>${esc(SITE.name)}</b><span>${esc(SITE.region)}</span><span>${esc(C.phone)}</span><span>${esc(C.email)}</span></div>
   <div><b>Shop</b>${Object.entries(CATS).filter(([k]) => products.some(p => p.cat === k)).map(([k, v]) => `<a href="/${v.path}/">${esc(k)}</a>`).join("")}</div>
   <div><b>Help</b><a href="/#faq">FAQ</a><a href="/policies.html#shipping">Shipping</a><a href="/policies.html#returns">Returns and refunds</a><a href="/policies.html#privacy">Privacy</a><a href="/policies.html#terms">Terms</a></div>
+  <p class="legal">VMS Truck Parts is an independent parts supplier, not affiliated with Mercedes-Benz or Daimler Truck. Mercedes-Benz and Actros are their owners' trademarks, used only to show which trucks our parts suit. OE numbers are for reference.</p>
 </div></footer>
 
 <div class="overlay right" id="drawer" hidden>
@@ -102,9 +118,12 @@ ${body}
 const crumbs = items => `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items.map(([t, u], i) =>
   i === items.length - 1 ? `<li aria-current="page">${esc(t)}</li>` : `<li><a href="${u}">${esc(t)}</a></li>`).join("")}</ol></nav>`;
 
+const crumbLd = items => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([t, u], i) => ({ "@type": "ListItem", position: i + 1, name: t, ...(u ? { item: SITE.url + u } : {}) })) });
+
 const pic = (p, cls = "") => p.image
   ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? "" : ' loading="lazy"'}>`
   : `<span class="noimg">${esc(p.cat)}</span>`;
+const picBig = p => pic(p, "big") + (p.image && p.illustration ? `<p class="illus">Illustration – actual part may vary</p>` : "");
 
 const priceHtml = p => p.price != null ? `<div class="price">${money(p.price)}</div>` : `<div class="price ask">Call for price</div>`;
 const stockHtml = p => `<div class="stock ${p.available ? "" : "out"}">${p.available ? "In stock" : "Sold out, ask us"}</div>`;
@@ -133,10 +152,11 @@ function partPage(p) {
     ["Brand", esc(p.brand)],
     ["Our part no.", `<span class="mono">${esc(p.sku)}</span>`],
     ["Condition", "New"],
+    p.tags?.length && ["Also called", esc(p.tags.join(", "))],
   ].filter(Boolean).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   const body = `${crumbs([["Home", "/"], [p.cat, catUrl(p.cat)], [p.name, ""]])}
 <article class="pdp">
-  <div class="pic big">${pic(p, "big")}</div>
+  <div class="pic big">${picBig(p)}</div>
   <div class="info">
     <h1>${esc(p.name)}${truckPart(p) ? " <small>to suit Mercedes-Benz Actros MP4 / MP5</small>" : ""}</h1>
     <span class="pn">${p.oem.length ? "OE " + esc(p.oem[0]) + " · " : ""}Part no. ${esc(p.sku)}</span>
@@ -152,7 +172,34 @@ ${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>$
   </div>
 </article>
 ${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
-  return layout({ title, desc, path: partUrl(p), body, part: p.id });
+  const crumbItems = [["Home", "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
+  const product = {
+    "@context": "https://schema.org", "@type": "Product",
+    name: p.name + (truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""),
+    description: p.desc, sku: p.sku, mpn: p.mpn,
+    brand: { "@type": "Brand", name: p.brand },
+    category: p.cat,
+    ...(p.image ? { image: [abs(p.image)] } : {}),
+    url: SITE.url + partUrl(p),
+    ...(p.price != null ? { offers: {
+      "@type": "Offer", url: SITE.url + partUrl(p), priceCurrency: "AUD", price: p.price.toFixed(2),
+      availability: "https://schema.org/" + (p.available ? "InStock" : "OutOfStock"),
+      itemCondition: "https://schema.org/NewCondition",
+      seller: { "@id": ORG["@id"] },
+      ...(p.freightQuote ? {} : { shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingRate: { "@type": "MonetaryAmount", value: p.price >= SHIP.freeOver ? 0 : SHIP.flatRate, currency: "AUD" },
+        shippingDestination: { "@type": "DefinedRegion", addressCountry: "AU" },
+        deliveryTime: { "@type": "ShippingDeliveryTime",
+          handlingTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 2, unitCode: "DAY" },
+          transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 7, unitCode: "DAY" } },
+      } }),
+      hasMerchantReturnPolicy: { "@type": "MerchantReturnPolicy", applicableCountry: "AU",
+        returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow", merchantReturnDays: 30,
+        returnMethod: "https://schema.org/ReturnByMail", returnFees: "https://schema.org/ReturnShippingFees" },
+    } } : {}),
+  };
+  return layout({ title, desc, path: partUrl(p), body, part: p.id, image: p.image, type: "product", jsonld: [product, crumbLd(crumbItems)] });
 }
 
 function catPage(cat) {
@@ -165,7 +212,7 @@ function catPage(cat) {
   <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Shipping ${money(SHIP.flatRate)}, free over ${shortMoney(SHIP.freeOver)} · Free pickup in Victoria</p>
 </section>
 <section class="block"><div class="grid">${list.map(card).join("")}</div></section>`;
-  return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.slice(0, 155), path: catUrl(cat), body });
+  return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.slice(0, 155), path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });
 }
 
 function notFound() {
@@ -182,6 +229,45 @@ const out = new Map();
 for (const p of products) out.set(join("parts", p.slug, "index.html"), partPage(p));
 for (const cat of Object.keys(CATS)) if (products.some(p => p.cat === cat)) out.set(join(CATS[cat].path, "index.html"), catPage(cat));
 out.set("404.html", notFound());
+
+// sitemap.xml: home, categories, parts, policies (no lastmod, so --check stays stable)
+const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), "/policies.html"];
+out.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${urls.map(u => `  <url><loc>${SITE.url}${u}</loc></url>`).join("\n")}
+</urlset>
+`);
+
+// feed.xml: Google Merchant Center product feed (free Shopping listings).
+// Left out: parts with no price, no real photo, an illustration instead of a photo, or freight quoted separately.
+const GCAT = { Workshop: "Hardware > Tools", Tools: "Hardware > Tools" };
+const feedItems = products.filter(p => p.price != null && p.image && !p.illustration && !p.freightQuote);
+const x = s => esc(s);
+out.set("feed.xml", `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+<channel>
+<title>${x(SITE.name)}</title>
+<link>${SITE.url}/</link>
+<description>Parts for the MP4 and MP5 Mercedes-Benz Actros</description>
+${feedItems.map(p => `<item>
+  <g:id>${x(p.id)}</g:id>
+  <g:title>${x((p.name + (p.oem[0] ? " " + p.oem[0] : "") + (truckPart(p) ? " to suit Mercedes-Benz Actros MP4 MP5" : "")).slice(0, 150))}</g:title>
+  <g:description>${x(p.desc + (p.oem.length ? " Replaces OE " + p.oem.join(", ") + "." : "") + (p.cross.length ? " Cross-reference: " + p.cross.join(", ") + "." : ""))}</g:description>
+  <g:link>${SITE.url}${partUrl(p)}</g:link>
+  <g:image_link>${x(abs(p.image))}</g:image_link>
+  <g:availability>${p.available ? "in_stock" : "out_of_stock"}</g:availability>
+  <g:price>${p.price.toFixed(2)} AUD</g:price>
+  <g:brand>${x(p.brand)}</g:brand>
+  <g:mpn>${x(p.mpn)}</g:mpn>
+  <g:identifier_exists>${p.identifierExists === false ? "no" : "yes"}</g:identifier_exists>
+  <g:condition>${x(p.condition || "new")}</g:condition>
+  <g:google_product_category>${x(GCAT[p.cat] || "Vehicles & Parts > Vehicle Parts & Accessories > Motor Vehicle Parts")}</g:google_product_category>
+  <g:product_type>${x((truckPart(p) ? "Actros MP4 MP5 > " : "") + p.cat)}</g:product_type>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${(p.price >= SHIP.freeOver ? 0 : SHIP.flatRate).toFixed(2)} AUD</g:price></g:shipping>
+</item>`).join("\n")}
+</channel>
+</rss>
+`);
 
 const check = process.argv.includes("--check");
 const stale = [];
@@ -201,4 +287,4 @@ if (existsSync(partsDir)) for (const slug of readdirSync(partsDir)) {
 if (check) {
   if (stale.length) { console.error("Generated pages are out of date. Run `node build.mjs` and commit:\n  " + stale.join("\n  ")); process.exit(1); }
   console.log(`Generated pages up to date (${out.size} files).`);
-} else console.log(`Wrote ${out.size} pages: ${products.length} parts, ${out.size - products.length - 1} categories, 404.`);
+} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - 3} categories, 404, sitemap.xml, feed.xml (${feedItems.length} items).`);

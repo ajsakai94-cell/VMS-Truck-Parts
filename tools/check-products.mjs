@@ -38,6 +38,8 @@ for (const p of data.products || []) {
   if (!Array.isArray(f.models) || (!f.models.length && p.cat !== "Workshop")) err(id, "fits.models must list at least one model (only Workshop equipment may leave it empty)");
   if (!Array.isArray(f.engines)) err(id, "fits.engines must be a list (can be empty)");
   for (const e of f.engines || []) if (!/^OM47[0-3]$/.test(e)) err(id, `unknown engine "${e}"`);
+  if (p.tags !== undefined && (!Array.isArray(p.tags) || p.tags.some(t => typeof t !== "string" || !t.trim()))) err(id, "tags must be a list of words or phrases");
+  if (p.illustration !== undefined && typeof p.illustration !== "boolean") err(id, "illustration must be true or false");
   if (p.options && (!Array.isArray(p.options) || !p.options.length)) err(id, "options must be a non-empty list");
 }
 

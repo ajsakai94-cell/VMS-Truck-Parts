@@ -28,7 +28,7 @@ function renderGrid(){
   const norm=x=>x.toLowerCase().replace(/[^a-z0-9]/g,"");
   const qn=norm(st.q).replace(/^a(?=\d)/,"");
   const nums=p=>[p.sku||"",...(p.oem||[]),...(p.cross||[])].map(n=>norm(n).replace(/^a(?=\d)/,""));
-  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")+" "+(p.cross||[]).join(" ")).toLowerCase().includes(w))));
+  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")+" "+(p.cross||[]).join(" ")+" "+(p.tags||[]).join(" ")).toLowerCase().includes(w))));
   r.sort((a,b)=>(b.available-a.available));
   $("listTitle").textContent=st.q?`Results for "${st.q}"`:(st.cat||"All parts");
   $("resultCount").innerHTML=`${r.length} part${r.length===1?"":"s"}${st.cat||st.q?' · <button class="clear" type="button" data-clear>Show all</button>':""}`;
