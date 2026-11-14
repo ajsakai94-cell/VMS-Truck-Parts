@@ -695,7 +695,7 @@
   {
    "id": "oil-separator",
    "slug": "oil-separator-mp4-mp5-actros",
-   "name": "Crankcase Oil Separator",
+   "name": "Oil Spinner (Crankcase Oil Separator)",
    "cat": "Engine",
    "price": 350.0,
    "available": true,
@@ -708,13 +708,15 @@
    ],
    "cross": [],
    "tags": [
+    "oil spinner",
+    "crankcase oil separator",
     "oil separator",
     "crankcase breather",
     "CCV separator",
     "blow-by separator",
-    "breather"
+    "centrifugal oil separator"
    ],
-   "desc": "Crankcase ventilation oil separator for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
+   "desc": "Oil spinner (crankcase ventilation oil separator) for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
    "brand": "VMS",
    "mpn": "VMS-E04",
    "identifierExists": false,
