@@ -33,8 +33,8 @@ function packParcels(units) {
 
 async function pacPrice(env, from, to, p) {
   const q = new URLSearchParams({ from_postcode: from, to_postcode: to, length: p.length, width: p.width, height: p.height, weight: p.weight, service_code: "AUS_PARCEL_REGULAR" });
-  const res = await fetch(`${PAC}?${q}`, { headers: { "AUTH-KEY": env.AUSPOST_API_KEY } });
-  if (!res.ok) throw new Error("Australia Post " + res.status);
+  const res = await fetch(`${PAC}?${q}`, { headers: { "AUTH-KEY": env.AUSPOST_API_KEY, "Accept": "application/json" } });
+  if (!res.ok) throw new Error("Australia Post " + res.status + " " + (await res.text()).slice(0, 200));
   const out = await res.json();
   const cost = Number(out && out.postage_result && out.postage_result.total_cost);
   if (!(cost > 0)) throw new Error("Australia Post gave no price");
@@ -78,7 +78,8 @@ export async function quoteShipping(env, data, items, postcode) {
   const flatFor = ls => Math.round(Math.max(0, ...ls.map(l => l.p.shipClass ? s.rates[l.p.shipClass] : s.flatRate)) * 100);
   const pcOk = /^\d{4}$/.test(String(postcode || ""));
   const flat = { cents: satCents + flatFor(rest), label: [...parts, "Heavy item shipping, Australia-wide"].join(" + "), source: "flat", needsPostcode: !pcOk };
-  if (!env.AUSPOST_API_KEY || !pcOk) return flat;
+  if (!pcOk) return flat;
+  if (!env.AUSPOST_API_KEY) return { ...flat, error: "AUSPOST_API_KEY not set" };
   const fits = l => Array.isArray(l.p.pack) && l.p.pack[3] <= MAX_KG && Math.max(...l.p.pack.slice(0, 3)) <= MAX_CM;
   const posted = rest.filter(fits), other = rest.filter(l => !fits(l));
   if (!posted.length) return flat;
@@ -107,5 +108,5 @@ export async function onRequestPost({ request, env }) {
   const origin = new URL(request.url).origin;
   const data = await (await fetch(origin + "/products.json")).json();
   const q = await quoteShipping(env, data, items, body.postcode);
-  return json({ cents: q.cents, label: q.label, quote: !!q.quote, source: q.source || null, needsPostcode: !!q.needsPostcode });
+  return json({ cents: q.cents, label: q.label, quote: !!q.quote, source: q.source || null, needsPostcode: !!q.needsPostcode, error: q.error || null });
 }
