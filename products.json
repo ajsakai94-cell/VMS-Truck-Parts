@@ -971,8 +971,8 @@
    },
    "maxQty": 2,
    "thumb": "/images/oil-separator-400.webp",
-   "shipClass": "heavy",
-   "pack": [40, 30, 30, 6]
+   "satchel": "medium",
+   "kg": 2
   },
   {
    "id": "battery-sensor",
