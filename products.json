@@ -538,6 +538,72 @@
    }
   },
   {
+   "id": "h7-globe-24v",
+   "slug": "h7-24v-70w-headlight-globes-2-pack-mp4-mp5-actros",
+   "name": "H7 24V 70W Headlight Globes (Pair)",
+   "cat": "Cab",
+   "price": 55.0,
+   "available": false,
+   "sku": "VMS-C02",
+   "oem": [],
+   "cross": [
+    "Narva 48728",
+    "Narva 48729",
+    "Osram 64215",
+    "Osram Truckstar Pro 64215TSP",
+    "Philips 13972MDB1"
+   ],
+   "specs": [
+    [
+     "Type",
+     "H7 halogen, 24 volt, 70 watt"
+    ],
+    [
+     "Base",
+     "PX26d"
+    ],
+    [
+     "Pack",
+     "2 globes (one per headlight)"
+    ],
+    [
+     "Position",
+     "Headlight low beam (check your old globe for high beam)"
+    ]
+   ],
+   "tags": [
+    "H7 globe",
+    "H7 bulb",
+    "24V H7",
+    "headlight globe",
+    "headlight bulb",
+    "low beam globe",
+    "dipped beam bulb",
+    "halogen globe"
+   ],
+   "keywords": [
+    "lights",
+    "lighting",
+    "headlamp",
+    "PX26d",
+    "70W",
+    "truck globe",
+    "64215",
+    "48728"
+   ],
+   "desc": "A pair of H7 24 volt 70 watt halogen headlight globes with the PX26d base, for the halogen headlights on the MP4 Mercedes-Benz Actros. Change both sides together so the beams match. Pull your old globe and check it says H7 24V before you order.",
+   "brand": "VMS",
+   "mpn": "VMS-C02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4"
+    ],
+    "engines": []
+   }
+  },
+  {
    "id": "viscous-fan-clutch",
    "slug": "viscous-fan-clutch-mp4-mp5-actros",
    "name": "Viscous Fan Clutch",
@@ -1015,7 +1081,28 @@
    "maxQty": 3,
    "thumb": "/images/pneumatic-oil-pump-v2-400.webp",
    "illustration": false,
-  "specs": [["Oil viscosity", "Handles thick oils up to 1200 SAE (maker's rating)"], ["Pressure ratio", "5:1"], ["Operating temperature", "-10°C to 50°C"], ["Max flow", "8 to 10 L/min"], ["Hose length", "5 m"]],
+   "specs": [
+    [
+     "Oil viscosity",
+     "Handles thick oils up to 1200 SAE (maker's rating)"
+    ],
+    [
+     "Pressure ratio",
+     "5:1"
+    ],
+    [
+     "Operating temperature",
+     "-10\u00b0C to 50\u00b0C"
+    ],
+    [
+     "Max flow",
+     "8 to 10 L/min"
+    ],
+    [
+     "Hose length",
+     "5 m"
+    ]
+   ],
    "shipClass": "heavy"
   }
  ]
