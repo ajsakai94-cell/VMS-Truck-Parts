@@ -149,6 +149,17 @@ const card = p => `<a class="card" href="${partUrl(p)}">
 
 const sortParts = list => [...list].sort((a, b) => (b.available - a.available) || a.name.localeCompare(b.name));
 
+// ---- part numbers in the forms mechanics type into Google ----
+// OE "A 472 184 04 25" is also searched as "A4721840425", "4721840425" and "472 184 04 25".
+// Aftermarket "MANN HU 12 001 z" is also searched as "HU12001z" (with or without the brand).
+const oeForms = n => { const sp = n.replace(/^A\s*/i, ""); const c = sp.replace(/\s+/g, ""); return [n, "A" + c, c, sp]; };
+const BRANDS = ["DT Spare Parts", "Luber-finer", "MAHLE", "MANN", "Hengst", "Bosch", "Febi", "Fleetguard", "Donaldson", "Wix", "Baldwin", "Sakura", "Trucktec", "NRF", "Nissens", "Prestolite", "WVA", "Knorr"];
+const crossSplit = s => { const b = BRANDS.find(b => s.startsWith(b + " ")); return b ? [b, s.slice(b.length + 1)] : ["", s]; };
+const crossForms = s => { const [b, n] = crossSplit(s.replace(/[()]/g, "")); const c = n.replace(/\s+/g, ""); return c === n ? [s] : [s, (b ? b + " " : "") + c, c]; };
+// every distinct form after the one already shown, for the "Also written as" line
+const altNumbers = p => [...new Set([...p.oem.flatMap(n => oeForms(n).slice(1)), ...p.cross.flatMap(n => crossForms(n).slice(1))])];
+const compactOe = n => oeForms(n)[1];
+
 function partPage(p) {
   const oe = p.oem[0] ? ` ${p.oem[0]}` : "";
   const eng = p.fits.engines.length && !/OM47\d/.test(p.name) ? ` ${p.fits.engines.join("/")}` : "";
@@ -168,6 +179,7 @@ function partPage(p) {
     ["Fits", esc(fitsText(p))],
     p.oem.length && ["Replaces OE", `<span class="mono">${p.oem.map(esc).join("<br>")}</span>`],
     p.cross.length && ["Cross-reference", `<span class="mono">${p.cross.map(esc).join("<br>")}</span>`],
+    altNumbers(p).length && ["Also written as", `<span class="mono">${altNumbers(p).map(esc).join(" · ")}</span>`],
     ["Brand", esc(p.brand)],
     ["Our part no.", `<span class="mono">${esc(p.sku)}</span>`],
     ["Condition", "New"],
@@ -218,7 +230,17 @@ ${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLo
         returnMethod: "https://schema.org/ReturnByMail", returnFees: "https://schema.org/ReturnShippingFees" },
     } } : {}),
   };
-  return layout({ title, desc, path: partUrl(p), body, part: p.id, image: p.image, type: "product", jsonld: [product, crumbLd(crumbItems)] });
+  // Part numbers up front: unspaced OE in the title, OE + top cross-refs at the start of the description,
+  // and every number as a PropertyValue in the Product schema. sku/mpn stay our own numbers (these aren't
+  // genuine Mercedes parts, and the Merchant Center feed uses the same mpn).
+  const numTitle = p.oem[0] ? title.replace(" – OE " + p.oem[0], ` – OE ${p.oem[0]} (${compactOe(p.oem[0])})`) : title;
+  const numLead = p.oem.length || p.cross.length ? [p.oem[0] && `OE ${p.oem[0]} (${compactOe(p.oem[0])})`, ...p.cross.slice(0, 2)].filter(Boolean).join(", ") + ". " : "";
+  product.alternateName = [...new Set([...p.oem.flatMap(oeForms), ...p.cross.flatMap(crossForms)])].slice(0, 40);
+  if (!product.alternateName.length) delete product.alternateName;
+  const props = [...p.oem.map(n => ({ "@type": "PropertyValue", name: "Replaces OE number", value: n })),
+    ...p.cross.map(n => { const [b, num] = crossSplit(n); return { "@type": "PropertyValue", name: (b ? b + " " : "") + "cross-reference", value: num }; })];
+  if (props.length) product.additionalProperty = props;
+  return layout({ title: numTitle, desc: numLead + desc, path: partUrl(p), body, part: p.id, image: p.image, type: "product", jsonld: [product, crumbLd(crumbItems)] });
 }
 
 function catPage(cat) {
@@ -319,9 +341,56 @@ ${byId("service-kit") ? `<p>Doing a full service? The <a href="${partUrl(byId("s
 <p>Where one part has several OE numbers, they're superseded or alternative numbers for the same filter. Cross-references are the equivalent MAHLE, MANN, Hengst and other aftermarket numbers.</p>
 <h2>Filter part numbers</h2>
 <div class="tablewrap"><table><thead><tr><th>Filter</th><th>OE numbers</th><th>Cross-reference</th><th>Price</th></tr></thead><tbody>
-${sortParts(products.filter(p => p.cat === "Filters" && !p.bundle)).map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.cross)}</td><td>${p.price != null ? money(p.price) : "Call"}</td></tr>`).join("")}
+${sortParts(products.filter(p => p.cat === "Filters" && !p.bundle)).map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem.flatMap(n => [n, compactOe(n)]))}</td><td>${mono(p.cross)}</td><td>${p.price != null ? money(p.price) : "Call"}</td></tr>`).join("")}
 </tbody></table></div>
 <p>Can't find your number? Call or text <a href="tel:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> with the number off your old filter and we'll match it.</p>` },
+  { path: "/guides/actros-mp4-filter-kit-part-numbers/", short: "MP4 filter kit part numbers",
+    title: "Actros MP4 Service Filter Kit Part Numbers (OM471 / OM473)",
+    desc: "The 5 filters in an Actros MP4 / MP5 service kit with every OE number written the ways mechanics search it, plus MAHLE, MANN and Hengst equivalents.",
+    blurb: "The 5 service filters, their OE numbers in every format, and the kit price.",
+    body: () => { const kit = byId("service-kit"); const parts = kit.bundle.map(byId);
+      return `<p>A standard oil service on the MP4 or MP5 Mercedes-Benz Actros (OM471 or OM473) uses five filters: engine oil, the main fuel filter, the fuel pre-filter / water separator, the engine air filter and the cabin filter. Per the MAHLE MP4 / MP5 catalogue, the oil, fuel, pre-filter and air filters are the same parts on the OM471 and the OM473.</p>
+<p>Mercedes numbers are printed with spaces, like <span class="mono">A 472 184 04 25</span>, but invoices and parts systems often run them together as <span class="mono">A4721840425</span> or drop the A. All of those are the same part, and they're all listed below.</p>
+<h2>What's in the kit</h2>
+<div class="tablewrap"><table><thead><tr><th>Filter</th><th>OE number</th><th>Also written as</th><th>Cross-reference</th></tr></thead><tbody>
+${parts.map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.oem.slice(0, 2).flatMap(n => oeForms(n).slice(1, 3)))}</td><td>${mono(p.cross.slice(0, 3))}</td></tr>`).join("")}
+</tbody></table></div>
+<p>The <a href="${partUrl(kit)}">service filter kit</a> is all five in one box for ${money(kit.price)}, ${money(parts.reduce((t, p) => t + p.price, 0) - kit.price)} less than buying them one by one.</p>
+<h2>Numbers to double-check</h2>
+<ul>
+<li><b>Air filter:</b> MAHLE also lists LX 5438 (OE A 004 094 97 04) for the same trucks, which looks like a different housing size. Match the number on your old element.</li>
+<li><b>Fuel filter:</b> some catalogues list A 471 090 24 55 or 08 55 instead of 27 55. Check the number on your old filter or its box.</li>
+<li><b>Cabin filter:</b> MP4 / MP5 cabs use more than one cabin filter, including a carbon version (A 960 830 01 18, MAHLE LAK 863). Ours is the pollen filter, A 960 830 02 18.</li>
+</ul>
+<p>Not sure? Text your VIN or a photo of the old filter to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll check before you pay.</p>`; } },
+  { path: "/guides/actros-mp4-brake-pad-part-numbers/", short: "MP4 brake pad part numbers",
+    title: "Actros MP4 / MP5 Brake Pad Part Numbers: Front and Rear",
+    desc: "Front and rear brake pad numbers for the Mercedes-Benz Actros MP4 / MP5: OE A 006 420 14 20 (A0064201420) and A 006 420 53 20 (A0064205320), WVA numbers and calipers.",
+    blurb: "Front and rear pads are different. OE, WVA and caliper numbers for each.",
+    body: () => `<p>The front and rear brake pads on the MP4 and MP5 Mercedes-Benz Actros are different sizes, so you need the right number for each axle. Most MP4s run Knorr-Bremse disc brakes: an SM7 caliper on the front and an SL7 on the rear.</p>
+<h2>Brake pad numbers</h2>
+<div class="tablewrap"><table><thead><tr><th>Axle</th><th>Mercedes OE</th><th>Also written as</th><th>WVA</th><th>Caliper</th><th>Pad size (approx.)</th></tr></thead><tbody>
+<tr><td>Front</td><td>${mono(["A 006 420 14 20"])}</td><td>${mono(oeForms("A 006 420 14 20").slice(1, 3))}</td><td>${mono(["29246", "29247"])}</td><td>Knorr SM7</td><td>245 x 113.5 x 30 mm</td></tr>
+<tr><td>Rear</td><td>${mono(["A 006 420 53 20"])}</td><td>${mono(oeForms("A 006 420 53 20").slice(1, 3))}</td><td>${mono(["29244", "29245"])}</td><td>Knorr SL7</td><td>208 x 115 x 30 mm</td></tr>
+</tbody></table></div>
+<p>Other numbers that turn up for the same pads: front <span class="mono">A 006 420 52 20</span> and <span class="mono">A 000 421 72 10</span>; rear <span class="mono">A 006 420 15 20</span>. Treat these as "check the old pad" rather than a sure match.</p>
+<h2>Check your caliper first</h2>
+<p>Some MP4s run a Wabco MAXX22L caliper instead of Knorr. Those use a different pad (WVA <span class="mono">29315</span>, front and rear). The WVA number is stamped on the backing plate of the old pad, so match it before you order.</p>
+<h2>Need pads?</h2>
+<p>We don't list brake pads online yet. Text the WVA or OE number off your old pads, or your VIN, to <a href="sms:${PHONE}">${esc(C.phone)}</a> or email <a href="mailto:${esc(C.email)}">${esc(C.email)}</a> and we'll quote a front or rear axle set.</p>
+<p>Doing the brakes? We also stock the <a href="${partUrl(byId("brake-hose"))}">brake hose set with M22 connectors</a>.</p>` },
+  { path: "/guides/actros-mp4-engine-cooling-part-numbers/", short: "MP4 engine and cooling numbers",
+    title: "Actros MP4 Engine and Cooling Part Numbers (OM471 / OM473)",
+    desc: "OE numbers and aftermarket equivalents for the Actros MP4 / MP5 fan clutch, expansion tank, starter motor, oil spinner, cylinder head and battery sensor.",
+    blurb: "Fan clutch, expansion tank, starter, oil spinner and more, by OE number.",
+    body: () => { const list = sortParts(products.filter(p => (p.cat === "Engine" || p.cat === "Cooling") && p.oem.length));
+      return `<p>These are the engine and cooling parts we stock for the MP4 and MP5 Mercedes-Benz Actros, listed by Mercedes OE number and the aftermarket numbers that match. Type any of them into the <a href="/#q">search box</a>, with or without the spaces and the leading A.</p>
+<h2>Part numbers</h2>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>OE number</th><th>Also written as</th><th>Cross-reference</th><th>Price</th></tr></thead><tbody>
+${list.map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.oem.flatMap(n => oeForms(n).slice(1, 2)))}</td><td>${mono(p.cross)}</td><td>${p.price != null ? money(p.price) : "Call"}${p.available ? "" : " (sold out)"}</td></tr>`).join("")}
+</tbody></table></div>
+<h2>Which engine?</h2>
+<p>Some of these differ between the OM471 (12.8 litre) and the OM473 (15.6 litre). Each part page says which engine it suits. If you're not sure, the <a href="/guides/find-actros-part-number/">part number guide</a> shows where to find the engine type, or text your VIN to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll check.</p>`; } },
 ];
 function guidePage(g) {
   const body = `${crumbs([["Home", "/"], [g.short, ""]])}
