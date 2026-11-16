@@ -617,7 +617,7 @@
     ]
    },
    "shipClass": "heavy",
-   "pack": [32, 32, 32, 12]
+   "pack": [35, 35, 35, 12]
   },
   {
    "id": "expansion-tank",
