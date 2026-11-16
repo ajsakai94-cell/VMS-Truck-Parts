@@ -534,7 +534,8 @@
    "oldHandle": "long-mirror-cover-to-suit-mp4-mp5-mercedes-actros-lh-rh",
    "sku": "VMS-C01",
    "oem": [
-    "A 960 811 14 07"
+    "A 960 811 06 07",
+    "A 960 811 07 07"
    ],
    "cross": [],
    "tags": [
@@ -550,7 +551,7 @@
     "body parts",
     "panel"
    ],
-   "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side.",
+   "desc": "Replacement back cover for the long main mirror (long-arm mirror). Left-hand / passenger side is OE A 960 811 06 07, right-hand / driver's side is OE A 960 811 07 07. Choose your side.",
    "brand": "Nuopei",
    "mpn": "VMS-C01",
    "identifierExists": false,
@@ -564,6 +565,59 @@
    },
    "satchel": "xl",
    "kg": 1.0
+  },
+  {
+   "id": "small-mirror-cover",
+   "slug": "small-mirror-cover-mp4-mp5-actros",
+   "name": "Corner Mirror Cover (Small)",
+   "cat": "Cab",
+   "price": null,
+   "available": false,
+   "options": [
+    "Driver's side (RH) A 960 811 15 07",
+    "Passenger side (LH) A 960 811 14 07"
+   ],
+   "image": "/images/small-mirror-cover-1000.webp",
+   "thumb": "/images/small-mirror-cover-400.webp",
+   "sku": "VMS-C03",
+   "oem": [
+    "A 960 811 14 07",
+    "A 960 811 15 07"
+   ],
+   "cross": [],
+   "tags": [
+    "corner mirror cover",
+    "small mirror cover",
+    "wide angle mirror cover",
+    "lower mirror cover",
+    "mirror cap",
+    "mirror back cover",
+    "Spiegelkappe klein"
+   ],
+   "keywords": [
+    "mirror",
+    "cab",
+    "body parts",
+    "panel",
+    "LH",
+    "RH",
+    "left",
+    "right"
+   ],
+   "desc": "Replacement back cover for the small corner (lower, wide-angle) mirror that sits under the main mirror. Left-hand / passenger side is OE A 960 811 14 07, right-hand / driver's side is OE A 960 811 15 07. Choose your side. Pairs with our long main mirror cover.",
+   "brand": "VMS",
+   "mpn": "VMS-C03",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "satchel": "medium",
+   "kg": 0.5
   },
   {
    "id": "viscous-fan-clutch",
