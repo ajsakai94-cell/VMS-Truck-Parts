@@ -2,11 +2,11 @@
  "truck": "MP4 / MP5 Mercedes-Benz Actros",
  "currency": "aud",
  "shipping": {
-  "flatRate": 19.95,
-  "freeOver": 250,
-  "heavyRates": {
-   "heavy": 39.95,
-   "extraHeavy": 79.95
+  "flatRate": 24.95,
+  "rates": {
+   "bulky": 49.95,
+   "heavy": 59.95,
+   "extraHeavy": 99.95
   },
   "pickup": true,
   "pickupNote": "Pickup in Victoria. We'll message you when it's ready."
@@ -29,7 +29,7 @@
    "thumb": "/images/service-kit-400.webp",
    "oem": [],
    "cross": [],
-   "desc": "Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately, and over $250 so shipping is free.",
+   "desc": "Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately.",
    "brand": "VMS",
    "mpn": "VMS-KIT01",
    "identifierExists": false,
@@ -65,7 +65,8 @@
     "oil change kit",
     "A service",
     "B service"
-   ]
+   ],
+   "shipClass": "bulky"
   },
   {
    "id": "oil-filter",
@@ -277,7 +278,8 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "shipClass": "bulky"
   },
   {
    "id": "cabin-filter",

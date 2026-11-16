@@ -57,8 +57,8 @@ function totals(){
   const n=items.reduce((s,[,q])=>s+q,0);
   const sub=items.reduce((s,[k,q])=>{const {p}=parse(k);return s+(p&&p.price?p.price*q:0)},0);
   const quote=items.some(([k])=>{const {p}=parse(k);return p&&p.freightQuote});
-  const heavy=items.reduce((m,[k])=>{const {p}=parse(k);return p&&p.shipClass?Math.max(m,DATA.shipping.heavyRates[p.shipClass]):m},0);
-  const ship=n&&!quote?(sub>=DATA.shipping.freeOver?0:heavy||DATA.shipping.flatRate):0;
+  const big=items.reduce((m,[k])=>{const {p}=parse(k);return p&&p.shipClass?Math.max(m,DATA.shipping.rates[p.shipClass]):m},0);
+  const ship=n&&!quote?(big||DATA.shipping.flatRate):0;
   return {items,n,sub,ship,quote};
 }
 function renderCart(){
@@ -68,7 +68,7 @@ function renderCart(){
     <span class="pn">${money(p.price)} each</span><span class="qty"><button type="button" data-dec="${k}" aria-label="Remove one">−</button>${q}<button type="button" data-inc="${k}" aria-label="Add one">+</button></span></div>`}).join("")
     :`<p class="note" style="padding:20px 0">Your cart is empty.</p>`;
   $("sub").textContent=money(sub);
-  $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":(ship?money(ship)+" or free pickup":"Free");
+  $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":money(ship)+" or free pickup";
   $("total").textContent=money(sub+ship);
   $("checkout").disabled=!n;
 }

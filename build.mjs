@@ -30,8 +30,8 @@ const SITE = {
   ...(data.site || {}),
 };
 const C = data.contact, SHIP = data.shipping;
-// shipping for one unit of a part on its own: free over the threshold, else its heavy rate or the flat rate
-const shipRate = p => p.price >= SHIP.freeOver ? 0 : (p.shipClass ? SHIP.heavyRates[p.shipClass] : SHIP.flatRate);
+// shipping for a part on its own: its size-class rate (bulky / heavy / extra heavy) or the flat rate. No free shipping.
+const shipRate = p => p.shipClass ? SHIP.rates[p.shipClass] : SHIP.flatRate;
 
 const CATS = {
   Filters: { path: "filters", title: "Actros MP4 / MP5 Filters", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
@@ -151,13 +151,13 @@ function partPage(p) {
   const eng = p.fits.engines.length && !/OM47\d/.test(p.name) ? ` ${p.fits.engines.join("/")}` : "";
   // Google title: plain part name, then fitment, then OE number, then price
   const title = `${p.name}${truckPart(p) ? " for Mercedes Actros MP4/MP5" + eng : ""}${p.oem[0] ? " – OE " + p.oem[0] : ""}${p.price != null ? " | " + shortMoney(p.price) + (p.available ? " In Stock" : "") : ""} | ${SITE.name}`;
-  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : ""}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Free shipping over ${shortMoney(SHIP.freeOver)}, dispatched from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
+  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : ""}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Shipping ${money(shipRate(p))} Australia-wide from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
     : p.shipClass
-      ? `Heavy item: ${money(SHIP.heavyRates[p.shipClass])} Australia-wide, free on orders over ${shortMoney(SHIP.freeOver)}, or free pickup in Victoria.`
-      : `${money(SHIP.flatRate)} Australia-wide, free over ${shortMoney(SHIP.freeOver)}, or free pickup in Victoria.`;
+      ? `Large item: ${money(shipRate(p))} Australia-wide, or free pickup in Victoria.`
+      : `${money(SHIP.flatRate)} Australia-wide, or free pickup in Victoria.`;
   const related = sortParts(products.filter(x => x.cat === p.cat && x.id !== p.id)).slice(0, 4);
   const spec = [
     ["Fits", esc(fitsText(p))],
@@ -223,7 +223,7 @@ function catPage(cat) {
 <section class="block catintro">
   <h1>${esc(c.title)}</h1>
   <p>${esc(c.intro)}</p>
-  <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Shipping ${money(SHIP.flatRate)}, free over ${shortMoney(SHIP.freeOver)} · Free pickup in Victoria</p>
+  <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Shipping from ${money(SHIP.flatRate)} Australia-wide · Free pickup in Victoria</p>
 </section>
 <section class="block"><div class="grid">${list.map(card).join("")}</div></section>`;
   return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.slice(0, 155), path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });
@@ -296,7 +296,7 @@ const GUIDES = [
 <div class="tablewrap"><table><thead><tr><th>Part</th><th>When</th><th>OE number</th><th>Price</th></tr></thead><tbody>
 ${SERVICE.map(([id, when]) => byId(id)).map((p, i) => `<tr><td>${link(p)}</td><td>${esc(SERVICE[i][1])}</td><td>${mono(p.oem.slice(0, 2))}</td><td>${p.price != null ? money(p.price) : "Call"}</td></tr>`).join("")}
 </tbody></table></div>
-${byId("service-kit") ? `<p>Doing a full service? The <a href="${partUrl(byId("service-kit"))}">service filter kit</a> has the oil, fuel, water separator, air and cabin filters in one box for ${money(byId("service-kit").price)}, with free shipping.</p>` : ""}
+${byId("service-kit") ? `<p>Doing a full service? The <a href="${partUrl(byId("service-kit"))}">service filter kit</a> has the oil, fuel, water separator, air and cabin filters in one box for ${money(byId("service-kit").price)}.</p>` : ""}
 <h2>Tips for Australian conditions</h2>
 <ul>
 <li>Dust is the big one. On gravel or in dry country, check the air filter restriction indicator every few days rather than waiting for the service.</li>

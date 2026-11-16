@@ -9,7 +9,8 @@ const err = (id, msg) => errors.push(`${id}: ${msg}`);
 
 for (const k of ["truck", "currency", "shipping", "contact", "products"]) if (!(k in data)) err("top", `missing ${k}`);
 const s = data.shipping || {};
-if (!(s.flatRate > 0) || !(s.freeOver > 0)) err("shipping", "flatRate and freeOver must be positive numbers");
+if (!(s.flatRate > 0)) err("shipping", "flatRate must be a positive number");
+if ("freeOver" in s) err("shipping", "freeOver was removed: there is no free shipping");
 
 const ids = new Set(), slugs = new Set();
 for (const p of data.products || []) {
@@ -20,7 +21,7 @@ for (const p of data.products || []) {
   if (p.image && !/^\/images\/[a-z0-9-]+\.webp$/.test(p.image)) err(id, `image "${p.image}" must be a local /images/*.webp file`);
   if (p.thumb !== undefined && !/^\/images\/[a-z0-9-]+\.webp$/.test(p.thumb)) err(id, `thumb "${p.thumb}" must be a local /images/*.webp file`);
   for (const f of [p.image, p.thumb]) if (f && !existsSync(new URL(".." + f, import.meta.url))) err(id, `${f} is missing from the repo`);
-  if (p.shipClass !== undefined && !((s.heavyRates || {})[p.shipClass] > 0)) err(id, "shipClass must be a key of shipping.heavyRates");
+  if (p.shipClass !== undefined && !((s.rates || {})[p.shipClass] > 0)) err(id, "shipClass must be a key of shipping.rates");
   if (p.freightQuote !== undefined && typeof p.freightQuote !== "boolean") err(id, "freightQuote must be true or false");
   if (p.maxQty !== undefined && !(Number.isInteger(p.maxQty) && p.maxQty >= 1)) err(id, "maxQty must be a whole number of at least 1");
   if (ids.has(p.id)) err(id, "duplicate id"); ids.add(p.id);

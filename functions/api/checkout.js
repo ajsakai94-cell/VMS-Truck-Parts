@@ -20,8 +20,8 @@ export async function onRequestPost({ request, env }) {
 
   const form = new URLSearchParams();
   let subtotal = 0;
-  let freightQuote = false; // a bulky item (e.g. cylinder head): no free shipping, freight quoted after the order
-  let heavyCents = 0; // highest heavy-item rate in the order, charged once when under the free-shipping amount
+  let freightQuote = false; // e.g. cylinder head: freight quoted after the order
+  let classCents = 0; // highest size-class rate in the order (bulky / heavy / extra heavy), charged once
   let i = 0;
   for (const it of items) {
     const p = byId[it.id];
@@ -32,7 +32,7 @@ export async function onRequestPost({ request, env }) {
     if (p.options && !p.options.includes(it.option)) return json({ error: `Pick a side for ${p.name}` }, 400);
     if (p.maxQty && qty > p.maxQty) return json({ error: `Only ${p.maxQty} ${p.name} available` }, 400);
     if (p.freightQuote) freightQuote = true;
-    if (p.shipClass) heavyCents = Math.max(heavyCents, Math.round(data.shipping.heavyRates[p.shipClass] * 100));
+    if (p.shipClass) classCents = Math.max(classCents, Math.round(data.shipping.rates[p.shipClass] * 100));
     const name = p.name + (it.option ? ` (${it.option})` : "") + ` to suit ${data.truck}`;
     const cents = Math.round(p.price * 100);
     subtotal += cents * qty;
@@ -46,10 +46,11 @@ export async function onRequestPost({ request, env }) {
   }
 
   const s = data.shipping;
-  const shipCents = subtotal >= Math.round(s.freeOver * 100) ? 0 : heavyCents || Math.round(s.flatRate * 100);
+  // No free shipping: every order pays the flat rate, or the highest size-class rate in it
+  const shipCents = classCents || Math.round(s.flatRate * 100);
   const options = freightQuote
     ? [{ name: "Delivery: freight quoted separately (we'll call you before sending)", amount: 0 }]
-    : [{ name: !shipCents ? "Free standard shipping" : heavyCents ? "Heavy item shipping, Australia-wide" : "Standard shipping, Australia-wide", amount: shipCents, min: 2, max: 7 }];
+    : [{ name: classCents ? "Large item shipping, Australia-wide" : "Standard shipping, Australia-wide", amount: shipCents, min: 2, max: 7 }];
   if (s.pickup || freightQuote) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
   options.forEach((o, n) => {
     const k = `shipping_options[${n}][shipping_rate_data]`;
