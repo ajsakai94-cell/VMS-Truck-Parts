@@ -4,9 +4,14 @@
  "shipping": {
   "from": "3167",
   "handling": 0,
+  "satchels": {
+   "small": { "fits": 1, "price": 12.95 },
+   "medium": { "fits": 2, "price": 16.95 },
+   "large": { "fits": 4, "price": 20.95 },
+   "xl": { "fits": 8, "price": 24.95 }
+  },
   "flatRate": 24.95,
   "rates": {
-   "bulky": 49.95,
    "heavy": 59.95,
    "extraHeavy": 99.95
   },
@@ -68,8 +73,7 @@
     "A service",
     "B service"
    ],
-   "shipClass": "bulky",
-   "pack": [50, 40, 40, 7]
+   "satchel": ["xl", "xl"]
   },
   {
    "id": "oil-filter",
@@ -129,7 +133,8 @@
      "OM473"
     ]
    },
-   "pack": [25, 15, 15, 1.2]
+   "satchel": "medium",
+   "kg": 1.2
   },
   {
    "id": "oil-filter-slim",
@@ -187,7 +192,8 @@
    },
    "thumb": "/images/oil-filter-slim-400.webp",
    "illustration": true,
-   "pack": [25, 15, 15, 1.2]
+   "satchel": "medium",
+   "kg": 1.2
   },
   {
    "id": "fuel-filter",
@@ -236,7 +242,8 @@
      "OM473"
     ]
    },
-   "pack": [25, 15, 15, 1.0]
+   "satchel": "medium",
+   "kg": 1.0
   },
   {
    "id": "air-filter",
@@ -285,8 +292,8 @@
      "OM473"
     ]
    },
-   "shipClass": "bulky",
-   "pack": [50, 35, 35, 4]
+   "satchel": "xl",
+   "kg": 4
   },
   {
    "id": "cabin-filter",
@@ -332,7 +339,8 @@
     ],
     "engines": []
    },
-   "pack": [40, 25, 8, 0.6]
+   "satchel": "large",
+   "kg": 0.6
   },
   {
    "id": "adblue-filter",
@@ -373,7 +381,8 @@
     ],
     "engines": []
    },
-   "pack": [12, 12, 12, 0.3]
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "diesel-water-separator",
@@ -423,7 +432,8 @@
      "OM473"
     ]
    },
-   "pack": [25, 15, 15, 0.8]
+   "satchel": "medium",
+   "kg": 0.8
   },
   {
    "id": "power-steering-filter",
@@ -460,7 +470,8 @@
     ],
     "engines": []
    },
-   "pack": [12, 12, 12, 0.3]
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "brake-hose",
@@ -504,7 +515,8 @@
     "engines": []
    },
    "maxQty": 10,
-   "pack": [30, 20, 10, 1.5]
+   "satchel": "medium",
+   "kg": 1.5
   },
   {
    "id": "long-mirror-cover",
@@ -550,7 +562,8 @@
     ],
     "engines": []
    },
-   "pack": [50, 30, 15, 1.0]
+   "satchel": "xl",
+   "kg": 1.0
   },
   {
    "id": "viscous-fan-clutch",
@@ -996,7 +1009,8 @@
    },
    "maxQty": 5,
    "thumb": "/images/battery-sensor-v2-400.webp",
-   "pack": [15, 10, 8, 0.3]
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "pneumatic-oil-pump",

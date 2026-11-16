@@ -30,8 +30,10 @@ const SITE = {
   ...(data.site || {}),
 };
 const C = data.contact, SHIP = data.shipping;
-// shipping for a part on its own: its size-class rate (bulky / heavy / extra heavy) or the flat rate. No free shipping.
-const shipRate = p => p.shipClass ? SHIP.rates[p.shipClass] : SHIP.flatRate;
+// shipping for a part on its own (no free shipping): its Australia Post satchel price(s), else its
+// size-class rate (heavy / extra heavy, the fallback when Australia Post can't be priced), else the flat rate
+const shipRate = p => p.satchel ? [].concat(p.satchel).reduce((t, z) => t + SHIP.satchels[z].price, 0)
+  : p.shipClass ? SHIP.rates[p.shipClass] : SHIP.flatRate;
 
 const CATS = {
   Filters: { path: "filters", title: "Actros MP4 / MP5 Filters", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
@@ -113,11 +115,11 @@ ${body}
     <div class="tot">
       <div><span>Subtotal</span><span id="sub">$0.00</span></div>
       <div><span>Shipping</span><span id="ship">—</span></div>
-      <label class="pc">Delivery postcode <input id="postcode" inputmode="numeric" autocomplete="postal-code" maxlength="4" placeholder="e.g. 4655"></label>
+      <label class="pc" id="pcRow" hidden>Delivery postcode <input id="postcode" inputmode="numeric" autocomplete="postal-code" maxlength="4" placeholder="e.g. 4655"></label>
       <div class="big"><span>Total</span><span id="total">$0.00</span></div>
     </div>
     <button class="primary" id="checkout" type="button">Checkout</button>
-    <p class="note" id="checkoutNote">Shipping is Australia Post to your postcode. No account needed, and you can choose free pickup at checkout instead.</p>
+    <p class="note" id="checkoutNote">Shipped by Australia Post. No account needed, and you can choose free pickup at checkout instead.</p>
   </div>
 </div>
 
@@ -156,6 +158,8 @@ function partPage(p) {
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
+      : p.satchel
+        ? `${money(shipRate(p))} Australia-wide by Australia Post satchel${Array.isArray(p.satchel) ? "s" : ""}, or free pickup in Victoria.`
       : Array.isArray(p.pack)
         ? "Australia Post to your postcode: enter it in the cart to see the cost. Or free pickup in Victoria."
         : `${money(shipRate(p))} Australia-wide, or free pickup in Victoria.`;

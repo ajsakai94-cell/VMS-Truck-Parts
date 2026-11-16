@@ -1,9 +1,10 @@
 // Cloudflare Pages Function: POST /api/shipping  { items: [{id, qty}], postcode: "4655" }
-// Prices delivery with the Australia Post Postage Assessment Calculator (PAC) API, using each part's
+// Small parts go in Australia Post flat-rate satchels ("satchel" in products.json, same price Australia-wide).
+// Heavy parts are priced with the Australia Post Postage Assessment Calculator (PAC) API, using their
 // packed box size and weight ("pack": [length cm, width cm, height cm, kg] in products.json).
 // checkout.js imports quoteShipping() so the price in the cart and the price Stripe charges are the same.
 // Needs one secret in Cloudflare: AUSPOST_API_KEY (free from developers.auspost.com.au).
-// If the key is missing, the API fails, or a part has no "pack", that part falls back to the flat
+// If the key is missing, the API fails, or a heavy part has no "pack", it falls back to the flat
 // size-class rates in products.json (shipping.flatRate / shipping.rates), so checkout never breaks.
 
 const PAC = "https://digitalapi.auspost.com.au/postage/parcel/domestic/calculate.json";
@@ -40,31 +41,58 @@ async function pacPrice(env, from, to, p) {
   return cost;
 }
 
-// Returns { cents, label, quote } — quote: true means freight is quoted by phone (e.g. cylinder head).
+// Satchel parts: Australia Post flat-rate satchels (same price anywhere in Australia, 5 kg max each).
+// Each part takes up some of a satchel ("fits": small 1, medium 2, large 4, xl 8); parts share satchels
+// biggest first, and each satchel is charged at the smallest size that holds what's in it.
+// A part can also list its own satchels (the service kit ships as two XL satchels).
+function packSatchels(sizes, units) {
+  const order = Object.keys(sizes).sort((a, b) => sizes[a].fits - sizes[b].fits);
+  const cap = sizes[order[order.length - 1]].fits, bags = [];
+  for (const u of [...units].sort((a, b) => b.fits - a.fits)) {
+    let bag = !u.own && bags.find(b => !b.own && b.fits + u.fits <= cap && b.kg + u.kg <= 5);
+    if (!bag) bags.push(bag = { fits: 0, kg: 0, own: u.own });
+    bag.fits += u.fits; bag.kg += u.kg;
+  }
+  return bags.map(b => order.find(k => sizes[k].fits >= b.fits));
+}
+
+// Returns { cents, label, quote, needsPostcode }. quote: true = freight quoted by phone (e.g. cylinder head).
 export async function quoteShipping(env, data, items, postcode) {
   const s = data.shipping, byId = Object.fromEntries(data.products.map(p => [p.id, p]));
   const lines = items.map(it => ({ p: byId[it.id], qty: Math.floor(Number(it.qty)) })).filter(l => l.p && l.qty >= 1);
   if (lines.some(l => l.p.freightQuote)) return { cents: 0, quote: true, label: "Freight quoted separately (we'll call you before sending)" };
+  const each = (l, f) => Array.from({ length: l.qty }, f).flat();
 
+  // 1. satchel parts: flat national price, no postcode needed
+  const sat = lines.filter(l => l.p.satchel);
+  const units = sat.flatMap(l => each(l, () => Array.isArray(l.p.satchel)
+    ? l.p.satchel.map(z => ({ fits: s.satchels[z].fits, kg: 5, own: true }))
+    : [{ fits: s.satchels[l.p.satchel].fits, kg: l.p.kg || 0 }]));
+  const bags = packSatchels(s.satchels, units);
+  const satCents = bags.reduce((t, z) => t + Math.round(s.satchels[z].price * 100), 0);
+  const parts = bags.length ? [`Australia Post satchel${bags.length > 1 ? " x" + bags.length : ""}`] : [];
+
+  // 2. boxed parts (heavy): Australia Post Parcel Post to the postcode; flat size-class rate if that can't be done
+  const rest = lines.filter(l => !l.p.satchel);
+  if (!rest.length) return { cents: satCents, label: parts[0], source: "satchel", bags };
   const flatFor = ls => Math.round(Math.max(0, ...ls.map(l => l.p.shipClass ? s.rates[l.p.shipClass] : s.flatRate)) * 100);
-  const flat = { cents: flatFor(lines), label: "Standard shipping, Australia-wide", source: "flat" };
-  if (!env.AUSPOST_API_KEY || !/^\d{4}$/.test(String(postcode || ""))) return flat;
-
-  // parts with a box size go by Australia Post; anything without one (or too big for Aus Post) uses its flat rate
+  const pcOk = /^\d{4}$/.test(String(postcode || ""));
+  const flat = { cents: satCents + flatFor(rest), label: [...parts, "Heavy item shipping, Australia-wide"].join(" + "), source: "flat", needsPostcode: !pcOk };
+  if (!env.AUSPOST_API_KEY || !pcOk) return flat;
   const fits = l => Array.isArray(l.p.pack) && l.p.pack[3] <= MAX_KG && Math.max(...l.p.pack.slice(0, 3)) <= MAX_CM;
-  const posted = lines.filter(fits), other = lines.filter(l => !fits(l));
-  const units = posted.flatMap(l => Array.from({ length: l.qty }, () => {
+  const posted = rest.filter(fits), other = rest.filter(l => !fits(l));
+  if (!posted.length) return flat;
+  const boxes = posted.flatMap(l => each(l, () => {
     const dims = l.p.pack.slice(0, 3).sort((a, b) => b - a);
     return { kg: l.p.pack[3], vol: dims[0] * dims[1] * dims[2], dims };
   }));
-  if (!units.length) return flat;
   try {
-    const parcels = packParcels(units);
+    const parcels = packParcels(boxes);
     const prices = await Promise.all(parcels.map(p => pacPrice(env, s.from, postcode, p)));
     const handling = (s.handling || 0) * parcels.length;
-    const cents = Math.round((prices.reduce((a, b) => a + b, 0) + handling) * 100) + (other.length ? flatFor(other) : 0);
+    const cents = satCents + Math.round((prices.reduce((a, b) => a + b, 0) + handling) * 100) + (other.length ? flatFor(other) : 0);
     const n = parcels.length;
-    return { cents, label: `Australia Post Parcel Post to ${postcode}` + (n > 1 ? ` (${n} parcels)` : ""), source: "auspost", parcels };
+    return { cents, label: [...parts, `Australia Post Parcel Post to ${postcode}` + (n > 1 ? ` (${n} parcels)` : "")].join(" + "), source: "auspost", bags, parcels };
   } catch (e) {
     return { ...flat, error: String(e.message || e) };
   }
@@ -79,5 +107,5 @@ export async function onRequestPost({ request, env }) {
   const origin = new URL(request.url).origin;
   const data = await (await fetch(origin + "/products.json")).json();
   const q = await quoteShipping(env, data, items, body.postcode);
-  return json({ cents: q.cents, label: q.label, quote: !!q.quote, source: q.source || null });
+  return json({ cents: q.cents, label: q.label, quote: !!q.quote, source: q.source || null, needsPostcode: !!q.needsPostcode });
 }
