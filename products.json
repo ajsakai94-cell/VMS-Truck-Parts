@@ -293,7 +293,7 @@
     ]
    },
    "satchel": "xl",
-   "kg": 4
+   "kg": 2.9
   },
   {
    "id": "cabin-filter",
@@ -792,7 +792,7 @@
     ]
    },
    "shipClass": "heavy",
-   "pack": [45, 25, 25, 12]
+   "pack": [39, 22, 19, 14]
   },
   {
    "id": "cylinder-liner-kit-om473",

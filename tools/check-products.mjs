@@ -4,7 +4,7 @@ import { readFileSync, existsSync } from "node:fs";
 
 const file = new URL("../products.json", import.meta.url);
 const data = JSON.parse(readFileSync(file, "utf8"));
-const errors = [];
+const errors = [], warnings = [];
 const err = (id, msg) => errors.push(`${id}: ${msg}`);
 
 for (const k of ["truck", "currency", "shipping", "contact", "products"]) if (!(k in data)) err("top", `missing ${k}`);
@@ -27,6 +27,12 @@ for (const p of data.products || []) {
   if (p.satchel && !Array.isArray(p.satchel) && !(p.kg > 0 && p.kg <= 5)) err(id, "a satchel part needs kg (up to 5)");
   if (p.pack !== undefined && !(Array.isArray(p.pack) && p.pack.length === 4 && p.pack.every(n => typeof n === "number" && n > 0)))
     err(id, "pack must be [length cm, width cm, height cm, kg], all positive numbers");
+  // Box sanity: Australia Post charges the bigger of real weight and cubic weight (L x W x H in m x 250).
+  if (Array.isArray(p.pack) && p.pack.length === 4) {
+    const [l, w, h, kg] = p.pack, cubic = l * w * h / 1e6 * 250;
+    if (Math.max(l, w, h) > 105 || kg > 22 || l * w * h > 250000) err(id, "pack is over Australia Post's limits (105 cm, 22 kg, 0.25 m3)");
+    if (cubic > Math.max(2 * kg, kg + 3)) warnings.push(`${id}: box ${l}x${w}x${h} cm is charged as ${cubic.toFixed(1)} kg but the part is ${kg} kg. Use a smaller box`);
+  }
   if (p.shipClass !== undefined && !((s.rates || {})[p.shipClass] > 0)) err(id, "shipClass must be a key of shipping.rates");
   if (p.freightQuote !== undefined && typeof p.freightQuote !== "boolean") err(id, "freightQuote must be true or false");
   if (p.maxQty !== undefined && !(Number.isInteger(p.maxQty) && p.maxQty >= 1)) err(id, "maxQty must be a whole number of at least 1");
@@ -53,6 +59,7 @@ for (const p of data.products || []) {
   if (p.options && (!Array.isArray(p.options) || !p.options.length)) err(id, "options must be a non-empty list");
 }
 
+if (warnings.length) console.warn(`Box size warnings (not errors):\n  ` + warnings.join("\n  "));
 if (errors.length) {
   console.error(`products.json: ${errors.length} problem(s)\n  ` + errors.join("\n  "));
   process.exit(1);
