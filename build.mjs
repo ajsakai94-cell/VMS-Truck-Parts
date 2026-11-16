@@ -32,8 +32,8 @@ const SITE = {
 const C = data.contact, SHIP = data.shipping;
 // shipping for a part on its own (no free shipping): its Australia Post satchel price(s), else its
 // size-class rate (heavy / extra heavy, the fallback when Australia Post can't be priced), else the flat rate
-const shipRate = p => p.satchel ? [].concat(p.satchel).reduce((t, z) => t + SHIP.satchels[z].price, 0)
-  : p.shipClass ? SHIP.rates[p.shipClass] : SHIP.flatRate;
+const shipRate = p => (p.satchel ? [].concat(p.satchel).reduce((t, z) => t + SHIP.satchels[z].price, 0) : 0)
+  + (p.pack || !p.satchel ? (p.shipClass ? SHIP.rates[p.shipClass] : SHIP.flatRate) : 0);
 
 const CATS = {
   Filters: { path: "filters", title: "Actros MP4 / MP5 Filters", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
@@ -169,7 +169,7 @@ function partPage(p) {
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
-      : p.satchel
+      : p.satchel && !p.pack
         ? `${money(shipRate(p))} Australia-wide by Australia Post satchel${Array.isArray(p.satchel) ? "s" : ""}, or free pickup in Victoria.`
       : Array.isArray(p.pack)
         ? "Australia Post to your postcode: enter it in the cart to see the cost. Or free pickup in Victoria."

@@ -31,7 +31,8 @@ for (const p of data.products || []) {
   if (Array.isArray(p.pack) && p.pack.length === 4) {
     const [l, w, h, kg] = p.pack, cubic = l * w * h / 1e6 * 250;
     if (Math.max(l, w, h) > 105 || kg > 22 || l * w * h > 250000) err(id, "pack is over Australia Post's limits (105 cm, 22 kg, 0.25 m3)");
-    if (cubic > Math.max(2 * kg, kg + 3)) warnings.push(`${id}: box ${l}x${w}x${h} cm is charged as ${cubic.toFixed(1)} kg but the part is ${kg} kg. Use a smaller box`);
+    // packBulky: the part itself is that big (air filter, coolant tank), so the box can't shrink
+    if (!p.packBulky && cubic > Math.max(2 * kg, kg + 3)) warnings.push(`${id}: box ${l}x${w}x${h} cm is charged as ${cubic.toFixed(1)} kg but the part is ${kg} kg. Use a smaller box`);
   }
   if (p.shipClass !== undefined && !((s.rates || {})[p.shipClass] > 0)) err(id, "shipClass must be a key of shipping.rates");
   if (p.freightQuote !== undefined && typeof p.freightQuote !== "boolean") err(id, "freightQuote must be true or false");
