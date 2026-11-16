@@ -177,7 +177,7 @@ function partPage(p) {
     ${priceHtml(p).replace("price", "price big")}
     ${stockHtml(p)}
     <p class="desc">${esc(p.desc)}</p>
-${p.bundle ? `    <p><b>In this kit:</b></p><ul class="kit">${p.bundle.map(id => products.find(x => x.id === id)).map(x => `<li><a href="${partUrl(x)}">${esc(x.name)}</a>${x.oem[0] ? ` <span class="mono">${esc(x.oem[0])}</span>` : ""}</li>`).join("")}</ul>\n` : ""}${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>\n` : ""}    ${canBuy
+${p.specs ? `    <p><b>At a glance:</b></p><ul class="kit">${p.specs.map(([k, v]) => `<li><b>${esc(k)}:</b> ${esc(v)}</li>`).join("")}</ul>\n` : ""}${p.bundle ? `    <p><b>In this kit:</b></p><ul class="kit">${p.bundle.map(id => products.find(x => x.id === id)).map(x => `<li><a href="${partUrl(x)}">${esc(x.name)}</a>${x.oem[0] ? ` <span class="mono">${esc(x.oem[0])}</span>` : ""}</li>`).join("")}</ul>\n` : ""}${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>\n` : ""}    ${canBuy
       ? `<button class="primary" type="button" id="pAdd">Add to cart</button>`
       : `<p class="note">${p.available ? "Call for a price" : "This part is sold out online"}. Call or text <b><a href="tel:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a></b> or email <b>${esc(C.email)}</b> for a price and lead time.</p>`}
     ${truckPart(p) ? `<p class="note">Not sure it fits? Text your VIN to <a href="sms:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> and we'll check before you pay.</p>` : ""}
