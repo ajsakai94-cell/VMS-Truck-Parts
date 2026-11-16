@@ -4,15 +4,22 @@
 //   /404.html                  real "not found" page (also stops Cloudflare's send-everything-to-home fallback)
 //   /guides/<slug>/index.html  guide pages (content in GUIDES below)
 //   /index.html                only the <!--build:...--> regions are filled in (cards, categories, guides, head tags)
+//   /policies.html, /success.html  hand-written; only the ?v= on their styles.css / app.js links is updated
 //   /sitemap.xml, /feed.xml    sitemap for Search Console, product feed for Merchant Center
 // Run:   node build.mjs          write the files
 //        node build.mjs --check  fail if the committed files are out of date (used by the GitHub check)
 // The generated files are committed, so Cloudflare Pages still needs no build step.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
+// Every page links styles.css and app.js with ?v=<hash of the file>, so when either changes the URL changes
+// and browsers fetch the new copy instead of mixing new pages with an old cached stylesheet.
+const ver = f => createHash("sha1").update(readFileSync(join(ROOT, f))).digest("hex").slice(0, 8);
+const CSS = `/styles.css?v=${ver("styles.css")}`, JS = `/app.js?v=${ver("app.js")}`;
+const versionAssets = html => html.replace(/(href=")\/?styles\.css(\?v=[0-9a-f]+)?"/g, `$1${CSS}"`).replace(/(src=")\/?app\.js(\?v=[0-9a-f]+)?"/g, `$1${JS}"`);
 const data = JSON.parse(readFileSync(join(ROOT, "products.json"), "utf8"));
 
 // Brand and site settings live in one place, so a rename or domain change is one edit.
@@ -70,10 +77,9 @@ function layout({ title, desc, path, body, part = "", image = "", type = "websit
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(desc)}">
-${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="robots" content="noindex">\n`}${og}${jsonld.map(ld).join("")}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
-<link rel="stylesheet" href="/styles.css">
+${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="robots" content="noindex">\n`}${og}${jsonld.map(ld).join("")}<link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="${CSS}">
 </head>
 <body${part ? ` data-part="${esc(part)}"` : ""}>
 
@@ -114,7 +120,7 @@ ${body}
   </div>
 </div>
 
-<script src="/app.js"></script>
+<script src="${JS}"></script>
 </body>
 </html>
 `;
@@ -126,7 +132,7 @@ const crumbs = items => `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items
 const crumbLd = items => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([t, u], i) => ({ "@type": "ListItem", position: i + 1, name: t, ...(u ? { item: SITE.url + u } : {}) })) });
 
 const pic = (p, cls = "") => p.image
-  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? "" : ' loading="lazy"'}>`
+  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? ' fetchpriority="high"' : ' loading="lazy"'}>`
   : `<span class="noimg">${esc(p.cat)}</span>`;
 const picBig = p => pic(p, "big") + (p.image && p.illustration ? `<p class="illus">Illustration – actual part may vary</p>` : "");
 
@@ -171,7 +177,7 @@ function partPage(p) {
     ${priceHtml(p).replace("price", "price big")}
     ${stockHtml(p)}
     <p class="desc">${esc(p.desc)}</p>
-${p.bundle ? `    <p><b>In this kit:</b></p><ul class="kit">${p.bundle.map(id => products.find(x => x.id === id)).map(x => `<li><a href="${partUrl(x)}">${esc(x.name)}</a>${x.oem[0] ? ` <span class="mono">${esc(x.oem[0])}</span>` : ""}</li>`).join("")}</ul>\n` : ""}${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>\n` : ""}    ${canBuy
+${p.specs ? `    <p><b>At a glance:</b></p><ul class="kit">${p.specs.map(([k, v]) => `<li><b>${esc(k)}:</b> ${esc(v)}</li>`).join("")}</ul>\n` : ""}${p.bundle ? `    <p><b>In this kit:</b></p><ul class="kit">${p.bundle.map(id => products.find(x => x.id === id)).map(x => `<li><a href="${partUrl(x)}">${esc(x.name)}</a>${x.oem[0] ? ` <span class="mono">${esc(x.oem[0])}</span>` : ""}</li>`).join("")}</ul>\n` : ""}${p.options ? `    <label>Side <select id="pOpt">${p.options.map(o => `<option>${esc(o)}</option>`).join("")}</select></label>\n` : ""}    ${canBuy
       ? `<button class="primary" type="button" id="pAdd">Add to cart</button>`
       : `<p class="note">${p.available ? "Call for a price" : "This part is sold out online"}. Call or text <b><a href="tel:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a></b> or email <b>${esc(C.email)}</b> for a price and lead time.</p>`}
     ${truckPart(p) ? `<p class="note">Not sure it fits? Text your VIN to <a href="sms:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a> and we'll check before you pay.</p>` : ""}
@@ -245,7 +251,41 @@ const SERVICE = [
   ["adblue-filter", "As the maintenance system shows, or if you get an AdBlue / emissions warning."],
   ["power-steering-filter", "Whenever the power steering fluid is changed."],
 ];
+
+// ---- "find my part" help: engine picker (home page) and the text/email request form (home page + guide) ----
+const PHONE = C.phone.replace(/\s/g, "");
+const ASK = `<form class="ask" id="askForm" data-phone="${esc(PHONE)}" data-email="${esc(C.email)}">
+  <label>What part do you need?<input name="part" required placeholder="e.g. fuel filter, starter motor"></label>
+  <label>Rego and state, or VIN<input name="truck" placeholder="e.g. XC12AB VIC, or your 17-character VIN"></label>
+  <label>Your name<input name="name" autocomplete="name"></label>
+  <div class="askbtns"><button class="primary" type="submit" name="how" value="sms">Text us</button><button class="primary alt" type="submit" name="how" value="email">Email us</button></div>
+  <p class="note">This opens your phone's messages or email with the details filled in. Add a photo of the old part or its label and send it. We reply with the right part number and a price.</p>
+  <noscript><p class="note">Or text ${esc(C.phone)} / email ${esc(C.email)} with your rego or VIN and a photo of the old part.</p></noscript>
+</form>`;
+
+const FINDGUIDE = `<p>The quickest way to get the right part is the number printed on the old one. If you can't read it, your rego or VIN lets us look the truck up for you. Here's where to find each.</p>
+<h2>1. The number on the old part</h2>
+<p>Mercedes-Benz part numbers (OE numbers) start with an A and look like <span class="mono">A 472 184 04 25</span>. They're printed or stamped on the part, on a sticker, or on the box. Aftermarket parts carry their own brand's number, such as MAHLE <span class="mono">OX 832D</span> or MANN <span class="mono">HU 12 001 z</span>.</p>
+<p>Type either kind into the <a href="/#q">search box</a>. Spaces and dashes don't matter, and you can leave off the A.</p>
+<h2>2. Which engine you have</h2>
+<p>Every truck part on this site suits the MP4 and MP5 Actros. A few engine parts depend on the engine. The model number on the cab, such as 2653, gives you the power: the last two digits are the horsepower divided by ten.</p>
+<div class="tablewrap"><table><thead><tr><th>Model on the cab</th><th>Power</th><th>Engine (usually)</th></tr></thead><tbody>
+<tr><td>2643, 2646</td><td>430 to 460 hp</td><td>OM471 (12.8 litre)</td></tr>
+<tr><td>2653</td><td>530 hp</td><td>OM471 (12.8 litre)</td></tr>
+<tr><td>2658, 2663</td><td>580 to 630 hp</td><td>OM473 (15.6 litre)</td></tr>
+</tbody></table></div>
+<p>The engine type is also on the plate on the engine block and on your service records. Pick your engine on the <a href="/#finder">home page</a> and we'll only show parts that suit it.</p>
+<h2>3. Your VIN or rego</h2>
+<p>The VIN (Mercedes calls it the FIN) is 17 characters and starts with W. It's on your registration papers and on the vehicle data plate in the door frame. Your rego and state are usually enough for us to look it up.</p>
+<h2>Send it to us and we'll check</h2>
+<p>Fill this in, add a photo of the old part, and send. We'll reply with the right part number and a price.</p>
+${ASK}`;
 const GUIDES = [
+  { path: "/guides/find-actros-part-number/", short: "How to find your part number",
+    title: "How to Find the Right Part Number for Your Actros MP4 / MP5",
+    desc: "Where to find the OE part number, VIN and engine type on a Mercedes-Benz Actros MP4 / MP5, and how to get us to check the right part for your truck.",
+    blurb: "Where the numbers are on the part and the truck, and how we check it for you.",
+    body: () => FINDGUIDE },
   { path: "/guides/actros-mp4-service-intervals/", short: "MP4 service intervals",
     title: "Actros MP4 Service Intervals and Filter Checklist",
     desc: "How service intervals work on the MP4 / MP5 Mercedes-Benz Actros with the OM471 and OM473, which filters are changed at a service, and their OE numbers.",
@@ -311,8 +351,9 @@ function homePage() {
 ${ld({ "@context": "https://schema.org", "@graph": [ORG, { "@type": "WebSite", name: SITE.name, url: SITE.url + "/", publisher: { "@id": ORG["@id"] } }] })}`);
   fill("cats", cats.map(c => `<a class="cat" href="${catUrl(c)}">${ICONS[c] || ""}${esc(c)}<small>${products.filter(p => p.cat === c).length}</small></a>`).join(""));
   fill("grid", sortParts(products).map(card).join(""));
+  fill("ask", ASK);
   fill("guides", GUIDES.map(g => `<a class="guide" href="${g.path}"><b>${esc(g.short)}</b><span>${esc(g.blurb)}</span></a>`).join(""));
-  return html;
+  return versionAssets(html);
 }
 
 // ---- write or check ----
@@ -322,6 +363,8 @@ for (const cat of Object.keys(CATS)) if (products.some(p => p.cat === cat)) out.
 out.set("404.html", notFound());
 for (const g of GUIDES) out.set(join(g.path.slice(1), "index.html"), guidePage(g));
 out.set("index.html", homePage());
+// hand-written pages: only their stylesheet/script links are updated
+for (const f of ["policies.html", "success.html"]) out.set(f, versionAssets(readFileSync(join(ROOT, f), "utf8")));
 
 // sitemap.xml: home, categories, parts, policies (no lastmod, so --check stays stable)
 const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), ...GUIDES.map(g => g.path), "/policies.html"];
@@ -380,4 +423,4 @@ if (existsSync(partsDir)) for (const slug of readdirSync(partsDir)) {
 if (check) {
   if (stale.length) { console.error("Generated pages are out of date. Run `node build.mjs` and commit:\n  " + stale.join("\n  ")); process.exit(1); }
   console.log(`Generated pages up to date (${out.size} files).`);
-} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 4} categories, ${GUIDES.length} guides, home, 404, sitemap.xml, feed.xml (${feedItems.length} items).`);
+} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 6} categories, ${GUIDES.length} guides, home, 404, policies, success, sitemap.xml, feed.xml (${feedItems.length} items).`);

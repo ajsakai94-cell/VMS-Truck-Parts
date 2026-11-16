@@ -24,7 +24,7 @@
 <item>
   <g:id>oil-filter</g:id>
   <g:title>Engine Oil Filter for Mercedes-Benz Actros MP4 / MP5 OM471/OM473 – OE A 472 184 04 25</g:title>
-  <g:description>Engine oil filter element for the OM471 / OM473. Change at every oil service. Replaces OE A 472 184 04 25, A 472 184 05 25, A 472 180 03 09, A 472 180 01 09, A 473 180 00 09. Cross-reference: MAHLE OX 832D, MANN HU 12 001 z, Hengst E510H07 D129, LP5090, P7505.</g:description>
+  <g:description>Engine oil filter element for the OM471 / OM473. Change at every oil service. Replaces OE A 472 184 04 25, A 472 184 05 25, A 472 180 03 09, A 472 180 01 09, A 473 180 00 09. Cross-reference: MAHLE OX 832D, MANN HU 12 001 z, Hengst E510H07 D129, Luber-finer LP5090, Baldwin P7505, Bosch F 026 407 192, Wix 57909, Donaldson P551005, Fleetguard LF17511.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/oil-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/oil-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -284,7 +284,7 @@
   <g:link>https://vmstruckparts.com.au/parts/oil-separator-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/oil-separator-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>350.00 AUD</g:price>
+  <g:price>450.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-E04</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -308,6 +308,22 @@
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>19.95 AUD</g:price></g:shipping>
+</item>
+<item>
+  <g:id>pneumatic-oil-pump</g:id>
+  <g:title>Pneumatic Oil Drum Pump with Hose and Metered Gun</g:title>
+  <g:description>Air-operated pump for dispensing engine oil from a drum, supplied with a 5 m delivery hose and a metered dispensing gun that shows how much oil has been pumped. Runs off workshop compressed air. Suits any truck or workshop.</g:description>
+  <g:link>https://vmstruckparts.com.au/parts/pneumatic-oil-drum-pump/</g:link>
+  <g:image_link>https://vmstruckparts.com.au/images/pneumatic-oil-pump-v2-1000.webp</g:image_link>
+  <g:availability>in_stock</g:availability>
+  <g:price>750.00 AUD</g:price>
+  <g:brand>VMS</g:brand>
+  <g:mpn>VMS-W01</g:mpn>
+  <g:identifier_exists>no</g:identifier_exists>
+  <g:condition>new</g:condition>
+  <g:google_product_category>Hardware &gt; Tools</g:google_product_category>
+  <g:product_type>Workshop</g:product_type>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>0.00 AUD</g:price></g:shipping>
 </item>
 </channel>
 </rss>

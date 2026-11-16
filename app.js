@@ -11,7 +11,7 @@ const ICONS={
 };
 const $=id=>document.getElementById(id);
 const money=n=>"$"+n.toFixed(2);
-let DATA=null, P=[], st={cat:null,q:""}, cart={}, current=null;
+let DATA=null, P=[], st={cat:null,q:"",eng:""}, cart={}, current=null;
 
 function load(){try{cart=JSON.parse(localStorage.getItem("vms-cart")||"{}")}catch(e){cart={}}}
 function save(){try{localStorage.setItem("vms-cart",JSON.stringify(cart))}catch(e){}}
@@ -23,21 +23,34 @@ function renderCats(){
   const cats=[...new Set(P.map(p=>p.cat))];
   $("cats").innerHTML=cats.map(c=>`<button class="cat" type="button" aria-pressed="${c===st.cat}" data-cat="${c}">${ICONS[c]||""}${c}<small>${P.filter(p=>p.cat===c).length}</small></button>`).join("");
 }
+// Search text for a part: name, numbers, synonyms (tags), hidden search-only keywords, and fitment
+// aliases, so "merc om471 oil filter" or "dd15 filter" finds the right part. DD13/15/16 are the
+// Detroit names for the OM470/471/473 engine family.
+const ENG_ALIAS={OM470:"om470 dd13 10.7",OM471:"om471 dd15 12.8",OM472:"om472",OM473:"om473 dd16 15.6"};
+function hay(p){
+  if(p._hay)return p._hay;
+  const f=p.fits||{models:[],engines:[]};
+  return p._hay=[p.name,p.cat,p.sku,p.brand,...(p.oem||[]),...(p.cross||[]),...(p.tags||[]),...(p.keywords||[]),
+    f.models.length?"mercedes-benz mercedes merc benz actros truck "+f.models.join(" ")+(f.models.includes("MP4")?" 963":""):"",
+    ...f.engines.map(e=>ENG_ALIAS[e]||e)].join(" ").toLowerCase();
+}
 function renderGrid(){
   const words=st.q.toLowerCase().split(/\s+/).filter(Boolean);
   const norm=x=>x.toLowerCase().replace(/[^a-z0-9]/g,"");
   const qn=norm(st.q).replace(/^a(?=\d)/,"");
   const nums=p=>[p.sku||"",...(p.oem||[]),...(p.cross||[])].map(n=>norm(n).replace(/^a(?=\d)/,""));
-  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>(p.name+" "+p.cat+" "+(p.sku||"")+" "+(p.cross||[]).join(" ")+" "+(p.tags||[]).join(" ")).toLowerCase().includes(w))));
+  const fitsEng=p=>!st.eng||!p.fits||!(p.fits.engines||[]).length||p.fits.engines.includes(st.eng);
+  let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&fitsEng(p)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>hay(p).includes(w))));
   r.sort((a,b)=>(b.available-a.available));
-  $("listTitle").textContent=st.q?`Results for "${st.q}"`:(st.cat||"All parts");
-  $("resultCount").innerHTML=`${r.length} part${r.length===1?"":"s"}${st.cat||st.q?' · <button class="clear" type="button" data-clear>Show all</button>':""}`;
+  $("listTitle").textContent=(st.q?`Results for "${st.q}"`:(st.cat||"All parts"))+(st.eng?` for ${st.eng}`:"");
+  document.querySelectorAll("[data-eng]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.eng===st.eng&&!!st.eng)));
+  $("resultCount").innerHTML=`${r.length} part${r.length===1?"":"s"}${st.cat||st.q||st.eng?' · <button class="clear" type="button" data-clear>Show all</button>':""}`;
   $("grid").innerHTML=r.length?r.map(p=>`<a class="card" href="/parts/${p.slug}/">
     <div class="pic">${pic(p)}</div>
     <div class="body"><h3>${p.name}</h3><span class="pn">${p.oem&&p.oem.length?"OE "+p.oem[0]:"Part no. "+p.sku}</span>
     <div class="foot"><div>${p.price!=null?`<div class="price">${money(p.price)}</div>`:`<div class="price ask">Call for price</div>`}
     <div class="stock ${p.available?"":"out"}">${p.available?"In stock":"Sold out, ask us"}</div></div><span class="view">View</span></div></div></a>`).join("")
-    :`<div class="empty">No parts match that search. Call or text 0481 309 893 and we'll find it for you.</div>`;
+    :`<div class="empty">No parts match that search. <a href="#ask">Send us your rego or VIN and a photo of the old part</a>, or call 0481 309 893, and we'll find it for you.</div>`;
 }
 function totals(){
   const items=Object.entries(cart);
@@ -68,7 +81,8 @@ document.addEventListener("click",e=>{
   const t=e.target.closest("button");
   if(!t){if(e.target.classList&&e.target.classList.contains("overlay"))closeAll();return}
   if(t.dataset.cat){st.cat=st.cat===t.dataset.cat?null:t.dataset.cat;st.q="";$("q").value="";all();$("parts").scrollIntoView({behavior:"smooth"})}
-  else if("clear" in t.dataset){st.cat=null;st.q="";$("q").value="";all()}
+  else if("clear" in t.dataset){st.cat=null;st.q="";st.eng="";$("q").value="";all()}
+  else if("eng" in t.dataset){st.eng=t.dataset.eng;all();$("parts").scrollIntoView({behavior:"smooth"})}
   else if(t.dataset.close)closeAll();
   else if(t.dataset.inc){const {p}=parse(t.dataset.inc);if(p&&p.maxQty&&cart[t.dataset.inc]>=p.maxQty)return;cart[t.dataset.inc]++;save();renderCart()}
   else if(t.dataset.dec){if(--cart[t.dataset.dec]<=0)delete cart[t.dataset.dec];save();renderCart()}
@@ -76,6 +90,14 @@ document.addEventListener("click",e=>{
 on("pAdd","click",()=>{if(!current)return;const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`});
 on("searchForm","submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();$("parts").scrollIntoView({behavior:"smooth"})});
 on("q","input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid()});
+on("toSearch","click",e=>{e.preventDefault();$("q").scrollIntoView({behavior:"smooth",block:"center"});$("q").focus({preventScroll:true})});
+// "Still not sure?" form: no server needed, it opens the customer's own SMS or email app with the message written for them
+on("askForm","submit",e=>{
+  e.preventDefault();const f=e.target,v=n=>f.elements[n].value.trim();
+  const msg=`Hi VMS, can you check the right part for my truck?\nPart: ${v("part")}\nRego/VIN: ${v("truck")||"(not given)"}\nName: ${v("name")||"(not given)"}\nPhoto of the old part: (attach it to this message)`;
+  const how=(e.submitter&&e.submitter.value)||"sms";
+  location.href=how==="email"?`mailto:${f.dataset.email}?subject=${encodeURIComponent("Part check: "+v("part"))}&body=${encodeURIComponent(msg)}`:`sms:${f.dataset.phone}?&body=${encodeURIComponent(msg)}`;
+});
 on("openCart","click",()=>{$("drawer").hidden=false});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 on("checkout","click",async()=>{
