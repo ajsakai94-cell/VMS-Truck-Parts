@@ -113,10 +113,11 @@ ${body}
     <div class="tot">
       <div><span>Subtotal</span><span id="sub">$0.00</span></div>
       <div><span>Shipping</span><span id="ship">—</span></div>
+      <label class="pc">Delivery postcode <input id="postcode" inputmode="numeric" autocomplete="postal-code" maxlength="4" placeholder="e.g. 4655"></label>
       <div class="big"><span>Total</span><span id="total">$0.00</span></div>
     </div>
     <button class="primary" id="checkout" type="button">Checkout</button>
-    <p class="note" id="checkoutNote">No account needed. Choose delivery or free pickup at checkout.</p>
+    <p class="note" id="checkoutNote">Shipping is Australia Post to your postcode. No account needed, and you can choose free pickup at checkout instead.</p>
   </div>
 </div>
 
@@ -151,13 +152,13 @@ function partPage(p) {
   const eng = p.fits.engines.length && !/OM47\d/.test(p.name) ? ` ${p.fits.engines.join("/")}` : "";
   // Google title: plain part name, then fitment, then OE number, then price
   const title = `${p.name}${truckPart(p) ? " for Mercedes Actros MP4/MP5" + eng : ""}${p.oem[0] ? " – OE " + p.oem[0] : ""}${p.price != null ? " | " + shortMoney(p.price) + (p.available ? " In Stock" : "") : ""} | ${SITE.name}`;
-  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : ""}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Shipping ${money(shipRate(p))} Australia-wide from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
+  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : ""}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Shipped Australia-wide from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
-    : p.shipClass
-      ? `Large item: ${money(shipRate(p))} Australia-wide, or free pickup in Victoria.`
-      : `${money(SHIP.flatRate)} Australia-wide, or free pickup in Victoria.`;
+      : Array.isArray(p.pack)
+        ? "Australia Post to your postcode: enter it in the cart to see the cost. Or free pickup in Victoria."
+        : `${money(shipRate(p))} Australia-wide, or free pickup in Victoria.`;
   const related = sortParts(products.filter(x => x.cat === p.cat && x.id !== p.id)).slice(0, 4);
   const spec = [
     ["Fits", esc(fitsText(p))],
@@ -223,7 +224,7 @@ function catPage(cat) {
 <section class="block catintro">
   <h1>${esc(c.title)}</h1>
   <p>${esc(c.intro)}</p>
-  <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Shipping from ${money(SHIP.flatRate)} Australia-wide · Free pickup in Victoria</p>
+  <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Australia Post to your postcode · Free pickup in Victoria</p>
 </section>
 <section class="block"><div class="grid">${list.map(card).join("")}</div></section>`;
   return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.slice(0, 155), path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });

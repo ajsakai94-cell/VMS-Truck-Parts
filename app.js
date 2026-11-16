@@ -12,8 +12,9 @@ const ICONS={
 const $=id=>document.getElementById(id);
 const money=n=>"$"+n.toFixed(2);
 let DATA=null, P=[], st={cat:null,q:"",eng:""}, cart={}, current=null;
+let pc="", sq=null, sqKey="", sqBusy=false, sqFail=""; // delivery postcode and the Australia Post quote for the cart as it is now
 
-function load(){try{cart=JSON.parse(localStorage.getItem("vms-cart")||"{}")}catch(e){cart={}}}
+function load(){try{cart=JSON.parse(localStorage.getItem("vms-cart")||"{}");pc=localStorage.getItem("vms-pc")||""}catch(e){cart={}}}
 function save(){try{localStorage.setItem("vms-cart",JSON.stringify(cart))}catch(e){}}
 const key=(id,opt)=>opt?id+"|"+opt:id;
 const parse=k=>{const [id,opt]=k.split("|");return {p:P.find(x=>x.id===id),opt}};
@@ -57,20 +58,37 @@ function totals(){
   const n=items.reduce((s,[,q])=>s+q,0);
   const sub=items.reduce((s,[k,q])=>{const {p}=parse(k);return s+(p&&p.price?p.price*q:0)},0);
   const quote=items.some(([k])=>{const {p}=parse(k);return p&&p.freightQuote});
-  const big=items.reduce((m,[k])=>{const {p}=parse(k);return p&&p.shipClass?Math.max(m,DATA.shipping.rates[p.shipClass]):m},0);
-  const ship=n&&!quote?(big||DATA.shipping.flatRate):0;
-  return {items,n,sub,ship,quote};
+  const ready=sq&&sqKey===quoteKey();
+  const ship=n&&!quote&&ready?sq.cents/100:0;
+  return {items,n,sub,ship,quote,ready};
+}
+const quoteKey=()=>pc+"#"+JSON.stringify(Object.entries(cart).sort());
+async function getQuote(){
+  const k=quoteKey();
+  if(!Object.keys(cart).length||!/^\d{4}$/.test(pc)||(sq&&sqKey===k)||sqBusy||sqFail===k)return;
+  sqBusy=true;renderCart();
+  try{
+    const items=Object.entries(cart).map(([c,q])=>({id:c.split("|")[0],qty:q}));
+    const r=await fetch("/api/shipping",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc})});
+    const j=await r.json();if(!r.ok)throw new Error(j.error);
+    sq=j;sqKey=k;
+  }catch(e){sq=null;sqFail=k}
+  sqBusy=false;renderCart();
+  if(sqKey!==quoteKey())getQuote(); // the cart changed while we were asking
 }
 function renderCart(){
-  const {items,n,sub,ship,quote}=totals();
+  const {items,n,sub,ship,quote,ready}=totals();
   $("cartCount").textContent=n;
   $("lines").innerHTML=n?items.map(([k,q])=>{const {p,opt}=parse(k);if(!p)return"";return `<div class="line"><strong>${p.name}${opt?" ("+opt+")":""}</strong><span>${money(p.price*q)}</span>
     <span class="pn">${money(p.price)} each</span><span class="qty"><button type="button" data-dec="${k}" aria-label="Remove one">−</button>${q}<button type="button" data-inc="${k}" aria-label="Add one">+</button></span></div>`}).join("")
     :`<p class="note" style="padding:20px 0">Your cart is empty.</p>`;
   $("sub").textContent=money(sub);
-  $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":money(ship)+" or free pickup";
+  const pcOk=/^\d{4}$/.test(pc);
+  $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":!pcOk?"Enter your postcode":ready?money(ship)+" or free pickup":sqBusy?"Checking…":"Couldn't check, call us";
   $("total").textContent=money(sub+ship);
-  $("checkout").disabled=!n;
+  if($("postcode")&&document.activeElement!==$("postcode"))$("postcode").value=pc;
+  $("checkout").disabled=!n||(!quote&&!ready);
+  if(n&&!quote&&!ready)getQuote();
 }
 const HOME=!!$("grid"); // home page has the search grid; every page has the cart
 const on=(id,ev,fn)=>{const el=$(id);if(el)el.addEventListener(ev,fn)};
@@ -99,12 +117,13 @@ on("askForm","submit",e=>{
   location.href=how==="email"?`mailto:${f.dataset.email}?subject=${encodeURIComponent("Part check: "+v("part"))}&body=${encodeURIComponent(msg)}`:`sms:${f.dataset.phone}?&body=${encodeURIComponent(msg)}`;
 });
 on("openCart","click",()=>{$("drawer").hidden=false});
+on("postcode","input",e=>{pc=e.target.value.replace(/\D/g,"").slice(0,4);e.target.value=pc;try{localStorage.setItem("vms-pc",pc)}catch(x){}renderCart()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 on("checkout","click",async()=>{
   const b=$("checkout");b.disabled=true;b.textContent="Opening secure checkout…";
   try{
     const items=Object.entries(cart).map(([k,q])=>{const [id,option]=k.split("|");return {id,option:option||null,qty:q}});
-    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items})});
+    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc})});
     const j=await r.json();
     if(!r.ok||!j.url)throw new Error(j.error||"Checkout failed");
     location.href=j.url;

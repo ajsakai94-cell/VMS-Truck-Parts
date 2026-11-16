@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex">
 <link rel="preload" href="/fonts/ibm-plex-sans.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/fonts/barlow-condensed-700.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css?v=d897062e">
+<link rel="stylesheet" href="/styles.css?v=befcf3dc">
 </head>
 <body>
 
@@ -112,13 +112,14 @@
     <div class="tot">
       <div><span>Subtotal</span><span id="sub">$0.00</span></div>
       <div><span>Shipping</span><span id="ship">—</span></div>
+      <label class="pc">Delivery postcode <input id="postcode" inputmode="numeric" autocomplete="postal-code" maxlength="4" placeholder="e.g. 4655"></label>
       <div class="big"><span>Total</span><span id="total">$0.00</span></div>
     </div>
     <button class="primary" id="checkout" type="button">Checkout</button>
-    <p class="note" id="checkoutNote">No account needed. Choose delivery or free pickup at checkout.</p>
+    <p class="note" id="checkoutNote">Shipping is Australia Post to your postcode. No account needed, and you can choose free pickup at checkout instead.</p>
   </div>
 </div>
 
-<script src="/app.js?v=fd096557"></script>
+<script src="/app.js?v=73fc3374"></script>
 </body>
 </html>
