@@ -2,6 +2,9 @@
 // Builds a Stripe Checkout session. Prices always come from products.json on the server,
 // never from the browser, so nobody can change a price in their cart.
 // Needs one secret in Cloudflare: STRIPE_SECRET_KEY (starts with sk_live_ or sk_test_).
+// Shipping is priced by shipping.js (Australia Post to the postcode typed in the cart, or flat rates).
+
+import { quoteShipping } from "./shipping.js";
 
 export async function onRequestPost({ request, env }) {
   const json = (body, status = 200) =>
@@ -19,9 +22,6 @@ export async function onRequestPost({ request, env }) {
   const byId = Object.fromEntries(data.products.map(p => [p.id, p]));
 
   const form = new URLSearchParams();
-  let subtotal = 0;
-  let freightQuote = false; // a bulky item (e.g. cylinder head): no free shipping, freight quoted after the order
-  let heavyCents = 0; // highest heavy-item rate in the order, charged once when under the free-shipping amount
   let i = 0;
   for (const it of items) {
     const p = byId[it.id];
@@ -31,11 +31,8 @@ export async function onRequestPost({ request, env }) {
     }
     if (p.options && !p.options.includes(it.option)) return json({ error: `Pick a side for ${p.name}` }, 400);
     if (p.maxQty && qty > p.maxQty) return json({ error: `Only ${p.maxQty} ${p.name} available` }, 400);
-    if (p.freightQuote) freightQuote = true;
-    if (p.shipClass) heavyCents = Math.max(heavyCents, Math.round(data.shipping.heavyRates[p.shipClass] * 100));
     const name = p.name + (it.option ? ` (${it.option})` : "") + ` to suit ${data.truck}`;
     const cents = Math.round(p.price * 100);
-    subtotal += cents * qty;
     form.append(`line_items[${i}][quantity]`, String(qty));
     form.append(`line_items[${i}][price_data][currency]`, data.currency);
     form.append(`line_items[${i}][price_data][unit_amount]`, String(cents));
@@ -45,12 +42,16 @@ export async function onRequestPost({ request, env }) {
     i++;
   }
 
-  const s = data.shipping;
-  const shipCents = subtotal >= Math.round(s.freeOver * 100) ? 0 : heavyCents || Math.round(s.flatRate * 100);
-  const options = freightQuote
-    ? [{ name: "Delivery: freight quoted separately (we'll call you before sending)", amount: 0 }]
-    : [{ name: !shipCents ? "Free standard shipping" : heavyCents ? "Heavy item shipping, Australia-wide" : "Standard shipping, Australia-wide", amount: shipCents, min: 2, max: 7 }];
-  if (s.pickup || freightQuote) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
+  // No free shipping. Priced to the postcode from the cart; Stripe's own address form can't change it,
+  // so the postcode is in the option name and the session metadata for checking at dispatch.
+  const postcode = /^\d{4}$/.test(String(body.postcode || "")) ? String(body.postcode) : "";
+  const ship = await quoteShipping(env, data, items, postcode);
+  const options = ship.quote
+    ? [{ name: "Delivery: " + ship.label.charAt(0).toLowerCase() + ship.label.slice(1), amount: 0 }]
+    : [{ name: ship.label, amount: ship.cents, min: 2, max: 7 }];
+  if (postcode) form.append("metadata[quoted_postcode]", postcode);
+  form.append("metadata[shipping_source]", ship.source || "quote");
+  if (data.shipping.pickup || ship.quote) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
   options.forEach((o, n) => {
     const k = `shipping_options[${n}][shipping_rate_data]`;
     form.append(`${k}[type]`, "fixed_amount");

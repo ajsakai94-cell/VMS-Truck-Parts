@@ -2,11 +2,18 @@
  "truck": "MP4 / MP5 Mercedes-Benz Actros",
  "currency": "aud",
  "shipping": {
-  "flatRate": 19.95,
-  "freeOver": 250,
-  "heavyRates": {
-   "heavy": 39.95,
-   "extraHeavy": 79.95
+  "from": "3167",
+  "handling": 0,
+  "satchels": {
+   "small": { "fits": 1, "price": 12.95 },
+   "medium": { "fits": 2, "price": 16.95 },
+   "large": { "fits": 4, "price": 20.95 },
+   "xl": { "fits": 8, "price": 24.95 }
+  },
+  "flatRate": 24.95,
+  "rates": {
+   "heavy": 59.95,
+   "extraHeavy": 99.95
   },
   "pickup": true,
   "pickupNote": "Pickup in Victoria. We'll message you when it's ready."
@@ -29,7 +36,7 @@
    "thumb": "/images/service-kit-400.webp",
    "oem": [],
    "cross": [],
-   "desc": "Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately, and over $250 so shipping is free.",
+   "desc": "Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately.",
    "brand": "VMS",
    "mpn": "VMS-KIT01",
    "identifierExists": false,
@@ -65,7 +72,8 @@
     "oil change kit",
     "A service",
     "B service"
-   ]
+   ],
+   "satchel": ["xl", "xl"]
   },
   {
    "id": "oil-filter",
@@ -124,7 +132,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "medium",
+   "kg": 1.2
   },
   {
    "id": "oil-filter-slim",
@@ -181,7 +191,9 @@
     ]
    },
    "thumb": "/images/oil-filter-slim-400.webp",
-   "illustration": true
+   "illustration": true,
+   "satchel": "medium",
+   "kg": 1.2
   },
   {
    "id": "fuel-filter",
@@ -229,7 +241,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "medium",
+   "kg": 1.0
   },
   {
    "id": "air-filter",
@@ -277,7 +291,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "xl",
+   "kg": 4
   },
   {
    "id": "cabin-filter",
@@ -322,7 +338,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "large",
+   "kg": 0.6
   },
   {
    "id": "adblue-filter",
@@ -362,7 +380,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "diesel-water-separator",
@@ -411,7 +431,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "medium",
+   "kg": 0.8
   },
   {
    "id": "power-steering-filter",
@@ -447,7 +469,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "brake-hose",
@@ -490,7 +514,9 @@
     ],
     "engines": []
    },
-   "maxQty": 10
+   "maxQty": 10,
+   "satchel": "medium",
+   "kg": 1.5
   },
   {
    "id": "long-mirror-cover",
@@ -535,7 +561,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "xl",
+   "kg": 1.0
   },
   {
    "id": "viscous-fan-clutch",
@@ -583,7 +611,8 @@
      "OM471"
     ]
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [35, 35, 25, 10]
   },
   {
    "id": "expansion-tank",
@@ -628,7 +657,8 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "pack": [45, 30, 30, 2]
   },
   {
    "id": "clutch-kit",
@@ -709,7 +739,8 @@
     ],
     "engines": []
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [40, 30, 25, 8]
   },
   {
    "id": "starter-motor",
@@ -760,7 +791,8 @@
      "OM473"
     ]
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [45, 25, 25, 12]
   },
   {
    "id": "cylinder-liner-kit-om473",
@@ -801,7 +833,8 @@
      "OM473"
     ]
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [35, 30, 25, 8]
   },
   {
    "id": "timing-tool-kit",
@@ -839,7 +872,8 @@
     ],
     "engines": []
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [45, 35, 15, 5]
   },
   {
    "id": "cylinder-head-om473",
@@ -931,7 +965,8 @@
    },
    "maxQty": 2,
    "thumb": "/images/oil-separator-400.webp",
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [40, 30, 30, 6]
   },
   {
    "id": "battery-sensor",
@@ -973,7 +1008,9 @@
     "engines": []
    },
    "maxQty": 5,
-   "thumb": "/images/battery-sensor-v2-400.webp"
+   "thumb": "/images/battery-sensor-v2-400.webp",
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "pneumatic-oil-pump",
@@ -1016,7 +1053,8 @@
    "thumb": "/images/pneumatic-oil-pump-v2-400.webp",
    "illustration": false,
   "specs": [["Oil viscosity", "Handles thick oils up to 1200 SAE (maker's rating)"], ["Pressure ratio", "5:1"], ["Operating temperature", "-10°C to 50°C"], ["Max flow", "8 to 10 L/min"], ["Hose length", "5 m"]],
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [60, 40, 30, 12]
   }
  ]
 }
