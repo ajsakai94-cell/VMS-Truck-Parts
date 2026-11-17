@@ -1201,6 +1201,83 @@
    "packBulky": true
   },
   {
+   "id": "radiator",
+   "slug": "radiator-mp4-mp5-actros",
+   "name": "Radiator",
+   "cat": "Cooling",
+   "price": 1750.0,
+   "available": false,
+   "sku": "VMS-K03",
+   "image": "",
+   "oem": [
+    "A 960 500 08 01"
+   ],
+   "cross": [
+    "MAHLE CR 865 000P",
+    "Nissens 67175",
+    "Nissens 671750",
+    "AVA ME2284",
+    "Frigair 0206.3021",
+    "AKS Dasis 130044N",
+    "TitanX RD119025",
+    "Highway Automotive 10033062"
+   ],
+   "specs": [
+    [
+     "Core size",
+     "982 x 896 x 55 mm"
+    ],
+    [
+     "Type",
+     "Aluminium core, plastic tanks, with frame"
+    ],
+    [
+     "Engines",
+     "OM470, OM471, OM473"
+    ]
+   ],
+   "tags": [
+    "radiator",
+    "engine radiator",
+    "coolant radiator",
+    "truck radiator",
+    "cooling radiator",
+    "water radiator"
+   ],
+   "keywords": [
+    "cooling",
+    "coolant",
+    "overheating",
+    "leaking radiator",
+    "9605000801",
+    "A9605000801",
+    "960 500 08 01",
+    "CR865000P",
+    "CR 865 000P",
+    "67175",
+    "ME2284",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Engine coolant radiator with frame for the MP4 and MP5 Mercedes-Benz Actros (OM470, OM471 and OM473). Replace if the core is leaking, blocked or the engine runs hot. Mercedes used a few radiator part numbers on these trucks, so check the number on your old radiator or send us your VIN and we'll confirm fit before you order. It's a big item, so freight is quoted to your door, or pick up free in Victoria. New stock is on its way.",
+   "brand": "VMS",
+   "mpn": "VMS-K03",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM470",
+     "OM471",
+     "OM473"
+    ]
+   },
+   "freightQuote": true
+  },
+  {
    "id": "clutch-kit",
    "slug": "clutch-kit-mp4-mp5-actros",
    "name": "Clutch Kit",
