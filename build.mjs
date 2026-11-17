@@ -40,7 +40,7 @@ const CATS = {
   Cooling: { path: "cooling", title: "Actros MP4 / MP5 Cooling Parts", intro: "Viscous fan clutches and coolant expansion tanks for the MP4 and MP5 Mercedes-Benz Actros, with OE and cross-reference numbers." },
   Clutch: { path: "clutch", title: "Actros MP4 / MP5 Clutch Parts", intro: "Clutch kits and clutch actuators for the MP4 and MP5 Mercedes-Benz Actros. Send us your VIN and we'll confirm the right part for your gearbox before you pay." },
   Engine: { path: "engine", title: "Actros MP4 / MP5 Engine Parts", intro: "Starter motors, cylinder heads, liner kits, oil separators and sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
-  Brakes: { path: "brakes", title: "Actros MP4 / MP5 Brake and Air Parts", intro: "Brake hoses and air-line fittings for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
+  Brakes: { path: "brakes", title: "Actros MP4 / MP5 Brake and Air Parts", intro: "Front and rear brake pads, brake hoses, air dryer cartridges and air-line fittings for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
   Cab: { path: "cab", title: "Actros MP4 / MP5 Cab Parts", intro: "Mirror covers, headlight globes and other cab parts for the MP4 and MP5 Mercedes-Benz Actros." },
   Workshop: { path: "workshop-equipment", title: "Workshop Equipment", intro: "Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any workshop, not just the Actros." },
   Tools: { path: "workshop-tools", title: "Actros MP4 / MP5 Workshop Tools", intro: "Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
@@ -377,7 +377,7 @@ ${parts.map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.oem
 <h2>Check your caliper first</h2>
 <p>Some MP4s run a Wabco MAXX22L caliper instead of Knorr. Those use a different pad (WVA <span class="mono">29315</span>, front and rear). The WVA number is stamped on the backing plate of the old pad, so match it before you order.</p>
 <h2>Need pads?</h2>
-<p>We don't list brake pads online yet. Text the WVA or OE number off your old pads, or your VIN, to <a href="sms:${PHONE}">${esc(C.phone)}</a> or email <a href="mailto:${esc(C.email)}">${esc(C.email)}</a> and we'll quote a front or rear axle set.</p>
+<p>We sell a <a href="${partUrl(byId("brake-pads-front"))}">front brake pad set</a> and a <a href="${partUrl(byId("brake-pads-rear"))}">rear brake pad set</a> for the Knorr SM7 and SL7 calipers, 4 pads per axle. Not sure which you have? Text the WVA or OE number off your old pads, or your VIN, to <a href="sms:${PHONE}">${esc(C.phone)}</a> or email <a href="mailto:${esc(C.email)}">${esc(C.email)}</a>.</p>
 <p>Doing the brakes? We also stock the <a href="${partUrl(byId("brake-hose"))}">brake hose set with M22 connectors</a>.</p>` },
   { path: "/guides/actros-mp4-engine-cooling-part-numbers/", short: "MP4 engine and cooling numbers",
     title: "Actros MP4 Engine and Cooling Part Numbers (OM471 / OM473)",
