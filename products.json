@@ -538,28 +538,26 @@
    "slug": "air-dryer-cartridge-mp4-mp5-actros",
    "name": "Air Dryer Cartridge",
    "cat": "Brakes",
-   "price": 45.0,
+   "price": 50.0,
    "available": false,
    "sku": "VMS-B02",
    "oem": [
-    "A 000 430 09 69",
-    "A 000 429 57 95"
+    "A 000 429 20 97",
+    "A 000 429 21 97",
+    "A 000 429 37 95"
    ],
    "cross": [
-    "WABCO 432 901 251 2",
-    "MANN TB 1394/16 x",
-    "febi 34322",
-    "Mahle AL 24",
-    "Bosch 0 986 628 250",
-    "Hengst T280W",
-    "Donaldson P951413",
-    "Diesel Technic 4.68694",
-    "Trucktec 01.36.022"
+    "Knorr-Bremse K163455",
+    "MANN TB 1394/8 x",
+    "Mahle AL 35",
+    "febi 106249",
+    "Hengst T380W",
+    "Haldex 31005509"
    ],
    "specs": [
     [
      "Thread",
-     "M39 x 1.5"
+     "M41 x 2"
     ],
     [
      "Size",
@@ -588,14 +586,14 @@
     "brakes",
     "air brakes",
     "servicing",
-    "4329012512",
-    "432 901 251 2",
-    "0004300969",
-    "A0004300969",
+    "M41x2",
+    "K163455",
+    "0004292097",
+    "A0004292097",
     "Arocs",
     "Antos"
    ],
-   "desc": "Spin-on air dryer cartridge with oil separator for the air processing unit on the MP4 Mercedes-Benz Actros. Keeps water and oil out of the brake air system. Change it every 1 to 2 years, or sooner if you're draining water from the tanks. Check your old cartridge has the M39 x 1.5 thread before you order, or send us your VIN and we'll confirm fit. New stock is on its way.",
+   "desc": "Spin-on air dryer cartridge with oil separator for the air processing unit on the MP4 Mercedes-Benz Actros. Keeps water and oil out of the brake air system. Change it every 1 to 2 years, or sooner if you're draining water from the tanks. Check your old cartridge has the M41 x 2 thread before you order, or send us your VIN and we'll confirm fit. New stock is on its way.",
    "brand": "ZOKE",
    "mpn": "VMS-B02",
    "identifierExists": false,
