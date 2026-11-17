@@ -113,6 +113,9 @@ footer a:hover{text-decoration:underline}
 .qty button{width:30px;height:30px;border:1px solid var(--line);background:none;color:var(--ink);border-radius:6px}
 .tot{border-top:2px solid var(--ink);padding-top:12px;display:grid;gap:4px;font-variant-numeric:tabular-nums}
 .tot div{display:flex;justify-content:space-between}
+.tot .pc[hidden]{display:none}
+.tot .pc{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:4px 0}
+.tot .pc input{width:7em;font:inherit;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)}
 .tot .big{font-family:var(--f-display);font-weight:700;font-size:26px}
 .primary{border:0;background:var(--accent);color:var(--accent-ink);font-weight:600;padding:14px;border-radius:6px;font-size:17px;width:100%}
 .primary:disabled{opacity:.6;cursor:wait}

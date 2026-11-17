@@ -2,11 +2,30 @@
  "truck": "MP4 / MP5 Mercedes-Benz Actros",
  "currency": "aud",
  "shipping": {
-  "flatRate": 19.95,
-  "freeOver": 250,
-  "heavyRates": {
-   "heavy": 39.95,
-   "extraHeavy": 79.95
+  "from": "3167",
+  "handling": 0,
+  "satchels": {
+   "small": {
+    "fits": 1,
+    "price": 12.95
+   },
+   "medium": {
+    "fits": 2,
+    "price": 16.95
+   },
+   "large": {
+    "fits": 4,
+    "price": 20.95
+   },
+   "xl": {
+    "fits": 8,
+    "price": 24.95
+   }
+  },
+  "flatRate": 24.95,
+  "rates": {
+   "heavy": 59.95,
+   "extraHeavy": 99.95
   },
   "pickup": true,
   "pickupNote": "Pickup in Victoria. We'll message you when it's ready."
@@ -29,7 +48,7 @@
    "thumb": "/images/service-kit-400.webp",
    "oem": [],
    "cross": [],
-   "desc": "Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately, and over $250 so shipping is free.",
+   "desc": "Everything for a standard oil service in one box: engine oil filter, fuel filter kit, fuel pre-filter / water separator, engine air filter and cabin pollen filter. $20 less than buying them separately.",
    "brand": "VMS",
    "mpn": "VMS-KIT01",
    "identifierExists": false,
@@ -65,6 +84,10 @@
     "oil change kit",
     "A service",
     "B service"
+   ],
+   "satchel": [
+    "xl",
+    "xl"
    ]
   },
   {
@@ -124,7 +147,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "medium",
+   "kg": 1.2
   },
   {
    "id": "oil-filter-slim",
@@ -181,7 +206,9 @@
     ]
    },
    "thumb": "/images/oil-filter-slim-400.webp",
-   "illustration": true
+   "illustration": true,
+   "satchel": "medium",
+   "kg": 1.2
   },
   {
    "id": "fuel-filter",
@@ -229,7 +256,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "medium",
+   "kg": 1.0
   },
   {
    "id": "air-filter",
@@ -277,7 +306,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "xl",
+   "kg": 4
   },
   {
    "id": "cabin-filter",
@@ -322,7 +353,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "large",
+   "kg": 0.6
   },
   {
    "id": "adblue-filter",
@@ -362,7 +395,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "diesel-water-separator",
@@ -411,7 +446,9 @@
      "OM471",
      "OM473"
     ]
-   }
+   },
+   "satchel": "medium",
+   "kg": 0.8
   },
   {
    "id": "power-steering-filter",
@@ -447,7 +484,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "brake-hose",
@@ -490,7 +529,9 @@
     ],
     "engines": []
    },
-   "maxQty": 10
+   "maxQty": 10,
+   "satchel": "medium",
+   "kg": 1.5
   },
   {
    "id": "long-mirror-cover",
@@ -508,7 +549,8 @@
    "oldHandle": "long-mirror-cover-to-suit-mp4-mp5-mercedes-actros-lh-rh",
    "sku": "VMS-C01",
    "oem": [
-    "A 960 811 14 07"
+    "A 960 811 06 07",
+    "A 960 811 07 07"
    ],
    "cross": [],
    "tags": [
@@ -524,7 +566,7 @@
     "body parts",
     "panel"
    ],
-   "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side.",
+   "desc": "Replacement back cover for the long main mirror (long-arm mirror). Left-hand / passenger side is OE A 960 811 06 07, right-hand / driver's side is OE A 960 811 07 07. Choose your side.",
    "brand": "Nuopei",
    "mpn": "VMS-C01",
    "identifierExists": false,
@@ -535,7 +577,9 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "satchel": "xl",
+   "kg": 1.0
   },
   {
    "id": "h7-globe-24v",
@@ -602,7 +646,62 @@
     ],
     "engines": []
    },
-   "image": ""
+   "image": "",
+   "satchel": "small",
+   "kg": 0.2
+  },
+  {
+   "id": "small-mirror-cover",
+   "slug": "small-mirror-cover-mp4-mp5-actros",
+   "name": "Corner Mirror Cover (Small)",
+   "cat": "Cab",
+   "price": null,
+   "available": false,
+   "options": [
+    "Driver's side (RH) A 960 811 15 07",
+    "Passenger side (LH) A 960 811 14 07"
+   ],
+   "image": "/images/small-mirror-cover-1000.webp",
+   "thumb": "/images/small-mirror-cover-400.webp",
+   "sku": "VMS-C03",
+   "oem": [
+    "A 960 811 14 07",
+    "A 960 811 15 07"
+   ],
+   "cross": [],
+   "tags": [
+    "corner mirror cover",
+    "small mirror cover",
+    "wide angle mirror cover",
+    "lower mirror cover",
+    "mirror cap",
+    "mirror back cover",
+    "Spiegelkappe klein"
+   ],
+   "keywords": [
+    "mirror",
+    "cab",
+    "body parts",
+    "panel",
+    "LH",
+    "RH",
+    "left",
+    "right"
+   ],
+   "desc": "Replacement back cover for the small corner (lower, wide-angle) mirror that sits under the main mirror. Left-hand / passenger side is OE A 960 811 14 07, right-hand / driver's side is OE A 960 811 15 07. Choose your side. Pairs with our long main mirror cover.",
+   "brand": "VMS",
+   "mpn": "VMS-C03",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "satchel": "medium",
+   "kg": 0.5
   },
   {
    "id": "viscous-fan-clutch",
@@ -650,7 +749,13 @@
      "OM471"
     ]
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [
+    35,
+    35,
+    25,
+    10
+   ]
   },
   {
    "id": "expansion-tank",
@@ -695,7 +800,13 @@
      "MP5"
     ],
     "engines": []
-   }
+   },
+   "pack": [
+    45,
+    30,
+    30,
+    2
+   ]
   },
   {
    "id": "clutch-kit",
@@ -776,7 +887,13 @@
     ],
     "engines": []
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [
+    40,
+    30,
+    25,
+    8
+   ]
   },
   {
    "id": "starter-motor",
@@ -827,7 +944,13 @@
      "OM473"
     ]
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [
+    45,
+    25,
+    25,
+    12
+   ]
   },
   {
    "id": "cylinder-liner-kit-om473",
@@ -868,7 +991,13 @@
      "OM473"
     ]
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [
+    35,
+    30,
+    25,
+    8
+   ]
   },
   {
    "id": "timing-tool-kit",
@@ -906,7 +1035,13 @@
     ],
     "engines": []
    },
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [
+    45,
+    35,
+    15,
+    5
+   ]
   },
   {
    "id": "cylinder-head-om473",
@@ -998,7 +1133,13 @@
    },
    "maxQty": 2,
    "thumb": "/images/oil-separator-400.webp",
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [
+    40,
+    30,
+    30,
+    6
+   ]
   },
   {
    "id": "battery-sensor",
@@ -1040,7 +1181,9 @@
     "engines": []
    },
    "maxQty": 5,
-   "thumb": "/images/battery-sensor-v2-400.webp"
+   "thumb": "/images/battery-sensor-v2-400.webp",
+   "satchel": "small",
+   "kg": 0.3
   },
   {
    "id": "pneumatic-oil-pump",
@@ -1104,7 +1247,13 @@
      "5 m"
     ]
    ],
-   "shipClass": "heavy"
+   "shipClass": "heavy",
+   "pack": [
+    60,
+    40,
+    30,
+    12
+   ]
   }
  ]
 }
