@@ -85,7 +85,7 @@ function renderCart(){
     :`<p class="note" style="padding:20px 0">Your cart is empty.</p>`;
   $("sub").textContent=money(sub);
   const cur=sq&&sqKey===quoteKey(), needPc=cur&&sq.needsPostcode;
-  const boxed=items.some(([k])=>{const {p}=parse(k);return p&&!p.satchel}); // heavy parts are priced to the postcode
+  const boxed=items.some(([k])=>{const {p}=parse(k);return p&&(p.pack||!p.satchel)}); // boxed parts are priced to the postcode
   if($("pcRow"))$("pcRow").hidden=!(n&&!quote&&boxed);
   $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":ready?money(ship)+" or free pickup":needPc?"Enter your postcode":sqBusy?"Checking…":"Couldn't check, call us";
   $("total").textContent=money(sub+ship);
