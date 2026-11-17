@@ -153,7 +153,7 @@ const sortParts = list => [...list].sort((a, b) => (b.available - a.available) |
 // OE "A 472 184 04 25" is also searched as "A4721840425", "4721840425" and "472 184 04 25".
 // Aftermarket "MANN HU 12 001 z" is also searched as "HU12001z" (with or without the brand).
 const oeForms = n => { const sp = n.replace(/^A\s*/i, ""); const c = sp.replace(/\s+/g, ""); return [n, "A" + c, c, sp]; };
-const BRANDS = ["DT Spare Parts", "Luber-finer", "MAHLE", "MANN", "Hengst", "Bosch", "Febi", "Fleetguard", "Donaldson", "Wix", "Baldwin", "Sakura", "Trucktec", "NRF", "Nissens", "Prestolite", "WVA", "Knorr"];
+const BRANDS = ["DT Spare Parts", "Luber-finer", "MAHLE", "MANN", "Hengst", "Bosch", "Febi", "Fleetguard", "Donaldson", "Wix", "Baldwin", "Sakura", "Trucktec", "NRF", "Nissens", "Prestolite", "WVA", "Knorr", "Narva", "Hella", "Trail Link"];
 const crossSplit = s => { const b = BRANDS.find(b => s.startsWith(b + " ")); return b ? [b, s.slice(b.length + 1)] : ["", s]; };
 const crossForms = s => { const [b, n] = crossSplit(s.replace(/[()]/g, "")); const c = n.replace(/\s+/g, ""); return c === n ? [s] : [s, (b ? b + " " : "") + c, c]; };
 // every distinct form after the one already shown, for the "Also written as" line
