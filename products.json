@@ -39,7 +39,7 @@
   {
    "id": "service-kit",
    "slug": "service-kit-om471-om473-mp4-mp5-actros",
-   "name": "Service Filter Kit \u2013 5 Filters",
+   "name": "Service Filter Kit – 5 Filters",
    "cat": "Filters",
    "price": 290.0,
    "available": true,
@@ -532,6 +532,84 @@
    "maxQty": 10,
    "satchel": "medium",
    "kg": 1.5
+  },
+  {
+   "id": "air-dryer-cartridge",
+   "slug": "air-dryer-cartridge-mp4-mp5-actros",
+   "name": "Air Dryer Cartridge",
+   "cat": "Brakes",
+   "price": 45.0,
+   "available": false,
+   "sku": "VMS-B02",
+   "oem": [
+    "A 000 430 09 69",
+    "A 000 429 57 95"
+   ],
+   "cross": [
+    "WABCO 432 901 251 2",
+    "MANN TB 1394/16 x",
+    "febi 34322",
+    "Mahle AL 24",
+    "Bosch 0 986 628 250",
+    "Hengst T280W",
+    "Donaldson P951413",
+    "Diesel Technic 4.68694",
+    "Trucktec 01.36.022"
+   ],
+   "specs": [
+    [
+     "Thread",
+     "M39 x 1.5"
+    ],
+    [
+     "Size",
+     "about 165 mm tall, 136 mm across"
+    ],
+    [
+     "Type",
+     "Spin-on desiccant cartridge with oil separator"
+    ],
+    [
+     "Change",
+     "Every 1 to 2 years, or when water shows in the air tanks"
+    ]
+   ],
+   "tags": [
+    "air dryer cartridge",
+    "air dryer filter",
+    "air drier cartridge",
+    "dryer cartridge",
+    "desiccant cartridge",
+    "air brake dryer",
+    "APU cartridge",
+    "oil separator cartridge"
+   ],
+   "keywords": [
+    "brakes",
+    "air brakes",
+    "servicing",
+    "4329012512",
+    "432 901 251 2",
+    "0004300969",
+    "A0004300969",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Spin-on air dryer cartridge with oil separator for the air processing unit on the MP4 Mercedes-Benz Actros. Keeps water and oil out of the brake air system. Change it every 1 to 2 years, or sooner if you're draining water from the tanks. Check your old cartridge has the M39 x 1.5 thread before you order, or send us your VIN and we'll confirm fit. New stock is on its way.",
+   "brand": "ZOKE",
+   "mpn": "VMS-B02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "image": "",
+   "satchel": "large",
+   "kg": 2.4
   },
   {
    "id": "long-mirror-cover",
@@ -1236,7 +1314,7 @@
     ],
     [
      "Operating temperature",
-     "-10\u00b0C to 50\u00b0C"
+     "-10°C to 50°C"
     ],
     [
      "Max flow",
