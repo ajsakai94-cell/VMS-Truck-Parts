@@ -986,7 +986,7 @@
    "name": "H7 24V 70W Headlight Globes (Pair)",
    "cat": "Cab",
    "price": 43.0,
-   "available": false,
+   "available": true,
    "sku": "VMS-C02",
    "oem": [],
    "cross": [
@@ -1045,8 +1045,8 @@
     ],
     "engines": []
    },
-   "image": "/images/h7-globe-1000.webp",
-   "thumb": "/images/h7-globe-400.webp",
+   "image": "/images/h7-globe-pair-1000.webp",
+   "thumb": "/images/h7-globe-pair-400.webp",
    "satchel": "small",
    "kg": 0.2
   },
