@@ -777,6 +777,66 @@
   ]
  },
   {
+   "id": "ebs-trailer-cable",
+   "slug": "abs-ebs-trailer-cable-7-core-iso-7638",
+   "name": "ABS/EBS 7 Core Trailer Cable (ISO 7638 Suzi Coil)",
+   "cat": "Brakes",
+   "price": 185.0,
+   "available": false,
+   "sku": "VMS-B05",
+   "image": "/images/ebs-trailer-cable-1000.webp",
+   "thumb": "/images/ebs-trailer-cable-400.webp",
+   "oem": [],
+   "cross": [],
+   "specs": [
+    ["Plugs", "ISO 7638 7-pin ABS/EBS, both ends"],
+    ["Cores", "7 core"],
+    ["Voltage", "24V"],
+    ["Use", "Trailer ABS/EBS brakes and roll stability control"],
+    ["Type", "Coiled suzi with spring-latched plugs and dust caps"]
+   ],
+   "tags": [
+    "EBS suzi coil",
+    "ABS suzi coil",
+    "EBS trailer cable",
+    "ABS trailer cable",
+    "trailer EBS lead",
+    "7 core EBS coil",
+    "7 pin EBS plug",
+    "ISO 7638 coil",
+    "trailer stability control cable",
+    "RSC cable",
+    "EBS curly cord"
+   ],
+   "keywords": [
+    "brakes",
+    "electrical",
+    "trailer",
+    "suzi",
+    "suzie",
+    "susie",
+    "coil",
+    "ISO7638",
+    "ISO 7638-1",
+    "24V",
+    "prime mover",
+    "EBS plug",
+    "ABS plug"
+   ],
+   "desc": "ABS/EBS 7 core trailer plug cable for trailer stability control. A coiled suzi with ISO 7638 7-pin plugs at both ends that carries power and data between the prime mover and the trailer's ABS/EBS brake module, including roll stability control. Suits the MP4 Mercedes-Benz Actros and any prime mover and trailer with ISO 7638 sockets. Replace it if the trailer ABS/EBS warning light comes on, the plugs are loose or cracked, or the coil is cut or flattened. New stock is on its way.",
+   "brand": "VMS",
+   "mpn": "VMS-B05",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": ["MP4", "MP5"],
+    "engines": []
+   },
+   "maxQty": 10,
+   "satchel": "xl",
+   "kg": 2.5
+  },
+  {
    "id": "long-mirror-cover",
    "slug": "long-mirror-cover-mp4-mp5-actros",
    "name": "Main Mirror Cover (Long)",
