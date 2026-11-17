@@ -5,10 +5,22 @@
   "from": "3167",
   "handling": 0,
   "satchels": {
-   "small": { "fits": 1, "price": 11.70 },
-   "medium": { "fits": 2, "price": 16.00 },
-   "large": { "fits": 4, "price": 20.25 },
-   "xl": { "fits": 8, "price": 24.45 }
+   "small": {
+    "fits": 1,
+    "price": 11.7
+   },
+   "medium": {
+    "fits": 2,
+    "price": 16.0
+   },
+   "large": {
+    "fits": 4,
+    "price": 20.25
+   },
+   "xl": {
+    "fits": 8,
+    "price": 24.45
+   }
   },
   "flatRate": 24.95,
   "rates": {
@@ -74,8 +86,15 @@
     "A service",
     "B service"
    ],
-   "satchel": ["xl"],
-   "pack": [50, 31, 22, 2.9],
+   "satchel": [
+    "xl"
+   ],
+   "pack": [
+    50,
+    31,
+    22,
+    2.9
+   ],
    "shipClass": "bulky",
    "packBulky": true
   },
@@ -296,7 +315,12 @@
      "OM473"
     ]
    },
-   "pack": [50, 31, 22, 2.9],
+   "pack": [
+    50,
+    31,
+    22,
+    2.9
+   ],
    "shipClass": "bulky",
    "packBulky": true
   },
@@ -554,6 +578,10 @@
      "about 165 mm tall, 136 mm across"
     ],
     [
+     "Includes",
+     "Sealing O-ring"
+    ],
+    [
      "Type",
      "Spin-on desiccant cartridge with oil separator"
     ],
@@ -595,9 +623,10 @@
     ],
     "engines": []
    },
-   "image": "",
+   "image": "/images/air-dryer-cartridge-1000.webp",
    "satchel": "large",
-   "kg": 2.4
+   "kg": 2.4,
+   "thumb": "/images/air-dryer-cartridge-400.webp"
   },
   {
    "id": "long-mirror-cover",
@@ -817,7 +846,12 @@
     ]
    },
    "shipClass": "heavy",
-   "pack": [35, 35, 35, 12]
+   "pack": [
+    35,
+    35,
+    35,
+    12
+   ]
   },
   {
    "id": "expansion-tank",
@@ -863,7 +897,12 @@
     ],
     "engines": []
    },
-   "pack": [45, 30, 30, 2],
+   "pack": [
+    45,
+    30,
+    30,
+    2
+   ],
    "packBulky": true
   },
   {
@@ -1003,7 +1042,12 @@
     ]
    },
    "shipClass": "heavy",
-   "pack": [39, 22, 19, 14]
+   "pack": [
+    39,
+    22,
+    19,
+    14
+   ]
   },
   {
    "id": "cylinder-liner-kit-om473",
