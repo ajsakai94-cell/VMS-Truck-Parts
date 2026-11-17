@@ -1326,7 +1326,7 @@
    "price": 450.0,
    "available": true,
    "sku": "VMS-E04",
-   "image": "/images/oil-separator-1000.webp",
+   "image": "/images/oil-separator-v2-1000.webp",
    "oldHandle": "",
    "oem": [
     "A 471 010 01 62",
@@ -1363,7 +1363,7 @@
     ]
    },
    "maxQty": 2,
-   "thumb": "/images/oil-separator-400.webp",
+   "thumb": "/images/oil-separator-v2-400.webp",
    "satchel": "medium",
    "kg": 2
   },
