@@ -479,6 +479,87 @@
    "kg": 0.3
   },
   {
+   "id": "air-dryer-cartridge",
+   "slug": "air-dryer-cartridge-mp4-mp5-actros",
+   "name": "Air Dryer Cartridge",
+   "cat": "Filters",
+   "price": 50.0,
+   "available": false,
+   "sku": "VMS-F10",
+   "oem": [
+    "A 000 429 20 97",
+    "A 000 429 21 97",
+    "A 000 429 37 95"
+   ],
+   "cross": [
+    "Knorr-Bremse K163455",
+    "MANN TB 1394/8 x",
+    "Mahle AL 35",
+    "febi 106249",
+    "Hengst T380W",
+    "Haldex 31005509"
+   ],
+   "specs": [
+    [
+     "Thread",
+     "M41 x 2"
+    ],
+    [
+     "Size",
+     "about 165 mm tall, 136 mm across"
+    ],
+    [
+     "Includes",
+     "Sealing O-ring"
+    ],
+    [
+     "Type",
+     "Spin-on desiccant cartridge with oil separator"
+    ],
+    [
+     "Change",
+     "Every 1 to 2 years, or when water shows in the air tanks"
+    ]
+   ],
+   "tags": [
+    "air dryer cartridge",
+    "air dryer filter",
+    "air drier cartridge",
+    "dryer cartridge",
+    "desiccant cartridge",
+    "air brake dryer",
+    "APU cartridge",
+    "oil separator cartridge"
+   ],
+   "keywords": [
+    "brakes",
+    "air brakes",
+    "servicing",
+    "M41x2",
+    "K163455",
+    "0004292097",
+    "A0004292097",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Spin-on air dryer cartridge with oil separator for the air processing unit on the MP4 Mercedes-Benz Actros. Keeps water and oil out of the brake air system. Change it every 1 to 2 years, or sooner if you're draining water from the tanks. Check your old cartridge has the M41 x 2 thread before you order, or send us your VIN and we'll confirm fit. New stock is on its way.",
+   "brand": "ZOKE",
+   "mpn": "VMS-F10",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "image": "/images/air-dryer-cartridge-1000.webp",
+   "satchel": "large",
+   "kg": 2.4,
+   "thumb": "/images/air-dryer-cartridge-400.webp"
+  },
+  {
    "id": "brake-hose",
    "slug": "brake-hose-mp4-mp5-actros",
    "name": "Brake Hose Set with M22 Connectors",
@@ -523,81 +604,333 @@
    "satchel": "medium",
    "kg": 1.5
   },
-  {
-   "id": "air-dryer-cartridge",
-   "slug": "air-dryer-cartridge-mp4-mp5-actros",
-   "name": "Air Dryer Cartridge",
-   "cat": "Brakes",
-   "price": 50.0,
-   "available": false,
-   "sku": "VMS-B02",
-   "oem": [
-    "A 000 429 20 97",
-    "A 000 429 21 97",
-    "A 000 429 37 95"
+ {
+  "id": "brake-pads-front",
+  "slug": "front-brake-pads-mp4-mp5-actros",
+  "name": "Front Brake Pad Set (Axle Set)",
+  "cat": "Brakes",
+  "price": 150.0,
+  "available": false,
+  "image": "/images/brake-pads-front-1000.webp",
+   "thumb": "/images/brake-pads-front-400.webp",
+  "brand": "VMS",
+  "identifierExists": false,
+  "condition": "new",
+  "fits": {
+   "models": [
+    "MP4",
+    "MP5"
    ],
+   "engines": []
+  },
+  "shipClass": "bulky",
+  "sku": "VMS-B03",
+  "mpn": "VMS-B03",
+  "oem": [
+   "A 006 420 14 20",
+   "A 006 420 52 20",
+   "A 000 421 72 10"
+  ],
+  "cross": [
+   "WVA 29246",
+   "WVA 29247",
+   "Knorr-Bremse SM7"
+  ],
+  "specs": [
+   [
+    "Axle",
+    "Front"
+   ],
+   [
+    "Caliper",
+    "Knorr-Bremse SM7"
+   ],
+   [
+    "WVA",
+    "29246 / 29247"
+   ],
+   [
+    "Pad size",
+    "244 x 115 x 30 mm"
+   ],
+   [
+    "In the box",
+    "4 pads, enough for one front axle (both wheels)"
+   ]
+  ],
+  "tags": [
+   "front brake pads",
+   "brake pad set",
+   "disc brake pads",
+   "truck brake pads",
+   "front axle brake pads",
+   "Knorr SM7 brake pads",
+   "WVA 29246 brake pads"
+  ],
+  "keywords": [
+   "brakes",
+   "pads",
+   "servicing",
+   "0064201420",
+   "A0064201420",
+   "0064205220",
+   "A0064205220",
+   "0004217210",
+   "A0004217210",
+   "29246",
+   "29247",
+   "SM7",
+   "Arocs",
+   "Antos"
+  ],
+  "desc": "Front axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SM7 disc brakes. 4 pads, enough to do both front wheels. Front and rear pads are different sizes, so check the WVA number on your old pad (29246 or 29247) before you order, or send us your VIN and we'll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won't fit. New stock is on its way.",
+  "pack": [
+   26,
+   24,
+   14,
+   8
+  ]
+ },
+ {
+  "id": "brake-pads-rear",
+  "slug": "rear-brake-pads-mp4-mp5-actros",
+  "name": "Rear Brake Pad Set (Axle Set)",
+  "cat": "Brakes",
+  "price": 150.0,
+  "available": false,
+  "image": "/images/brake-pads-rear-1000.webp",
+   "thumb": "/images/brake-pads-rear-400.webp",
+  "brand": "VMS",
+  "identifierExists": false,
+  "condition": "new",
+  "fits": {
+   "models": [
+    "MP4",
+    "MP5"
+   ],
+   "engines": []
+  },
+  "shipClass": "bulky",
+  "sku": "VMS-B04",
+  "mpn": "VMS-B04",
+  "oem": [
+   "A 006 420 53 20",
+   "A 006 420 15 20"
+  ],
+  "cross": [
+   "WVA 29244",
+   "WVA 29245",
+   "Knorr-Bremse SL7"
+  ],
+  "specs": [
+   [
+    "Axle",
+    "Rear (drive axle)"
+   ],
+   [
+    "Caliper",
+    "Knorr-Bremse SL7"
+   ],
+   [
+    "WVA",
+    "29244 / 29245"
+   ],
+   [
+    "Pad size",
+    "207 x 113 x 30 mm"
+   ],
+   [
+    "In the box",
+    "4 pads, enough for one rear axle (both wheels)"
+   ]
+  ],
+  "tags": [
+   "rear brake pads",
+   "brake pad set",
+   "disc brake pads",
+   "truck brake pads",
+   "rear axle brake pads",
+   "drive axle brake pads",
+   "Knorr SL7 brake pads",
+   "WVA 29244 brake pads"
+  ],
+  "keywords": [
+   "brakes",
+   "pads",
+   "servicing",
+   "0064205320",
+   "A0064205320",
+   "0064201520",
+   "A0064201520",
+   "29244",
+   "29245",
+   "SL7",
+   "Arocs",
+   "Antos"
+  ],
+  "desc": "Rear axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SL7 disc brakes. 4 pads, enough to do both wheels on one rear axle (order 2 sets for a tandem drive). Front and rear pads are different sizes, so check the WVA number on your old pad (29244 or 29245) before you order, or send us your VIN and we'll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won't fit. New stock is on its way.",
+  "pack": [
+   23,
+   24,
+   14,
+   7
+  ]
+ },
+  {
+   "id": "ebs-trailer-cable",
+   "slug": "abs-ebs-trailer-cable-7-core-iso-7638",
+   "name": "ABS/EBS Suzi Coil – 7 Core ISO 7638 Trailer Cable",
+   "cat": "Brakes",
+   "price": 220.0,
+   "available": false,
+   "sku": "VMS-B05",
+   "image": "/images/ebs-trailer-cable-1000.webp",
+   "thumb": "/images/ebs-trailer-cable-400.webp",
+   "oem": [],
    "cross": [
-    "Knorr-Bremse K163455",
-    "MANN TB 1394/8 x",
-    "Mahle AL 35",
-    "febi 106249",
-    "Hengst T380W",
-    "Haldex 31005509"
+    "Narva 82560",
+    "Narva 82562",
+    "Hella 8KA 227 440-081",
+    "Trail Link EL100913LT"
    ],
    "specs": [
-    [
-     "Thread",
-     "M41 x 2"
-    ],
-    [
-     "Size",
-     "about 165 mm tall, 136 mm across"
-    ],
-    [
-     "Type",
-     "Spin-on desiccant cartridge with oil separator"
-    ],
-    [
-     "Change",
-     "Every 1 to 2 years, or when water shows in the air tanks"
-    ]
+    ["Plugs", "ISO 7638 7-pin ABS/EBS, both ends"],
+    ["Cores", "7 core"],
+    ["Voltage", "24V"],
+    ["Use", "Trailer ABS/EBS brakes and roll stability control"],
+    ["Type", "Coiled suzi with spring-latched plugs and dust caps"]
    ],
    "tags": [
-    "air dryer cartridge",
-    "air dryer filter",
-    "air drier cartridge",
-    "dryer cartridge",
-    "desiccant cartridge",
-    "air brake dryer",
-    "APU cartridge",
-    "oil separator cartridge"
+    "EBS suzi coil",
+    "ABS suzi coil",
+    "ABS/EBS suzi",
+    "EBS suzie coil",
+    "EBS susie coil",
+    "EBS trailer cable",
+    "ABS trailer cable",
+    "trailer EBS lead",
+    "EBS coil",
+    "7 core EBS coil",
+    "7 pin EBS plug",
+    "ISO 7638 suzi",
+    "ISO 7638 coil",
+    "trailer stability control cable",
+    "RSC cable",
+    "EBS curly cord",
+    "trailer brake data cable",
+    "24V EBS coil"
    ],
    "keywords": [
     "brakes",
-    "air brakes",
-    "servicing",
-    "M41x2",
-    "K163455",
-    "0004292097",
-    "A0004292097",
-    "Arocs",
-    "Antos"
+    "electrical",
+    "trailer",
+    "suzi",
+    "suzie",
+    "susie",
+    "suzy",
+    "coil",
+    "ISO7638",
+    "ISO 7638-1",
+    "24V",
+    "24 volt",
+    "prime mover",
+    "B-double",
+    "semi trailer",
+    "EBS plug",
+    "ABS plug",
+    "Wabco",
+    "Knorr",
+    "Haldex",
+    "Narva",
+    "Hella",
+    "Trail Link",
+    "82560",
+    "82562",
+    "8KA227440081"
    ],
-   "desc": "Spin-on air dryer cartridge with oil separator for the air processing unit on the MP4 Mercedes-Benz Actros. Keeps water and oil out of the brake air system. Change it every 1 to 2 years, or sooner if you're draining water from the tanks. Check your old cartridge has the M41 x 2 thread before you order, or send us your VIN and we'll confirm fit. New stock is on its way.",
-   "brand": "ZOKE",
-   "mpn": "VMS-B02",
+   "desc": "ABS/EBS 7 core trailer plug cable for trailer stability control. A coiled suzi with ISO 7638 7-pin plugs at both ends that carries power and data between the prime mover and the trailer's ABS/EBS brake module (Wabco, Knorr-Bremse or Haldex), including roll stability control. Suits the MP4 Mercedes-Benz Actros and any prime mover and trailer with ISO 7638 sockets, and replaces Narva, Hella and Trail Link 7 core EBS suzi coils. Replace it if the trailer ABS/EBS warning light comes on, the plugs are loose or cracked, or the coil is cut or flattened. New stock is on its way.",
+   "brand": "VMS",
+   "mpn": "VMS-B05",
    "identifierExists": false,
    "condition": "new",
    "fits": {
-    "models": [
-     "MP4",
-     "MP5"
-    ],
+    "models": ["MP4", "MP5"],
     "engines": []
    },
-   "image": "",
-   "satchel": "large",
-   "kg": 2.4
+   "maxQty": 10,
+   "satchel": "xl",
+   "kg": 2.5
+  },
+  {
+   "id": "trailer-light-suzi-coil",
+   "slug": "7-pin-trailer-light-suzi-coil",
+   "name": "7 Pin Trailer Suzi Coil – Lighting Cable",
+   "cat": "Brakes",
+   "price": 147.0,
+   "available": false,
+   "sku": "VMS-B06",
+   "image": "/images/trailer-light-suzi-coil-1000.webp",
+   "thumb": "/images/trailer-light-suzi-coil-400.webp",
+   "oem": [],
+   "cross": [
+    "Narva 82524",
+    "Narva 82529"
+   ],
+   "specs": [
+    ["Plugs", "7-pin, both ends"],
+    ["Use", "Trailer lights (not for ABS/EBS)"],
+    ["Type", "Coiled suzi with metal-bodied plugs and spring guard"]
+   ],
+   "tags": [
+    "suzi coil",
+    "suzie coil",
+    "susie coil",
+    "trailer suzi",
+    "trailer suzi coil",
+    "7 pin suzi coil",
+    "7 core suzi coil",
+    "trailer light cable",
+    "trailer lighting coil",
+    "trailer light suzi",
+    "trailer plug cable",
+    "electrical coil",
+    "curly cord",
+    "trailer coil lead",
+    "7 pin trailer cable"
+   ],
+   "keywords": [
+    "electrical",
+    "trailer",
+    "suzi",
+    "suzie",
+    "susie",
+    "suzy",
+    "coil",
+    "7 pin",
+    "7 core",
+    "lights",
+    "lighting",
+    "prime mover",
+    "B-double",
+    "semi trailer",
+    "Narva",
+    "Hella",
+    "Trail Link",
+    "82524",
+    "82529"
+   ],
+   "desc": "7 pin coiled suzi that carries the trailer light circuits (tail, stop, indicators and auxiliary) from the prime mover to the trailer. Metal-bodied plugs with a spring guard to stop the cable kinking at the plug. An alternative to Narva, Hella and Trail Link 7 core trailer suzi coils. For the trailer brakes' ABS/EBS connection use our ABS/EBS suzi coil. Check the plug on your truck and trailer matches before you order, or call us and we'll confirm. New stock is on its way.",
+   "brand": "VMS",
+   "mpn": "VMS-B06",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": ["MP4", "MP5"],
+    "engines": []
+   },
+   "maxQty": 10,
+   "satchel": "xl",
+   "kg": 2.5
   },
   {
    "id": "long-mirror-cover",
@@ -653,7 +986,7 @@
    "name": "H7 24V 70W Headlight Globes (Pair)",
    "cat": "Cab",
    "price": 43.0,
-   "available": false,
+   "available": true,
    "sku": "VMS-C02",
    "oem": [],
    "cross": [
@@ -712,7 +1045,8 @@
     ],
     "engines": []
    },
-   "image": "",
+   "image": "/images/h7-globe-pair-1000.webp",
+   "thumb": "/images/h7-globe-pair-400.webp",
    "satchel": "small",
    "kg": 0.2
   },
@@ -1222,10 +1556,10 @@
    "slug": "oil-separator-mp4-mp5-actros",
    "name": "Oil Spinner (Crankcase Oil Separator)",
    "cat": "Engine",
-   "price": 450.0,
+   "price": 495.0,
    "available": true,
    "sku": "VMS-E04",
-   "image": "/images/oil-separator-1000.webp",
+   "image": "/images/oil-separator-v2-1000.webp",
    "oldHandle": "",
    "oem": [
     "A 471 010 01 62",
@@ -1262,7 +1596,7 @@
     ]
    },
    "maxQty": 2,
-   "thumb": "/images/oil-separator-400.webp",
+   "thumb": "/images/oil-separator-v2-400.webp",
    "satchel": "medium",
    "kg": 2
   },
