@@ -503,58 +503,13 @@
    "kg": 0.3
   },
   {
-   "id": "brake-hose",
-   "slug": "brake-hose-mp4-mp5-actros",
-   "name": "Brake Hose Set with M22 Connectors",
-   "cat": "Brakes",
-   "price": 150.0,
-   "available": true,
-   "image": "/images/brake-hose-1000.webp",
-   "thumb": "/images/brake-hose-400.webp",
-   "oldHandle": "brake-hose-with-fittings-to-suit-mp4-mp5-mercedes-actros",
-   "sku": "VMS-B01",
-   "oem": [
-    "A 002 420 93 48",
-    "A 000 997 81 34"
-   ],
-   "cross": [],
-   "tags": [
-    "brake hose",
-    "air brake hose",
-    "brake line",
-    "push-in connector",
-    "M22x1.5 fitting",
-    "air line fitting"
-   ],
-   "keywords": [
-    "brakes",
-    "air brakes",
-    "pneumatic"
-   ],
-   "desc": "Brake hose (OE A 002 420 93 48) supplied as a set with 2 brass push-in connectors (OE A 000 997 81 34, M22x1.5 thread, with seals), ready to fit.",
-   "brand": "Kazcioglu",
-   "mpn": "VMS-B01",
-   "identifierExists": false,
-   "condition": "new",
-   "fits": {
-    "models": [
-     "MP4",
-     "MP5"
-    ],
-    "engines": []
-   },
-   "maxQty": 10,
-   "satchel": "medium",
-   "kg": 1.5
-  },
-  {
    "id": "air-dryer-cartridge",
    "slug": "air-dryer-cartridge-mp4-mp5-actros",
    "name": "Air Dryer Cartridge",
-   "cat": "Brakes",
+   "cat": "Filters",
    "price": 50.0,
    "available": false,
-   "sku": "VMS-B02",
+   "sku": "VMS-F10",
    "oem": [
     "A 000 429 20 97",
     "A 000 429 21 97",
@@ -613,7 +568,7 @@
    ],
    "desc": "Spin-on air dryer cartridge with oil separator for the air processing unit on the MP4 Mercedes-Benz Actros. Keeps water and oil out of the brake air system. Change it every 1 to 2 years, or sooner if you're draining water from the tanks. Check your old cartridge has the M41 x 2 thread before you order, or send us your VIN and we'll confirm fit. New stock is on its way.",
    "brand": "ZOKE",
-   "mpn": "VMS-B02",
+   "mpn": "VMS-F10",
    "identifierExists": false,
    "condition": "new",
    "fits": {
@@ -627,6 +582,51 @@
    "satchel": "large",
    "kg": 2.4,
    "thumb": "/images/air-dryer-cartridge-400.webp"
+  },
+  {
+   "id": "brake-hose",
+   "slug": "brake-hose-mp4-mp5-actros",
+   "name": "Brake Hose Set with M22 Connectors",
+   "cat": "Brakes",
+   "price": 150.0,
+   "available": true,
+   "image": "/images/brake-hose-1000.webp",
+   "thumb": "/images/brake-hose-400.webp",
+   "oldHandle": "brake-hose-with-fittings-to-suit-mp4-mp5-mercedes-actros",
+   "sku": "VMS-B01",
+   "oem": [
+    "A 002 420 93 48",
+    "A 000 997 81 34"
+   ],
+   "cross": [],
+   "tags": [
+    "brake hose",
+    "air brake hose",
+    "brake line",
+    "push-in connector",
+    "M22x1.5 fitting",
+    "air line fitting"
+   ],
+   "keywords": [
+    "brakes",
+    "air brakes",
+    "pneumatic"
+   ],
+   "desc": "Brake hose (OE A 002 420 93 48) supplied as a set with 2 brass push-in connectors (OE A 000 997 81 34, M22x1.5 thread, with seals), ready to fit.",
+   "brand": "Kazcioglu",
+   "mpn": "VMS-B01",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "maxQty": 10,
+   "satchel": "medium",
+   "kg": 1.5
   },
   {
    "id": "long-mirror-cover",
