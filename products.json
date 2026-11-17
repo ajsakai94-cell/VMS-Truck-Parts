@@ -5,25 +5,14 @@
   "from": "3167",
   "handling": 0,
   "satchels": {
-   "small": {
-    "fits": 1,
-    "price": 12.95
-   },
-   "medium": {
-    "fits": 2,
-    "price": 16.95
-   },
-   "large": {
-    "fits": 4,
-    "price": 20.95
-   },
-   "xl": {
-    "fits": 8,
-    "price": 24.95
-   }
+   "small": { "fits": 1, "price": 11.70 },
+   "medium": { "fits": 2, "price": 16.00 },
+   "large": { "fits": 4, "price": 20.25 },
+   "xl": { "fits": 8, "price": 24.45 }
   },
   "flatRate": 24.95,
   "rates": {
+   "bulky": 39.95,
    "heavy": 59.95,
    "extraHeavy": 99.95
   },
@@ -85,10 +74,10 @@
     "A service",
     "B service"
    ],
-   "satchel": [
-    "xl",
-    "xl"
-   ]
+   "satchel": ["xl"],
+   "pack": [50, 31, 22, 2.9],
+   "shipClass": "bulky",
+   "packBulky": true
   },
   {
    "id": "oil-filter",
@@ -307,8 +296,9 @@
      "OM473"
     ]
    },
-   "satchel": "xl",
-   "kg": 4
+   "pack": [50, 31, 22, 2.9],
+   "shipClass": "bulky",
+   "packBulky": true
   },
   {
    "id": "cabin-filter",
@@ -731,8 +721,9 @@
    "slug": "small-mirror-cover-mp4-mp5-actros",
    "name": "Corner Mirror Cover (Small)",
    "cat": "Cab",
-   "price": null,
-   "available": false,
+   "price": 50.0,
+   "available": true,
+   "maxQty": 10,
    "options": [
     "Driver's side (RH) A 960 811 15 07",
     "Passenger side (LH) A 960 811 14 07"
@@ -826,12 +817,7 @@
     ]
    },
    "shipClass": "heavy",
-   "pack": [
-    35,
-    35,
-    25,
-    10
-   ]
+   "pack": [35, 35, 35, 12]
   },
   {
    "id": "expansion-tank",
@@ -877,12 +863,8 @@
     ],
     "engines": []
    },
-   "pack": [
-    45,
-    30,
-    30,
-    2
-   ]
+   "pack": [45, 30, 30, 2],
+   "packBulky": true
   },
   {
    "id": "clutch-kit",
@@ -1021,12 +1003,7 @@
     ]
    },
    "shipClass": "heavy",
-   "pack": [
-    45,
-    25,
-    25,
-    12
-   ]
+   "pack": [39, 22, 19, 14]
   },
   {
    "id": "cylinder-liner-kit-om473",
@@ -1209,13 +1186,8 @@
    },
    "maxQty": 2,
    "thumb": "/images/oil-separator-400.webp",
-   "shipClass": "heavy",
-   "pack": [
-    40,
-    30,
-    30,
-    6
-   ]
+   "satchel": "medium",
+   "kg": 2
   },
   {
    "id": "battery-sensor",

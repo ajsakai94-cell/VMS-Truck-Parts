@@ -73,7 +73,8 @@ export async function quoteShipping(env, data, items, postcode) {
   const parts = bags.length ? [`Australia Post satchel${bags.length > 1 ? " x" + bags.length : ""}`] : [];
 
   // 2. boxed parts (heavy): Australia Post Parcel Post to the postcode; flat size-class rate if that can't be done
-  const rest = lines.filter(l => !l.p.satchel);
+  // a part can have both: the service kit = satchel for the small filters + a box for the air filter
+  const rest = lines.filter(l => l.p.pack || !l.p.satchel);
   if (!rest.length) return { cents: satCents, label: parts[0], source: "satchel", bags };
   const flatFor = ls => Math.round(Math.max(0, ...ls.map(l => l.p.shipClass ? s.rates[l.p.shipClass] : s.flatRate)) * 100);
   const pcOk = /^\d{4}$/.test(String(postcode || ""));
