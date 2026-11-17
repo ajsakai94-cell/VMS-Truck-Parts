@@ -370,8 +370,8 @@ ${parts.map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.oem
     body: () => `<p>The front and rear brake pads on the MP4 and MP5 Mercedes-Benz Actros are different sizes, so you need the right number for each axle. Most MP4s run Knorr-Bremse disc brakes: an SM7 caliper on the front and an SL7 on the rear.</p>
 <h2>Brake pad numbers</h2>
 <div class="tablewrap"><table><thead><tr><th>Axle</th><th>Mercedes OE</th><th>Also written as</th><th>WVA</th><th>Caliper</th><th>Pad size (approx.)</th></tr></thead><tbody>
-<tr><td>Front</td><td>${mono(["A 006 420 14 20"])}</td><td>${mono(oeForms("A 006 420 14 20").slice(1, 3))}</td><td>${mono(["29246", "29247"])}</td><td>Knorr SM7</td><td>245 x 113.5 x 30 mm</td></tr>
-<tr><td>Rear</td><td>${mono(["A 006 420 53 20"])}</td><td>${mono(oeForms("A 006 420 53 20").slice(1, 3))}</td><td>${mono(["29244", "29245"])}</td><td>Knorr SL7</td><td>208 x 115 x 30 mm</td></tr>
+<tr><td>Front</td><td>${mono(["A 006 420 14 20"])}</td><td>${mono(oeForms("A 006 420 14 20").slice(1, 3))}</td><td>${mono(["29246", "29247"])}</td><td>Knorr SM7</td><td>244 x 115 x 30 mm</td></tr>
+<tr><td>Rear</td><td>${mono(["A 006 420 53 20"])}</td><td>${mono(oeForms("A 006 420 53 20").slice(1, 3))}</td><td>${mono(["29244", "29245"])}</td><td>Knorr SL7</td><td>207 x 113 x 30 mm</td></tr>
 </tbody></table></div>
 <p>Other numbers that turn up for the same pads: front <span class="mono">A 006 420 52 20</span> and <span class="mono">A 000 421 72 10</span>; rear <span class="mono">A 006 420 15 20</span>. Treat these as "check the old pad" rather than a sure match.</p>
 <h2>Check your caliper first</h2>

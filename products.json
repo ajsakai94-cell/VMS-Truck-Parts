@@ -606,7 +606,8 @@
   "cat": "Brakes",
   "price": 150.0,
   "available": false,
-  "image": "",
+  "image": "/images/brake-pads-front-1000.webp",
+   "thumb": "/images/brake-pads-front-400.webp",
   "brand": "VMS",
   "identifierExists": false,
   "condition": "new",
@@ -645,7 +646,7 @@
    ],
    [
     "Pad size",
-    "about 245 x 113.5 x 30 mm"
+    "244 x 115 x 30 mm"
    ],
    [
     "In the box",
@@ -692,7 +693,8 @@
   "cat": "Brakes",
   "price": 150.0,
   "available": false,
-  "image": "",
+  "image": "/images/brake-pads-rear-1000.webp",
+   "thumb": "/images/brake-pads-rear-400.webp",
   "brand": "VMS",
   "identifierExists": false,
   "condition": "new",
@@ -730,7 +732,7 @@
    ],
    [
     "Pad size",
-    "about 208 x 115 x 30 mm"
+    "207 x 113 x 30 mm"
    ],
    [
     "In the box",
