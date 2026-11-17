@@ -28,7 +28,7 @@
   {
    "id": "service-kit",
    "slug": "service-kit-om471-om473-mp4-mp5-actros",
-   "name": "Service Filter Kit \u2013 5 Filters",
+   "name": "Service Filter Kit – 5 Filters",
    "cat": "Filters",
    "price": 290.0,
    "available": true,
@@ -524,6 +524,82 @@
    "kg": 1.5
   },
   {
+   "id": "air-dryer-cartridge",
+   "slug": "air-dryer-cartridge-mp4-mp5-actros",
+   "name": "Air Dryer Cartridge",
+   "cat": "Brakes",
+   "price": 50.0,
+   "available": false,
+   "sku": "VMS-B02",
+   "oem": [
+    "A 000 429 20 97",
+    "A 000 429 21 97",
+    "A 000 429 37 95"
+   ],
+   "cross": [
+    "Knorr-Bremse K163455",
+    "MANN TB 1394/8 x",
+    "Mahle AL 35",
+    "febi 106249",
+    "Hengst T380W",
+    "Haldex 31005509"
+   ],
+   "specs": [
+    [
+     "Thread",
+     "M41 x 2"
+    ],
+    [
+     "Size",
+     "about 165 mm tall, 136 mm across"
+    ],
+    [
+     "Type",
+     "Spin-on desiccant cartridge with oil separator"
+    ],
+    [
+     "Change",
+     "Every 1 to 2 years, or when water shows in the air tanks"
+    ]
+   ],
+   "tags": [
+    "air dryer cartridge",
+    "air dryer filter",
+    "air drier cartridge",
+    "dryer cartridge",
+    "desiccant cartridge",
+    "air brake dryer",
+    "APU cartridge",
+    "oil separator cartridge"
+   ],
+   "keywords": [
+    "brakes",
+    "air brakes",
+    "servicing",
+    "M41x2",
+    "K163455",
+    "0004292097",
+    "A0004292097",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Spin-on air dryer cartridge with oil separator for the air processing unit on the MP4 Mercedes-Benz Actros. Keeps water and oil out of the brake air system. Change it every 1 to 2 years, or sooner if you're draining water from the tanks. Check your old cartridge has the M41 x 2 thread before you order, or send us your VIN and we'll confirm fit. New stock is on its way.",
+   "brand": "ZOKE",
+   "mpn": "VMS-B02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "image": "",
+   "satchel": "large",
+   "kg": 2.4
+  },
+  {
    "id": "long-mirror-cover",
    "slug": "long-mirror-cover-mp4-mp5-actros",
    "name": "Main Mirror Cover (Long)",
@@ -539,7 +615,8 @@
    "oldHandle": "long-mirror-cover-to-suit-mp4-mp5-mercedes-actros-lh-rh",
    "sku": "VMS-C01",
    "oem": [
-    "A 960 811 14 07"
+    "A 960 811 06 07",
+    "A 960 811 07 07"
    ],
    "cross": [],
    "tags": [
@@ -555,7 +632,7 @@
     "body parts",
     "panel"
    ],
-   "desc": "Replacement cover for the long main mirror. Choose driver's or passenger side.",
+   "desc": "Replacement back cover for the long main mirror (long-arm mirror). Left-hand / passenger side is OE A 960 811 06 07, right-hand / driver's side is OE A 960 811 07 07. Choose your side.",
    "brand": "Nuopei",
    "mpn": "VMS-C01",
    "identifierExists": false,
@@ -569,6 +646,129 @@
    },
    "satchel": "xl",
    "kg": 1.0
+  },
+  {
+   "id": "h7-globe-24v",
+   "slug": "h7-24v-70w-headlight-globes-2-pack-mp4-mp5-actros",
+   "name": "H7 24V 70W Headlight Globes (Pair)",
+   "cat": "Cab",
+   "price": 43.0,
+   "available": false,
+   "sku": "VMS-C02",
+   "oem": [],
+   "cross": [
+    "Narva 48728",
+    "Narva 48729",
+    "Osram 64215",
+    "Osram Truckstar Pro 64215TSP",
+    "Philips 13972MDB1"
+   ],
+   "specs": [
+    [
+     "Type",
+     "H7 halogen, 24 volt, 70 watt"
+    ],
+    [
+     "Base",
+     "PX26d"
+    ],
+    [
+     "Pack",
+     "2 globes (one per headlight)"
+    ],
+    [
+     "Position",
+     "Headlight low beam (check your old globe for high beam)"
+    ]
+   ],
+   "tags": [
+    "H7 globe",
+    "H7 bulb",
+    "24V H7",
+    "headlight globe",
+    "headlight bulb",
+    "low beam globe",
+    "dipped beam bulb",
+    "halogen globe"
+   ],
+   "keywords": [
+    "lights",
+    "lighting",
+    "headlamp",
+    "PX26d",
+    "70W",
+    "truck globe",
+    "64215",
+    "48728"
+   ],
+   "desc": "A pair of H7 24 volt 70 watt halogen headlight globes with the PX26d base, for the halogen headlights on the MP4 Mercedes-Benz Actros. Change both sides together so the beams match. Pull your old globe and check it says H7 24V before you order.",
+   "brand": "VMS",
+   "mpn": "VMS-C02",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4"
+    ],
+    "engines": []
+   },
+   "image": "",
+   "satchel": "small",
+   "kg": 0.2
+  },
+  {
+   "id": "small-mirror-cover",
+   "slug": "small-mirror-cover-mp4-mp5-actros",
+   "name": "Corner Mirror Cover (Small)",
+   "cat": "Cab",
+   "price": 50.0,
+   "available": true,
+   "maxQty": 10,
+   "options": [
+    "Driver's side (RH) A 960 811 15 07",
+    "Passenger side (LH) A 960 811 14 07"
+   ],
+   "image": "/images/small-mirror-cover-1000.webp",
+   "thumb": "/images/small-mirror-cover-400.webp",
+   "sku": "VMS-C03",
+   "oem": [
+    "A 960 811 14 07",
+    "A 960 811 15 07"
+   ],
+   "cross": [],
+   "tags": [
+    "corner mirror cover",
+    "small mirror cover",
+    "wide angle mirror cover",
+    "lower mirror cover",
+    "mirror cap",
+    "mirror back cover",
+    "Spiegelkappe klein"
+   ],
+   "keywords": [
+    "mirror",
+    "cab",
+    "body parts",
+    "panel",
+    "LH",
+    "RH",
+    "left",
+    "right"
+   ],
+   "desc": "Replacement back cover for the small corner (lower, wide-angle) mirror that sits under the main mirror. Left-hand / passenger side is OE A 960 811 14 07, right-hand / driver's side is OE A 960 811 15 07. Choose your side. Pairs with our long main mirror cover.",
+   "brand": "VMS",
+   "mpn": "VMS-C03",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "satchel": "medium",
+   "kg": 0.5
   },
   {
    "id": "viscous-fan-clutch",
@@ -746,7 +946,12 @@
     "engines": []
    },
    "shipClass": "heavy",
-   "pack": [40, 30, 25, 8]
+   "pack": [
+    40,
+    30,
+    25,
+    8
+   ]
   },
   {
    "id": "starter-motor",
@@ -840,7 +1045,12 @@
     ]
    },
    "shipClass": "heavy",
-   "pack": [35, 30, 25, 8]
+   "pack": [
+    35,
+    30,
+    25,
+    8
+   ]
   },
   {
    "id": "timing-tool-kit",
@@ -879,7 +1089,12 @@
     "engines": []
    },
    "shipClass": "heavy",
-   "pack": [45, 35, 15, 5]
+   "pack": [
+    45,
+    35,
+    15,
+    5
+   ]
   },
   {
    "id": "cylinder-head-om473",
@@ -1058,9 +1273,35 @@
    "maxQty": 3,
    "thumb": "/images/pneumatic-oil-pump-v2-400.webp",
    "illustration": false,
-  "specs": [["Oil viscosity", "Handles thick oils up to 1200 SAE (maker's rating)"], ["Pressure ratio", "5:1"], ["Operating temperature", "-10°C to 50°C"], ["Max flow", "8 to 10 L/min"], ["Hose length", "5 m"]],
+   "specs": [
+    [
+     "Oil viscosity",
+     "Handles thick oils up to 1200 SAE (maker's rating)"
+    ],
+    [
+     "Pressure ratio",
+     "5:1"
+    ],
+    [
+     "Operating temperature",
+     "-10°C to 50°C"
+    ],
+    [
+     "Max flow",
+     "8 to 10 L/min"
+    ],
+    [
+     "Hose length",
+     "5 m"
+    ]
+   ],
    "shipClass": "heavy",
-   "pack": [60, 40, 30, 12]
+   "pack": [
+    60,
+    40,
+    30,
+    12
+   ]
   }
  ]
 }
