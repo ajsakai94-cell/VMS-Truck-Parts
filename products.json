@@ -837,6 +837,56 @@
    "kg": 2.5
   },
   {
+   "id": "trailer-light-suzi-coil",
+   "slug": "7-pin-trailer-light-suzi-coil",
+   "name": "7 Pin Trailer Light Suzi Coil",
+   "cat": "Brakes",
+   "price": 120.0,
+   "available": false,
+   "sku": "VMS-B06",
+   "oem": [],
+   "cross": [],
+   "specs": [
+    ["Plugs", "7-pin, both ends"],
+    ["Use", "Trailer lights (not for ABS/EBS)"],
+    ["Type", "Coiled suzi with metal-bodied plugs"]
+   ],
+   "tags": [
+    "suzi coil",
+    "trailer suzi",
+    "trailer light cable",
+    "trailer lighting coil",
+    "7 pin suzi coil",
+    "7 core suzi",
+    "trailer plug cable",
+    "electrical coil",
+    "curly cord"
+   ],
+   "keywords": [
+    "electrical",
+    "trailer",
+    "suzi",
+    "suzie",
+    "susie",
+    "coil",
+    "7 pin",
+    "lights",
+    "prime mover"
+   ],
+   "desc": "7 pin coiled suzi that carries the trailer light circuits (tail, stop, indicators and auxiliary) from the prime mover to the trailer. For the trailer brakes' ABS/EBS connection use our ABS/EBS 7 core trailer cable. Check the plug on your truck and trailer matches before you order, or call us and we'll confirm. New stock is on its way.",
+   "brand": "VMS",
+   "mpn": "VMS-B06",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": ["MP4", "MP5"],
+    "engines": []
+   },
+   "maxQty": 10,
+   "satchel": "xl",
+   "kg": 2.5
+  },
+  {
    "id": "long-mirror-cover",
    "slug": "long-mirror-cover-mp4-mp5-actros",
    "name": "Main Mirror Cover (Long)",
