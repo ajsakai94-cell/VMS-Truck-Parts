@@ -884,7 +884,8 @@
     ],
     "engines": []
    },
-   "image": "",
+   "image": "/images/h7-globe-1000.webp",
+   "thumb": "/images/h7-globe-400.webp",
    "satchel": "small",
    "kg": 0.2
   },
