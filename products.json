@@ -629,6 +629,178 @@
    "kg": 1.5
   },
   {
+   "id": "brake-pads-front",
+   "slug": "front-brake-pads-mp4-mp5-actros",
+   "name": "Front Brake Pad Set (Axle Set)",
+   "cat": "Brakes",
+   "price": 150.0,
+   "available": false,
+   "image": "/images/brake-pads-front-1000.webp",
+   "thumb": "/images/brake-pads-front-400.webp",
+   "brand": "VMS",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "shipClass": "bulky",
+   "sku": "VMS-B03",
+   "mpn": "VMS-B03",
+   "oem": [
+    "A 006 420 14 20",
+    "A 006 420 52 20",
+    "A 000 421 72 10"
+   ],
+   "cross": [
+    "WVA 29246",
+    "WVA 29247",
+    "Knorr-Bremse SM7"
+   ],
+   "specs": [
+    [
+     "Axle",
+     "Front"
+    ],
+    [
+     "Caliper",
+     "Knorr-Bremse SM7"
+    ],
+    [
+     "WVA",
+     "29246 / 29247"
+    ],
+    [
+     "Pad size",
+     "244 x 115 x 30 mm"
+    ],
+    [
+     "In the box",
+     "4 pads, enough for one front axle (both wheels)"
+    ]
+   ],
+   "tags": [
+    "front brake pads",
+    "brake pad set",
+    "disc brake pads",
+    "truck brake pads",
+    "front axle brake pads",
+    "Knorr SM7 brake pads",
+    "WVA 29246 brake pads"
+   ],
+   "keywords": [
+    "brakes",
+    "pads",
+    "servicing",
+    "0064201420",
+    "A0064201420",
+    "0064205220",
+    "A0064205220",
+    "0004217210",
+    "A0004217210",
+    "29246",
+    "29247",
+    "SM7",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Front axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SM7 disc brakes. 4 pads, enough to do both front wheels. Front and rear pads are different sizes, so check the WVA number on your old pad (29246 or 29247) before you order, or send us your VIN and we'll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won't fit. New stock is on its way.",
+   "pack": [
+    26,
+    24,
+    14,
+    8
+   ]
+  },
+  {
+   "id": "brake-pads-rear",
+   "slug": "rear-brake-pads-mp4-mp5-actros",
+   "name": "Rear Brake Pad Set (Axle Set)",
+   "cat": "Brakes",
+   "price": 150.0,
+   "available": false,
+   "image": "/images/brake-pads-rear-1000.webp",
+   "thumb": "/images/brake-pads-rear-400.webp",
+   "brand": "VMS",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "shipClass": "bulky",
+   "sku": "VMS-B04",
+   "mpn": "VMS-B04",
+   "oem": [
+    "A 006 420 53 20",
+    "A 006 420 15 20"
+   ],
+   "cross": [
+    "WVA 29244",
+    "WVA 29245",
+    "Knorr-Bremse SL7"
+   ],
+   "specs": [
+    [
+     "Axle",
+     "Rear (drive axle)"
+    ],
+    [
+     "Caliper",
+     "Knorr-Bremse SL7"
+    ],
+    [
+     "WVA",
+     "29244 / 29245"
+    ],
+    [
+     "Pad size",
+     "207 x 113 x 30 mm"
+    ],
+    [
+     "In the box",
+     "4 pads, enough for one rear axle (both wheels)"
+    ]
+   ],
+   "tags": [
+    "rear brake pads",
+    "brake pad set",
+    "disc brake pads",
+    "truck brake pads",
+    "rear axle brake pads",
+    "drive axle brake pads",
+    "Knorr SL7 brake pads",
+    "WVA 29244 brake pads"
+   ],
+   "keywords": [
+    "brakes",
+    "pads",
+    "servicing",
+    "0064205320",
+    "A0064205320",
+    "0064201520",
+    "A0064201520",
+    "29244",
+    "29245",
+    "SL7",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Rear axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SL7 disc brakes. 4 pads, enough to do both wheels on one rear axle (order 2 sets for a tandem drive). Front and rear pads are different sizes, so check the WVA number on your old pad (29244 or 29245) before you order, or send us your VIN and we'll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won't fit. New stock is on its way.",
+   "pack": [
+    23,
+    24,
+    14,
+    7
+   ]
+  },
+  {
    "id": "long-mirror-cover",
    "slug": "long-mirror-cover-mp4-mp5-actros",
    "name": "Main Mirror Cover (Long)",
