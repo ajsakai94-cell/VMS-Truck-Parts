@@ -844,13 +844,14 @@
    "price": 147.0,
    "available": false,
    "sku": "VMS-B06",
-   "image": "",
+   "image": "/images/trailer-light-suzi-coil-1000.webp",
+   "thumb": "/images/trailer-light-suzi-coil-400.webp",
    "oem": [],
    "cross": [],
    "specs": [
     ["Plugs", "7-pin, both ends"],
     ["Use", "Trailer lights (not for ABS/EBS)"],
-    ["Type", "Coiled suzi with metal-bodied plugs"]
+    ["Type", "Coiled suzi with metal-bodied plugs and spring guard"]
    ],
    "tags": [
     "suzi coil",
