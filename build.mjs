@@ -4,7 +4,7 @@
 //   /404.html                  real "not found" page (also stops Cloudflare's send-everything-to-home fallback)
 //   /guides/<slug>/index.html  guide pages (content in GUIDES below)
 //   /index.html                only the <!--build:...--> regions are filled in (cards, categories, guides, head tags)
-//   /policies.html, /success.html  hand-written; only the ?v= on their styles.css / app.js links is updated
+//   /policies.html, /success.html  hand-written; only the ?v= on their styles.css / app.js / track.js links is updated
 //   /sitemap.xml, /feed.xml    sitemap for Search Console, product feed for Merchant Center
 // Run:   node build.mjs          write the files
 //        node build.mjs --check  fail if the committed files are out of date (used by the GitHub check)
@@ -18,8 +18,8 @@ const ROOT = dirname(fileURLToPath(import.meta.url));
 // Every page links styles.css and app.js with ?v=<hash of the file>, so when either changes the URL changes
 // and browsers fetch the new copy instead of mixing new pages with an old cached stylesheet.
 const ver = f => createHash("sha1").update(readFileSync(join(ROOT, f))).digest("hex").slice(0, 8);
-const CSS = `/styles.css?v=${ver("styles.css")}`, JS = `/app.js?v=${ver("app.js")}`;
-const versionAssets = html => html.replace(/(href=")\/?styles\.css(\?v=[0-9a-f]+)?"/g, `$1${CSS}"`).replace(/(src=")\/?app\.js(\?v=[0-9a-f]+)?"/g, `$1${JS}"`);
+const CSS = `/styles.css?v=${ver("styles.css")}`, JS = `/app.js?v=${ver("app.js")}`, TRACK = `/track.js?v=${ver("track.js")}`;
+const versionAssets = html => html.replace(/(href=")\/?styles\.css(\?v=[0-9a-f]+)?"/g, `$1${CSS}"`).replace(/(src=")\/?app\.js(\?v=[0-9a-f]+)?"/g, `$1${JS}"`).replace(/(src=")\/?track\.js(\?v=[0-9a-f]+)?"/g, `$1${TRACK}"`);
 const data = JSON.parse(readFileSync(join(ROOT, "products.json"), "utf8"));
 
 // Brand and site settings live in one place, so a rename or domain change is one edit.
@@ -123,6 +123,7 @@ ${body}
   </div>
 </div>
 
+<script src="${TRACK}"></script>
 <script src="${JS}"></script>
 </body>
 </html>

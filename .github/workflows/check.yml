@@ -16,6 +16,7 @@ jobs:
       - name: JavaScript syntax
         run: |
           node --check app.js
-          cp functions/api/checkout.js /tmp/checkout.mjs && node --check /tmp/checkout.mjs
+          node --check track.js
+          for f in functions/api/*.js; do cp "$f" /tmp/fn.mjs && node --check /tmp/fn.mjs || exit 1; done
       - name: Generated pages are up to date
         run: node build.mjs --check

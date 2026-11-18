@@ -10,6 +10,12 @@ const ICONS={
  Workshop:'<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M40 8a12 12 0 0 0-11 16L8 45l11 11 21-21a12 12 0 0 0 16-11l-7 4-8-4-1-9z"/></svg>'
 };
 const $=id=>document.getElementById(id);
+// Activity log (track.js): every shop step is recorded so we can see who looked, searched, filled a cart or started checkout
+const T=(n,p)=>{try{window.vmsTrack&&window.vmsTrack(n,p)}catch(e){}};
+const cartSnap=()=>Object.entries(cart).map(([k,q])=>{const {p,opt}=parse(k);return {id:k.split("|")[0],name:p?p.name:k,opt:opt||undefined,qty:q,price:p?p.price:null}});
+const cartVal=()=>Object.entries(cart).reduce((s,[k,q])=>{const {p}=parse(k);return s+(p&&p.price?p.price*q:0)},0);
+let lastCount=0, searchT=null;
+function trackSearch(how){clearTimeout(searchT);const q=st.q.trim();if(q.length<2)return;searchT=setTimeout(()=>T("search",{q:q.slice(0,100),results:lastCount,how,cat:st.cat||undefined,eng:st.eng||undefined}),how==="typed"?1200:0)}
 const money=n=>"$"+n.toFixed(2);
 let DATA=null, P=[], st={cat:null,q:"",eng:""}, cart={}, current=null;
 let pc="", sq=null, sqKey="", sqBusy=false, sqFail=""; // delivery postcode and the Australia Post quote for the cart as it is now
@@ -42,7 +48,7 @@ function renderGrid(){
   const nums=p=>[p.sku||"",...(p.oem||[]),...(p.cross||[])].map(n=>norm(n).replace(/^a(?=\d)/,""));
   const fitsEng=p=>!st.eng||!p.fits||!(p.fits.engines||[]).length||p.fits.engines.includes(st.eng);
   let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&fitsEng(p)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>hay(p).includes(w))));
-  r.sort((a,b)=>(b.available-a.available));
+  r.sort((a,b)=>(b.available-a.available));lastCount=r.length;
   $("listTitle").textContent=(st.q?`Results for "${st.q}"`:(st.cat||"All parts"))+(st.eng?` for ${st.eng}`:"");
   document.querySelectorAll("[data-eng]").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.eng===st.eng&&!!st.eng)));
   $("resultCount").innerHTML=`${r.length} part${r.length===1?"":"s"}${st.cat||st.q||st.eng?' · <button class="clear" type="button" data-clear>Show all</button>':""}`;
@@ -73,7 +79,8 @@ async function getQuote(){
     const r=await fetch("/api/shipping",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc4()})});
     const j=await r.json();if(!r.ok)throw new Error(j.error);
     sq=j;sqKey=k;
-  }catch(e){sq=null;sqFail=k}
+    T("shipping_quote",{postcode:pc4()||undefined,cents:j.cents,source:j.source,needsPostcode:!!j.needsPostcode,items:items.length});
+  }catch(e){sq=null;sqFail=k;T("shipping_quote_failed",{postcode:pc4()||undefined,error:String(e.message||e).slice(0,120)})}
   sqBusy=false;renderCart();
   if(sqKey!==quoteKey())getQuote(); // the cart changed while we were asking
 }
@@ -95,42 +102,48 @@ function renderCart(){
 }
 const HOME=!!$("grid"); // home page has the search grid; every page has the cart
 const on=(id,ev,fn)=>{const el=$(id);if(el)el.addEventListener(ev,fn)};
-function closeAll(){$("drawer").hidden=true}
+function closeAll(){if(!$("drawer").hidden)T("cart_close",{items:Object.keys(cart).length,value:cartVal()});$("drawer").hidden=true}
 function all(){if(HOME){renderCats();renderGrid()}renderCart()}
 
 document.addEventListener("click",e=>{
   const t=e.target.closest("button");
   if(!t){if(e.target.classList&&e.target.classList.contains("overlay"))closeAll();return}
-  if(t.dataset.cat){st.cat=st.cat===t.dataset.cat?null:t.dataset.cat;st.q="";$("q").value="";all();$("parts").scrollIntoView({behavior:"smooth"})}
+  if(t.dataset.cat){st.cat=st.cat===t.dataset.cat?null:t.dataset.cat;T("category",{cat:st.cat||"(all)"});st.q="";$("q").value="";all();$("parts").scrollIntoView({behavior:"smooth"})}
   else if("clear" in t.dataset){st.cat=null;st.q="";st.eng="";$("q").value="";all()}
-  else if("eng" in t.dataset){st.eng=t.dataset.eng;all();$("parts").scrollIntoView({behavior:"smooth"})}
+  else if("eng" in t.dataset){st.eng=t.dataset.eng;T("engine_filter",{eng:st.eng||"(all)"});all();$("parts").scrollIntoView({behavior:"smooth"})}
   else if(t.dataset.close)closeAll();
-  else if(t.dataset.inc){const {p}=parse(t.dataset.inc);if(p&&p.maxQty&&cart[t.dataset.inc]>=p.maxQty)return;cart[t.dataset.inc]++;save();renderCart()}
-  else if(t.dataset.dec){if(--cart[t.dataset.dec]<=0)delete cart[t.dataset.dec];save();renderCart()}
+  else if(t.dataset.inc){const k=t.dataset.inc,{p}=parse(k);if(p&&p.maxQty&&cart[k]>=p.maxQty){T("add_blocked",{id:k,maxQty:p.maxQty});return}cart[k]++;save();renderCart();T("cart_qty",{id:k,qty:cart[k],value:cartVal(),cart:cartSnap()})}
+  else if(t.dataset.dec){const k=t.dataset.dec;if(--cart[k]<=0){delete cart[k];T("remove_from_cart",{id:k,value:cartVal(),cart:cartSnap()})}else T("cart_qty",{id:k,qty:cart[k],value:cartVal(),cart:cartSnap()});save();renderCart()}
 });
-on("pAdd","click",()=>{if(!current)return;const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`});
-on("searchForm","submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();$("parts").scrollIntoView({behavior:"smooth"})});
-on("q","input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid()});
+on("pAdd","click",()=>{if(!current)return;const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;T("add_blocked",{id:k,maxQty:current.maxQty});return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`;
+  T("add_to_cart",{id:current.id,name:current.name,opt:current.options?$("pOpt").value:undefined,price:current.price,qty:cart[k],value:cartVal(),cart:cartSnap()})});
+on("searchForm","submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();trackSearch("submitted");$("parts").scrollIntoView({behavior:"smooth"})});
+on("q","input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid();trackSearch("typed")});
 on("toSearch","click",e=>{e.preventDefault();$("q").scrollIntoView({behavior:"smooth",block:"center"});$("q").focus({preventScroll:true})});
 // "Still not sure?" form: no server needed, it opens the customer's own SMS or email app with the message written for them
 on("askForm","submit",e=>{
   e.preventDefault();const f=e.target,v=n=>f.elements[n].value.trim();
   const msg=`Hi VMS, can you check the right part for my truck?\nPart: ${v("part")}\nRego/VIN: ${v("truck")||"(not given)"}\nName: ${v("name")||"(not given)"}\nPhoto of the old part: (attach it to this message)`;
   const how=(e.submitter&&e.submitter.value)||"sms";
+  T("ask_form",{how,part:v("part").slice(0,120),truck:v("truck").slice(0,40)||undefined,name:v("name").slice(0,60)||undefined});
   location.href=how==="email"?`mailto:${f.dataset.email}?subject=${encodeURIComponent("Part check: "+v("part"))}&body=${encodeURIComponent(msg)}`:`sms:${f.dataset.phone}?&body=${encodeURIComponent(msg)}`;
 });
-on("openCart","click",()=>{$("drawer").hidden=false});
-on("postcode","input",e=>{pc=e.target.value.replace(/\D/g,"").slice(0,4);e.target.value=pc;try{localStorage.setItem("vms-pc",pc)}catch(x){}renderCart()});
+on("openCart","click",()=>{$("drawer").hidden=false;T("cart_open",{items:Object.keys(cart).length,value:cartVal(),cart:cartSnap()})});
+on("postcode","input",e=>{pc=e.target.value.replace(/\D/g,"").slice(0,4);e.target.value=pc;try{localStorage.setItem("vms-pc",pc)}catch(x){}if(pc.length===4)T("postcode",{postcode:pc});renderCart()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 on("checkout","click",async()=>{
   const b=$("checkout");b.disabled=true;b.textContent="Opening secure checkout…";
   try{
     const items=Object.entries(cart).map(([k,q])=>{const [id,option]=k.split("|");return {id,option:option||null,qty:q}});
-    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc4()})});
+    const {sub,ship}=totals();
+    T("begin_checkout",{value:sub,shipping:ship,postcode:pc4()||undefined,cart:cartSnap()});
+    let vid="",sid="",own=0;try{vid=localStorage.getItem("vms-vid")||"";sid=sessionStorage.getItem("vms-sid")||"";own=localStorage.getItem("vms-owner")==="1"?1:0}catch(x){}
+    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc4(),vid,sid,own})});
     const j=await r.json();
     if(!r.ok||!j.url)throw new Error(j.error||"Checkout failed");
     location.href=j.url;
   }catch(err){
+    T("checkout_error",{error:String(err.message||err).slice(0,200),cart:cartSnap()});
     $("checkoutNote").textContent="Checkout didn't open: "+err.message+". Please call or text 0481 309 893 and we'll take your order by phone.";
     b.disabled=false;b.textContent="Checkout";
   }
@@ -144,6 +157,9 @@ fetch("/products.json").then(r=>r.json()).then(d=>{
   Object.keys(cart).forEach(k=>{const {p}=parse(k);if(!p||!p.available||p.price==null)delete cart[k]});
   all();
   const part=document.body.dataset.part;if(part)current=P.find(x=>x.id===part)||null;
+  if(current)T("view_item",{id:current.id,name:current.name,price:current.price,available:!!current.available});
+  let seen=true;try{seen=!!sessionStorage.getItem("vms-cart-seen");sessionStorage.setItem("vms-cart-seen","1")}catch(e){}
+  if(Object.keys(cart).length&&!seen)T("cart_restored",{value:cartVal(),cart:cartSnap()});
   const id=new URLSearchParams(location.search).get("p"),old=id&&P.find(x=>x.id===id);if(old&&HOME)location.replace("/parts/"+old.slug+"/"); // old ?p= links
   if(location.hash==="#cart")$("drawer").hidden=false;
 });
