@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Shop activity | VMS Truck Parts</title>
+<style>
+:root{--bg:#f6f6f4;--card:#fff;--ink:#16181b;--mut:#6b7078;--line:#e3e3df;--acc:#c8102e;--good:#1a7f37;--warn:#b45309;--chip:#f0f0ec}
+@media (prefers-color-scheme:dark){:root{--bg:#121315;--card:#1b1d20;--ink:#ececea;--mut:#9aa0a8;--line:#2c2f33;--acc:#ff4d5e;--good:#4ac26b;--warn:#f0a542;--chip:#25282c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:14px 16px;border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+h1{font-size:18px;margin:0 auto 0 0}h2{font-size:16px;margin:0 0 10px}main{max-width:1100px;margin:0 auto;padding:16px}
+button,select,input{font:inherit;color:inherit}button{background:var(--chip);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+input{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin:0 0 16px;overflow-x:auto}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:0 0 16px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}.tile b{display:block;font-size:26px;line-height:1.1}.tile span{color:var(--mut);font-size:13px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:0 16px}
+table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}.mut{color:var(--mut)}.good{color:var(--good);font-weight:600}.warn{color:var(--warn);font-weight:600}.bad{color:var(--acc);font-weight:600}
+.tag{display:inline-block;background:var(--chip);border-radius:6px;padding:1px 6px;font-size:12px;margin:1px 2px 1px 0}
+a.v{color:inherit;text-decoration:underline dotted;cursor:pointer}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.empty{color:var(--mut);padding:8px 0}
+dialog{width:min(760px,96vw);max-height:88vh;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);padding:0}
+dialog .hd{position:sticky;top:0;background:var(--card);padding:12px 14px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+dialog .bd{padding:8px 14px 14px}#msg{margin:0 0 12px}
+</style></head>
+<body>
+<header>
+  <h1>Shop activity</h1>
+  <div class="row" id="ranges"></div>
+  <label class="row mut" style="font-size:14px"><input type="checkbox" id="withOwn" style="width:auto"> include my own visits</label>
+  <button id="me" type="button"></button>
+</header>
+<main>
+  <div class="card" id="login" hidden>
+    <h2>Enter the stats key</h2>
+    <p class="mut">It's saved on this device only. It's the STATS_KEY secret in Cloudflare (Pages project, Settings, Variables and secrets).</p>
+    <form id="keyForm" class="row"><input id="key" type="password" autocomplete="off" placeholder="Stats key" style="flex:1;min-width:200px"><button>Open</button></form>
+  </div>
+  <p id="msg" class="mut"></p>
+  <div id="out"></div>
+</main>
+<dialog id="tl"><div class="hd"><b id="tlTitle">Visitor</b><button type="button" onclick="tl.close()">Close</button></div><div class="bd" id="tlBody"></div></dialog>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+var esc=function(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var get=function(k){try{return localStorage.getItem(k)}catch(e){return null}}, set=function(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
+var TZ={timeZone:"Australia/Melbourne"};
+var when=function(ts){return new Date(ts).toLocaleString("en-AU",Object.assign({weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"},TZ))};
+var money=function(n){return n==null?"":"$"+Number(n).toFixed(2)};
+var place=function(r){return [r.city,r.region].filter(Boolean).join(", ")||"?"};
+var days=Number(get("vms-stats-days"))||7, key=get("vms-stats-key")||"";
+
+// "This is my device": tags this browser so its visits and test checkouts are left out of the numbers
+function meLabel(){var on=get("vms-owner")==="1";$("me").textContent=on?"This is my device ✓":"Mark this as my device";$("me").setAttribute("aria-pressed",String(on))}
+$("me").onclick=function(){
+  var on=get("vms-owner")!=="1";set("vms-owner",on?"1":null);meLabel();
+  var vid=get("vms-vid");
+  if(vid&&key)fetch("/api/stats",{method:"POST",headers:{"X-Stats-Key":key,"Content-Type":"application/json"},body:JSON.stringify({owner:vid,undo:!on})}).then(load);
+};
+meLabel();
+
+$("ranges").innerHTML=[[1,"Today-ish (24h)"],[7,"7 days"],[30,"30 days"],[90,"90 days"]].map(function(d){return '<button type="button" data-d="'+d[0]+'" aria-pressed="'+(d[0]===days)+'">'+d[1]+'</button>'}).join("");
+$("ranges").onclick=function(e){var b=e.target.closest("button");if(!b)return;days=Number(b.dataset.d);set("vms-stats-days",days);[].forEach.call($("ranges").children,function(x){x.setAttribute("aria-pressed",String(x===b))});load()};
+$("withOwn").onchange=load;
+$("keyForm").onsubmit=function(e){e.preventDefault();key=$("key").value.trim();set("vms-stats-key",key);load()};
+
+function api(q){return fetch("/api/stats"+q,{headers:{"X-Stats-Key":key}}).then(function(r){return r.json().then(function(j){if(r.status===401){set("vms-stats-key",null);key="";throw new Error("Wrong key")}return j})})}
+
+function table(rows,cols,empty){
+  if(!rows||!rows.length)return '<div class="empty">'+(empty||"Nothing yet.")+'</div>';
+  return '<table><thead><tr>'+cols.map(function(c){return '<th'+(c.n?' class="n"':'')+'>'+c.h+'</th>'}).join("")+'</tr></thead><tbody>'+
+    rows.map(function(r){return '<tr>'+cols.map(function(c){return '<td'+(c.n?' class="n"':'')+'>'+c.f(r)+'</td>'}).join("")+'</tr>'}).join("")+'</tbody></table>';
+}
+function cartItems(json){var p={};try{p=JSON.parse(json||"{}")}catch(e){}var c=p.cart||[];return c.length?c.map(function(i){return '<span class="tag">'+esc(i.qty)+' × '+esc(i.name)+(i.opt?' ('+esc(i.opt)+')':'')+'</span>'}).join(" ")+(p.value!=null?' <b>'+money(p.value)+'</b>':''):'<span class="mut">(emptied)</span>'}
+function furthest(r){
+  if(r.purchased)return '<span class="good">Paid</span>';
+  if(r.reachedStripe)return '<span class="warn">Opened Stripe checkout, didn\'t pay</span>';
+  if(r.checkoutError)return '<span class="bad">Checkout error</span>';
+  if(r.beganCheckout)return '<span class="warn">Pressed Checkout</span>';
+  if(r.gavePostcode)return 'Entered postcode';
+  if(r.cartOpens)return 'Opened cart';
+  return 'Added to cart';
+}
+var vlink=function(vid,label){return '<a class="v" data-vid="'+esc(vid)+'">'+esc(label||String(vid).slice(0,6))+'</a>'};
+
+function render(d){
+  var t=d.totals||{}, pct=function(a){return t.visitors?Math.round(100*a/t.visitors)+"%":""};
+  var tiles=[["Visitors",t.visitors,""],["Visits",t.sessions,""],["Page views",t.pageViews,""],["Looked at a part",t.viewedPart,pct(t.viewedPart)],
+    ["Added to cart",t.addedToCart,pct(t.addedToCart)],["Pressed checkout",t.beganCheckout,pct(t.beganCheckout)],["Paid",t.purchased,pct(t.purchased)],["Called / texted / emailed",t.contacted,pct(t.contacted)]];
+  var stripe=Array.isArray(d.stripe)?d.stripe:[];
+  var h='<div class="tiles">'+tiles.map(function(x){return '<div class="tile"><b>'+(x[1]||0)+'</b><span>'+x[0]+(x[2]?' · '+x[2]:'')+'</span></div>'}).join("")+'</div>';
+  h+='<div class="card"><h2>Who got close to buying</h2>'+table(d.carts,[
+    {h:"Last seen",f:function(r){return esc(when(r.lastTs))}},{h:"Where",f:function(r){return esc(place(r))+' <span class="mut">'+esc(r.device||"")+'</span>'}},
+    {h:"Cart",f:function(r){return cartItems(r.lastCart)}},{h:"Got to",f:furthest},{h:"",f:function(r){return vlink(r.vid,"timeline")}}],"Nobody has added anything to a cart in this period.")+'</div>';
+  h+='<div class="card"><h2>Stripe checkouts</h2>'+(d.stripe&&d.stripe.error?'<div class="bad">'+esc(d.stripe.error)+'</div>':table(stripe,[
+    {h:"Opened",f:function(r){return esc(when(r.created))}},{h:"Items",f:function(r){return r.items.map(function(i){return '<span class="tag">'+esc(i)+'</span>'}).join(" ")}},
+    {h:"Total",n:1,f:function(r){return money(r.total)}},
+    {h:"Result",f:function(r){return (r.paid?'<span class="good">Paid</span>':r.status==="open"?'<span class="warn">Still open</span>':'<span class="bad">Abandoned</span>')+(r.ownerTest?' <span class="tag">you / test</span>':'')}},
+    {h:"Customer",f:function(r){return esc([r.name,r.email,r.postcode].filter(Boolean).join(" · "))||'<span class="mut">no details typed</span>'}},
+    {h:"",f:function(r){return r.visitor?vlink(r.visitor,"timeline"):""}}],"No checkouts opened in this period."))+'</div>';
+  h+='<div class="grid2"><div class="card"><h2>Searches</h2>'+table(d.searches,[{h:"Searched for",f:function(r){return esc(r.q)+(r.minResults===0?' <span class="bad">no results</span>':'')}},{h:"Times",n:1,f:function(r){return r.times}},{h:"People",n:1,f:function(r){return r.visitors}}])+'</div>';
+  h+='<div class="card"><h2>Parts looked at</h2>'+table(d.parts,[{h:"Part",f:function(r){return esc(r.part)}},{h:"Views",n:1,f:function(r){return r.views}},{h:"People",n:1,f:function(r){return r.visitors}}])+'</div>';
+  h+='<div class="card"><h2>Added to cart</h2>'+table(d.adds,[{h:"Part",f:function(r){return esc(r.part)}},{h:"Adds",n:1,f:function(r){return r.adds}},{h:"People",n:1,f:function(r){return r.visitors}}])+'</div>';
+  h+='<div class="card"><h2>Where they came from</h2>'+table(d.sources,[{h:"Source",f:function(r){return esc(r.source)}},{h:"People",n:1,f:function(r){return r.visitors}}])+'</div>';
+  h+='<div class="card"><h2>Where they are</h2>'+table(d.places,[{h:"Place",f:function(r){return esc(place(r))+(r.country&&r.country!=="AU"?' <span class="mut">'+esc(r.country)+'</span>':'')}},{h:"People",n:1,f:function(r){return r.visitors}}])+'</div>';
+  h+='<div class="card"><h2>Devices</h2>'+table(d.devices,[{h:"Device",f:function(r){return esc(r.device)+' <span class="mut">'+esc(r.browser)+'</span>'}},{h:"People",n:1,f:function(r){return r.visitors}}])+'</div>';
+  h+='<div class="card"><h2>Calls, texts, emails, copied text</h2>'+table(d.contacts,[{h:"When",f:function(r){return esc(when(r.ts))}},{h:"What",f:function(r){var p={};try{p=JSON.parse(r.props)}catch(e){}return esc(r.name.replace("_"," "))+' <span class="mut">'+esc(p.part||p.text||p.href||"")+'</span>'}},{h:"",f:function(r){return vlink(r.vid,"timeline")}}])+'</div>';
+  h+='<div class="card"><h2>By day</h2>'+table(d.daily,[{h:"Day",f:function(r){return esc(r.day)}},{h:"People",n:1,f:function(r){return r.visitors}},{h:"Views",n:1,f:function(r){return r.views}},{h:"Carts",n:1,f:function(r){return r.carts}},{h:"Checkouts",n:1,f:function(r){return r.checkouts}}])+'</div></div>';
+  h+='<div class="card"><h2>Pages</h2>'+table(d.pages,[{h:"Page",f:function(r){return esc(r.path)}},{h:"Views",n:1,f:function(r){return r.views}},{h:"People",n:1,f:function(r){return r.visitors}},{h:"Avg time",n:1,f:function(r){return r.avgSec!=null?r.avgSec+"s":""}}])+'</div>';
+  h+='<div class="card"><h2>Recent visits</h2>'+table(d.sessions,[{h:"Started",f:function(r){return esc(when(r.startTs))}},{h:"Where",f:function(r){return esc(place(r))+' <span class="mut">'+esc(r.device)+'</span>'}},
+    {h:"Came from",f:function(r){return esc(r.ref?r.ref.replace(/^https?:\/\/(www\.)?/,"").slice(0,40):"direct")+' → '+esc(r.landing)}},
+    {h:"Did",f:function(r){return [r.pages+" pages",r.partViews?r.partViews+" parts":"",r.searches?r.searches+" searches":"",r.adds?'<b>'+r.adds+" added</b>":"",r.checkout?'<span class="warn">checkout</span>':"",r.purchased?'<span class="good">paid</span>':"",r.contacts?'<b>contacted</b>':""].filter(Boolean).join(" · ")}},
+    {h:"Time",n:1,f:function(r){var s=Math.round((r.endTs-r.startTs)/1000);return s<60?s+"s":Math.round(s/60)+"m"}},{h:"",f:function(r){return vlink(r.vid,"timeline")}}])+'</div>';
+  if(d.errors&&d.errors.length)h+='<div class="card"><h2>Problems</h2>'+table(d.errors,[{h:"When",f:function(r){return esc(when(r.ts))}},{h:"What",f:function(r){return esc(r.name)+' <span class="mut">'+esc(r.path)+' '+esc(r.props)+'</span>'}}])+'</div>';
+  $("out").innerHTML=h;
+}
+
+var LABEL={page_view:"Opened",page_leave:"Left page",view_item:"Looked at part",add_to_cart:"Added to cart",remove_from_cart:"Removed from cart",cart_qty:"Changed quantity",cart_open:"Opened cart",cart_close:"Closed cart",cart_restored:"Came back with cart",postcode:"Entered postcode",shipping_quote:"Got shipping price",begin_checkout:"Pressed Checkout",checkout_session:"Sent to Stripe",checkout_error:"Checkout error",purchase:"PAID",search:"Searched",category:"Picked category",engine_filter:"Picked engine",click:"Clicked",call_click:"Tapped call",sms_click:"Tapped text",email_click:"Tapped email",outbound_click:"Left to another site",ask_form:"Sent part question",copy:"Copied text",add_blocked:"Hit stock limit",js_error:"Page error",shipping_quote_failed:"Shipping price failed"};
+function detail(e){
+  var p={};try{p=JSON.parse(e.props||"{}")}catch(x){}
+  switch(e.name){
+    case "page_view":return esc(e.path)+(p.ref&&!/vmstruckparts|pages\.dev/.test(p.ref)?' <span class="mut">from '+esc(p.ref)+'</span>':'');
+    case "page_leave":return esc(e.path)+' <span class="mut">'+esc(p.seconds)+'s, scrolled '+esc(p.scroll)+'%</span>';
+    case "search":return '"'+esc(p.q)+'" <span class="mut">'+esc(p.results)+' results</span>';
+    case "shipping_quote":return esc(p.postcode||"")+' '+money(p.cents/100)+' <span class="mut">'+esc(p.source||"")+'</span>';
+    case "checkout_session":return money(p.total)+' <span class="mut">'+esc(p.session||"")+'</span>';
+    case "click":case "call_click":case "sms_click":case "email_click":case "outbound_click":return esc(p.text)+(p.href?' <span class="mut">'+esc(p.href)+'</span>':'');
+    default:if(p.cart)return (p.error?'<span class="bad">'+esc(p.error)+'</span> ':'')+cartItems(e.props);return esc(p.name||p.q||p.cat||p.eng||p.postcode||p.text||p.part||p.error||p.msg||"");
+  }
+}
+document.addEventListener("click",function(e){
+  var a=e.target.closest("a.v");if(!a)return;
+  $("tlTitle").textContent="Visitor "+a.dataset.vid.slice(0,6);$("tlBody").innerHTML='<p class="mut">Loading…</p>';$("tl").showModal();
+  api("?vid="+encodeURIComponent(a.dataset.vid)).then(function(d){
+    var ev=d.events||[], f=ev[0]||{};
+    $("tlBody").innerHTML=(f.ts?'<p class="mut">'+esc(place(f))+' · '+esc(f.device)+' · '+esc(f.browser)+'</p>':'')+table(ev,[
+      {h:"When",f:function(r){return esc(when(r.ts))}},{h:"",f:function(r){return '<b>'+esc(LABEL[r.name]||r.name)+'</b>'}},{h:"",f:detail}],"No activity recorded.");
+  }).catch(function(err){$("tlBody").textContent=err.message});
+});
+
+function load(){
+  if(!key){$("login").hidden=false;$("msg").textContent="";return}
+  $("login").hidden=true;$("msg").textContent="Loading…";
+  api("?days="+days+($("withOwn").checked?"&own=1":"")).then(function(d){
+    $("msg").innerHTML=d.error?'<span class="bad">'+esc(d.error)+'</span>':'Last '+days+' day'+(days>1?'s':'')+(d.withOwn?', including your own visits':', your own visits left out')+'. Updated '+esc(when(Date.now()))+'.';
+    render(d);
+  }).catch(function(err){$("msg").innerHTML='<span class="bad">'+esc(err.message)+'</span>';if(!key)$("login").hidden=false});
+}
+load();
+})();
+</script>
+</body></html>

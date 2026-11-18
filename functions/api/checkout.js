@@ -5,8 +5,9 @@
 // Shipping is priced by shipping.js (Australia Post to the postcode typed in the cart, or flat rates).
 
 import { quoteShipping } from "./shipping.js";
+import { logEvents } from "./t.js";
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   const json = (body, status = 200) =>
     new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 
@@ -51,6 +52,11 @@ export async function onRequestPost({ request, env }) {
     : [{ name: ship.label, amount: ship.cents, min: 2, max: 7 }];
   if (postcode) form.append("metadata[quoted_postcode]", postcode);
   form.append("metadata[shipping_source]", ship.source || "quote");
+  // Links the Stripe session to the visitor in the site activity log (see /admin/)
+  const vid = String(body.vid || "").replace(/[^a-z0-9]/gi, "").slice(0, 40), sid = String(body.sid || "").replace(/[^a-z0-9]/gi, "").slice(0, 40);
+  if (vid) { form.append("client_reference_id", vid); form.append("metadata[visitor]", vid); }
+  const own = body.own ? 1 : 0;
+  if (own) form.append("metadata[owner_test]", "yes"); // the owner's own device: a test, not a customer
   if (data.shipping.pickup || ship.quote) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
   options.forEach((o, n) => {
     const k = `shipping_options[${n}][shipping_rate_data]`;
@@ -79,6 +85,12 @@ export async function onRequestPost({ request, env }) {
     body: form,
   });
   const out = await res.json();
-  if (!res.ok) return json({ error: (out.error && out.error.message) || "Stripe error" }, 502);
+  const log = ev => waitUntil(logEvents(env, request, vid, sid, [{ ...ev, path: "/api/checkout" }], own).catch(() => {}));
+  if (!res.ok) {
+    const error = (out.error && out.error.message) || "Stripe error";
+    log({ n: "checkout_failed", p: { error, items } });
+    return json({ error }, 502);
+  }
+  log({ n: "checkout_session", p: { session: out.id, total: out.amount_total / 100, shipping: ship.cents / 100, shippingSource: ship.source || "quote", postcode: postcode || undefined, items } });
   return json({ url: out.url });
 }
