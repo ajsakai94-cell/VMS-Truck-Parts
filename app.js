@@ -165,4 +165,32 @@ fetch("/products.json").then(r=>r.json()).then(d=>{
   const id=new URLSearchParams(location.search).get("p"),old=id&&P.find(x=>x.id===id);if(old&&HOME)location.replace("/parts/"+old.slug+"/"); // old ?p= links
   if(location.hash==="#cart")$("drawer").hidden=false;
 });
+// "Recently sold" pop-up, bottom left. Real paid orders only (from /api/recent-sales): part name and state,
+// no customer details and no dates. Waits 15s, then one every ~45s, at most 4 per page, never while the cart
+// is open, and a tap on the x stops it for the rest of the visit.
+(function(){
+  let off=false;try{off=sessionStorage.getItem("vms-rs-off")==="1"}catch(e){}
+  if(off||/success/.test(location.pathname)||navigator.webdriver)return;
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  fetch("/api/recent-sales").then(r=>r.ok?r.json():null).then(j=>{
+    const list=(j&&j.sales||[]).slice();if(!list.length)return;
+    for(let i=list.length-1;i>0;i--){const k=Math.floor(Math.random()*(i+1));[list[i],list[k]]=[list[k],list[i]]}
+    const el=document.createElement("aside");el.className="rsold";el.setAttribute("aria-live","polite");el.hidden=true;
+    document.body.appendChild(el);
+    let n=0,hideT=null;
+    const busy=()=>[...document.querySelectorAll(".overlay")].some(o=>!o.hidden);
+    function show(){
+      if(n>=Math.min(4,list.length)||off)return;
+      if(busy()||document.hidden){setTimeout(show,8000);return}
+      const s=list[n++];
+      el.innerHTML=`<a href="${esc(s.url)}">${s.img?`<img src="${esc(s.img)}" alt="" width="52" height="52" loading="lazy">`:""}<span><small>Recently sold${s.state?" in "+esc(s.state):""}</small><b>${esc(s.name)}</b></span></a><button type="button" class="rx" aria-label="Hide recently sold">&times;</button>`;
+      el.hidden=false;requestAnimationFrame(()=>el.classList.add("in"));
+      el.querySelector("a").addEventListener("click",()=>T("recent_sale_click",{name:s.name}));
+      el.querySelector(".rx").addEventListener("click",()=>{off=true;try{sessionStorage.setItem("vms-rs-off","1")}catch(e){}hide()});
+      clearTimeout(hideT);hideT=setTimeout(()=>{hide();setTimeout(show,38000+Math.random()*15000)},7000);
+    }
+    function hide(){el.classList.remove("in");setTimeout(()=>{el.hidden=true},300)}
+    setTimeout(show,15000);
+  }).catch(()=>{});
+})();
 })();
