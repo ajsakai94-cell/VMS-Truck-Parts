@@ -1736,6 +1736,113 @@
     30,
     12
    ]
+  },
+  {
+   "id": "turbocharger-om473",
+   "slug": "turbocharger-om473-mp4-mp5-actros",
+   "name": "Turbocharger (OM473)",
+   "cat": "Engine",
+   "price": 1950.0,
+   "available": true,
+   "sku": "VMS-E06",
+   "image": "",
+   "oldHandle": "",
+   "oem": [
+    "A 473 096 10 99",
+    "A 473 096 18 99",
+    "A 472 096 13 99",
+    "A 472 096 15 99",
+    "A 472 096 16 99",
+    "A 472 096 10 99",
+    "A 472 096 07 99",
+    "A 472 090 00 80"
+   ],
+   "cross": [
+    "Holset HE500WG 3789534",
+    "Holset HX55 3768075",
+    "Holset 3787000",
+    "Holset 3787029",
+    "Holset 3769546",
+    "Holset 3768077",
+    "Holset 3767882",
+    "Holset 3767880",
+    "Holset 2840201",
+    "Holset 2840199",
+    "Holset 2843802",
+    "Holset 2836378",
+    "Holset 2836376"
+   ],
+   "specs": [
+    [
+     "Engine",
+     "OM473 15.6 L (Actros 2658, 2663)"
+    ],
+    [
+     "Type",
+     "Holset (HE500WG or HX55 depending on build, check your tag)"
+    ],
+    [
+     "Also listed for",
+     "Detroit DD15 / DD16"
+    ]
+   ],
+   "tags": [
+    "turbo",
+    "turbocharger",
+    "turbo charger",
+    "HX55 turbo",
+    "OM473 turbo",
+    "2658 turbo",
+    "2663 turbo",
+    "DD16 turbo",
+    "replacement turbo",
+    "HE500WG turbo"
+   ],
+   "keywords": [
+    "engine",
+    "boost",
+    "loss of power",
+    "blue smoke",
+    "whistling turbo",
+    "turbo failure",
+    "4720961399",
+    "A4720961399",
+    "472 096 13 99",
+    "4720961599",
+    "A4720961599",
+    "4720961699",
+    "A4720961699",
+    "4720961099",
+    "4720900080",
+    "HX55",
+    "3768075",
+    "DD15",
+    "Arocs",
+    "Titan",
+    "4730961099",
+    "A4730961099",
+    "473 096 10 99",
+    "4730961899",
+    "A4730961899",
+    "3789534",
+    "HE500WG"
+   ],
+   "desc": "Holset turbocharger for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663 (also listed for the Detroit DD15 / DD16). Signs your turbo is failing: loss of power or boost, blue or black smoke, oil in the intercooler pipes, or a loud whistle or siren noise. Mercedes used two turbo styles on the OM473 (Holset HE500WG and HX55) under several part numbers, so check the number on your old turbo's tag matches one of these, or text us your VIN and we'll confirm fit before you pay. Fix the cause of the old turbo failing (oil feed, air leaks, blocked filter) before fitting the new one. Freight is quoted to your door, or pick up free in Victoria.",
+   "brand": "VMS",
+   "mpn": "VMS-E06",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM473"
+    ]
+   },
+   "freightQuote": true,
+   "maxQty": 1
   }
  ]
 }
