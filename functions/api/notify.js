@@ -25,7 +25,7 @@ export function mobile(p) {
 }
 
 export const firstName = n => (String(n || "").trim().split(/\s+/)[0] || "there").replace(/^./, c => c.toUpperCase());
-export const trackUrl = t => "https://auspost.com.au/mypost/track/details/" + encodeURIComponent(t);
+export const trackUrl = t => "https://auspost.com.au/mypost/track/details/" + encodeURIComponent(String(t).replace(/\s+/g, ""));
 
 export async function sendSms(env, to, body) {
   if (!smsReady(env)) return { skipped: "SMS not set up" };
