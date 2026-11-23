@@ -1,12 +1,18 @@
 // Shared helpers (not a page): texts and emails to customers, used by orders.js and stripe-webhook.js.
 // Each one is optional and switches itself on when its secrets are added in Cloudflare:
-//   SMS   (ClickSend, Australian):  CLICKSEND_USERNAME + CLICKSEND_API_KEY   (optional CLICKSEND_FROM, a sender number)
+//   SMS, either of:
+//     - AJ's own gateway (SMS Gateway for Android API, reached through a private Cloudflare tunnel or a relay):
+//       SMS_GATEWAY_URL (https base URL, no trailing /) + SMS_GATEWAY_USER + SMS_GATEWAY_PASS,
+//       optional CF_ACCESS_CLIENT_ID + CF_ACCESS_CLIENT_SECRET when the URL sits behind Cloudflare Access.
+//       Used first when set.
+//     - ClickSend (Australian):  CLICKSEND_USERNAME + CLICKSEND_API_KEY   (optional CLICKSEND_FROM, a sender number)
 //   Email (Resend):                 RESEND_API_KEY, with vmstruckparts.com.au verified in Resend
 // Replies always go to the shop's own phone and Gmail, never to the sending service.
 
 export const SHOP = { name: "VMS Truck Parts", phone: "0481 309 893", email: "vmstruckparts@gmail.com", from: "VMS Truck Parts <orders@vmstruckparts.com.au>" };
 
-export const smsReady = env => !!(env.CLICKSEND_USERNAME && env.CLICKSEND_API_KEY);
+const gatewayReady = env => !!(env.SMS_GATEWAY_URL && env.SMS_GATEWAY_USER && env.SMS_GATEWAY_PASS);
+export const smsReady = env => gatewayReady(env) || !!(env.CLICKSEND_USERNAME && env.CLICKSEND_API_KEY);
 export const emailReady = env => !!env.RESEND_API_KEY;
 
 // Australian mobiles to +614XXXXXXXX. Anything else is sent as typed if it already starts with +.
@@ -24,6 +30,7 @@ export async function sendSms(env, to, body) {
   if (!smsReady(env)) return { skipped: "SMS not set up" };
   const num = mobile(to);
   if (!num) return { error: "No mobile number on the order" };
+  if (gatewayReady(env)) return sendViaGateway(env, num, body);
   const msg = { source: "vms-site", to: num, body };
   if (env.CLICKSEND_FROM) msg.from = env.CLICKSEND_FROM;
   const r = await fetch("https://rest.clicksend.com/v3/sms/send", {
@@ -35,6 +42,29 @@ export async function sendSms(env, to, body) {
   const m = ((j.data || {}).messages || [])[0] || {};
   if (!r.ok || (m.status && m.status !== "SUCCESS")) return { error: "SMS failed: " + (m.status || j.response_msg || r.status) };
   return { ok: true };
+}
+
+// SMS Gateway for Android: POST /message {textMessage:{text}, phoneNumbers:[...]} with Basic auth.
+// The gateway queues the text on the phone and answers with its state (Pending / Processed / Sent / Failed).
+async function sendViaGateway(env, num, body) {
+  if (!/^https:\/\//.test(env.SMS_GATEWAY_URL)) return { error: "SMS_GATEWAY_URL must start with https://" };
+  const headers = { Authorization: "Basic " + btoa(env.SMS_GATEWAY_USER + ":" + env.SMS_GATEWAY_PASS), "Content-Type": "application/json" };
+  if (env.CF_ACCESS_CLIENT_ID && env.CF_ACCESS_CLIENT_SECRET) {
+    headers["CF-Access-Client-Id"] = env.CF_ACCESS_CLIENT_ID;
+    headers["CF-Access-Client-Secret"] = env.CF_ACCESS_CLIENT_SECRET;
+  }
+  try {
+    const r = await fetch(env.SMS_GATEWAY_URL.replace(/\/+$/, "") + "/message", {
+      method: "POST", headers,
+      body: JSON.stringify({ textMessage: { text: body }, phoneNumbers: [num] }),
+      signal: AbortSignal.timeout(15000),
+    });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || j.state === "Failed") return { error: "SMS failed: " + (j.message || j.state || r.status) };
+    return { ok: true, state: j.state || null };
+  } catch (e) {
+    return { error: "SMS gateway unreachable: " + e.message };
+  }
 }
 
 export async function sendEmail(env, to, subject, text, html) {
