@@ -22,7 +22,21 @@ import { sendSms, sendEmail, smsReady, emailReady, trackingSms, trackingEmail } 
 const MARKS = `CREATE TABLE IF NOT EXISTS order_marks (session TEXT PRIMARY KEY, shipped_ts INTEGER, tracking TEXT, note TEXT, updated_ts INTEGER,
   thanked_ts INTEGER, confirmed_ts INTEGER, texted_ts INTEGER, emailed_ts INTEGER)`;
 let ready = null;
-export const ensureMarks = db => ready || (ready = db.prepare(MARKS).run().catch(e => { ready = null; throw e; }));
+export const ensureMarks = db => ready || (ready = db.prepare(MARKS).run()
+  .then(() => db.prepare(MESSAGES).run()).catch(e => { ready = null; throw e; }));
+
+// Every text and email the site sends about an order, with its wording, so the orders page can show the history.
+// who = "customer" | "owner" (AJ's mobile) | "shop" (the shop's Gmail); status = "sent" or the error.
+const MESSAGES = `CREATE TABLE IF NOT EXISTS order_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, session TEXT NOT NULL, ts INTEGER NOT NULL,
+  who TEXT, channel TEXT, to_addr TEXT, subject TEXT, body TEXT, status TEXT)`;
+export async function logMessage(db, session, { who, channel, to, subject = null, body, result }) {
+  if (!db || !result || result.skipped) return; // a service that isn't switched on sent nothing
+  try {
+    await ensureMarks(db);
+    await db.prepare("INSERT INTO order_messages (session, ts, who, channel, to_addr, subject, body, status) VALUES (?,?,?,?,?,?,?,?)")
+      .bind(session, Date.now(), who, channel, to ? String(to).slice(0, 200) : null, subject, String(body || "").slice(0, 5000), result.ok ? "sent" : String(result.error || "failed").slice(0, 300)).run();
+  } catch (e) { console.log("message log failed", e.message); } // never stop a message over the log
+}
 
 async function stripeOrders(env, since) {
   const out = [];
@@ -88,6 +102,9 @@ export async function onRequestGet({ request, env }) {
       await ensureMarks(env.DB);
       const r = await env.DB.prepare("SELECT session, shipped_ts, tracking, note, thanked_ts, confirmed_ts, texted_ts, emailed_ts FROM order_marks").all();
       for (const m of r.results) marks[m.session] = { shipped: m.shipped_ts, tracking: m.tracking, note: m.note, thanked: m.thanked_ts, confirmed: m.confirmed_ts, texted: m.texted_ts, emailed: m.emailed_ts };
+      const ms = await env.DB.prepare("SELECT session, ts, who, channel, to_addr, subject, body, status FROM order_messages WHERE ts >= ? ORDER BY ts").bind(since - 86400e3).all();
+      for (const m of ms.results) ((marks[m.session] = marks[m.session] || {}).messages = marks[m.session].messages || [])
+        .push({ ts: m.ts, who: m.who, channel: m.channel, to: m.to_addr, subject: m.subject, body: m.body, status: m.status });
     } catch (e) { marksError = e.message; }
   } else marksError = "No database: sent marks can't be saved until the D1 binding DB is added";
   return json({ orders: orders.map(o => ({ ...o, ...(marks[o.id] || {}) })), marksError, days, sms: smsReady(env), email: emailReady(env),
@@ -120,8 +137,12 @@ export async function onRequestPost({ request, env }) {
     if (!r.ok) return json({ error: (s.error && s.error.message) || "Stripe error" }, 502);
     const c = s.customer_details || {}, name = ((s.collected_information || {}).shipping_details || s.shipping_details || {}).name || c.name;
     const items = ((s.line_items || {}).data || []).map(l => ({ qty: l.quantity, name: l.description }));
-    const em = trackingEmail(name, tracking, items);
-    const [sms, mail] = await Promise.all([sendSms(env, c.phone, trackingSms(name, tracking)), sendEmail(env, c.email || s.customer_email, em.subject, em.text, em.html)]);
+    const em = trackingEmail(name, tracking, items), smsText = trackingSms(name, tracking), to = c.email || s.customer_email;
+    const [sms, mail] = await Promise.all([sendSms(env, c.phone, smsText), sendEmail(env, to, em.subject, em.text, em.html)]);
+    await Promise.all([
+      logMessage(env.DB, session, { who: "customer", channel: "text", to: c.phone, body: smsText, result: sms }),
+      logMessage(env.DB, session, { who: "customer", channel: "email", to, subject: em.subject, body: em.text, result: mail }),
+    ]);
     if (sms.ok) texted = now;
     if (mail.ok) emailed = now;
     sent = { sms, email: mail };
@@ -132,5 +153,7 @@ export async function onRequestPost({ request, env }) {
       ON CONFLICT(session) DO UPDATE SET shipped_ts = excluded.shipped_ts, tracking = excluded.tracking, note = excluded.note, updated_ts = excluded.updated_ts,
         texted_ts = excluded.texted_ts, emailed_ts = excluded.emailed_ts`)
     .bind(session, shippedFinal, tracking, note, now, texted, emailed).run();
-  return json({ ok: true, shipped: shippedFinal, tracking, note, texted, emailed, sent });
+  let messages;
+  if (sent) messages = (await env.DB.prepare("SELECT ts, who, channel, to_addr AS \"to\", subject, body, status FROM order_messages WHERE session = ? ORDER BY ts").bind(session).all()).results;
+  return json({ ok: true, shipped: shippedFinal, tracking, note, texted, emailed, sent, messages });
 }
