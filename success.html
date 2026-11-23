@@ -17,4 +17,17 @@
 var cart=null;try{cart=JSON.parse(localStorage.getItem("vms-cart")||"null");localStorage.removeItem("vms-cart")}catch(e){}
 window.vmsTrack("purchase",{session:new URLSearchParams(location.search).get("session"),cart:cart});
 </script>
+<script>
+// Google Customer Reviews: Google offers the buyer a short survey after the parcel should have arrived.
+// The ratings become seller stars on Google Shopping (Merchant Center 5904115734). Skipped quietly if anything fails.
+(function(){
+  var s=new URLSearchParams(location.search).get("session");if(!s)return;
+  fetch("/api/order-summary?session="+encodeURIComponent(s)).then(function(r){return r.ok?r.json():null}).then(function(o){
+    if(!o||!o.email)return;
+    window.renderOptIn=function(){window.gapi.load("surveyoptin",function(){window.gapi.surveyoptin.render({
+      merchant_id:5904115734,order_id:o.order,email:o.email,delivery_country:o.country,estimated_delivery_date:o.eta,opt_in_style:"CENTER_DIALOG"})})};
+    var g=document.createElement("script");g.src="https://apis.google.com/js/platform.js?onload=renderOptIn";g.async=true;document.body.appendChild(g);
+  }).catch(function(){});
+})();
+</script>
 </body></html>
