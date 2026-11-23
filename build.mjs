@@ -91,9 +91,9 @@ ${path ? `<link rel="canonical" href="${SITE.url}${path}">\n` : `<meta name="rob
   <div class="wrap">
     <a class="logo" href="/"><b>VMS<span>.</span></b><small>Truck Parts</small></a>
     <div class="contact">Call or text <b><a href="tel:${C.phone.replace(/\s/g, "")}">${esc(C.phone)}</a></b></div>
-    <button class="cartbtn" id="openCart" type="button" aria-label="Open cart">
+    <button class="cartbtn" id="openCart" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 4h2l2.4 11h10.8L21 7H6.2"/><circle cx="9" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></svg>
-      <span class="n" id="cartCount">0</span>
+      <span class="vh">Open cart, items in cart:</span><span class="n" id="cartCount">0</span>
     </button>
   </div>
 </header>
@@ -137,16 +137,18 @@ const crumbs = items => `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items
 
 const crumbLd = items => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([t, u], i) => ({ "@type": "ListItem", position: i + 1, name: t, ...(u ? { item: SITE.url + u } : {}) })) });
 
+// "big" = the part page photo; "first" = top-of-page cards on category pages (loaded straight away, not lazily,
+// because they're the first thing a phone shows)
 const pic = (p, cls = "") => p.image
-  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : WORKSHOP}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? ' fetchpriority="high"' : ' loading="lazy"'}>`
+  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : WORKSHOP}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? ' fetchpriority="high"' : cls === "first" ? "" : ' loading="lazy"'}>`
   : `<span class="noimg">${esc(p.cat)}</span>`;
 const picBig = p => pic(p, "big") + (p.image && p.illustration ? `<p class="illus">Illustration – actual part may vary</p>` : "");
 
 const priceHtml = p => p.price != null ? `<div class="price">${money(p.price)}</div>` : `<div class="price ask">Call for price</div>`;
 const stockHtml = p => `<div class="stock ${p.available ? "" : "out"}">${p.available ? "In stock" : "Sold out, ask us"}</div>`;
 
-const card = p => `<a class="card" href="${partUrl(p)}">
-    <div class="pic">${pic(p)}</div>
+const card = (p, first) => `<a class="card" href="${partUrl(p)}">
+    <div class="pic">${pic(p, first === true ? "first" : "")}</div>
     <div class="body"><h3>${esc(p.name)}</h3><span class="pn">${p.oem.length ? "OE " + esc(p.oem[0]) : "Part no. " + esc(p.sku)}</span>
     <div class="foot"><div>${priceHtml(p)}${stockHtml(p)}</div><span class="view">View</span></div></div></a>`;
 
@@ -258,7 +260,7 @@ function catPage(cat) {
   <p>${esc(c.intro)}</p>
   <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Australia Post to your postcode · Free pickup in Melbourne</p>
 </section>
-<section class="block"><div class="grid">${list.map(card).join("")}</div></section>`;
+<section class="block"><h2 class="vh">All ${esc(cat.toLowerCase())} parts</h2><div class="grid">${list.map((p, i) => card(p, i < 2)).join("")}</div></section>`;
   return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.length > 160 ? c.intro.slice(0, 157).replace(/[\s,(]+\S*$/, "") + "…" : c.intro, path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });
 }
 
