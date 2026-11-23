@@ -1,8 +1,8 @@
 // Cloudflare Pages Function: /api/orders   (used by the private /admin/orders/ page)
 // GET  lists paid orders straight from Stripe (Checkout Sessions), so Stripe stays the one record of
 //      what was bought and paid. Nothing about customers is copied into the site's database.
-// POST { session, shipped, delivered, tracking, note, notify } saves the shop's own marks for an order (sent /
-//      delivered / tracking number / a note) in the D1 table order_marks. With notify: true it also texts and emails
+// POST { session, shipped, tracking, note, notify } saves the shop's own marks for an order (sent /
+//      tracking number / a note) in the D1 table order_marks. With notify: true it also texts and emails
 //      the customer the Australia Post tracking link (see notify.js for the services it uses).
 // Needs the same secrets as /admin/: STATS_KEY (sent in the X-Stats-Key header) and STRIPE_SECRET_KEY,
 // plus the D1 binding DB for the marks. Without STATS_KEY set, this endpoint is switched off.
@@ -18,16 +18,11 @@ function same(a, b) { // constant-time compare
 
 import { sendSms, sendEmail, smsReady, emailReady, trackingSms, trackingEmail } from "./notify.js";
 
-// thanked_ts = new-order messages done and thank-you text sent, confirmed_ts = confirmation emailed (both by stripe-webhook.js); texted_ts / emailed_ts = tracking sent to the customer;
-// delivered_ts = the shop marked it delivered (or picked up)
+// thanked_ts = new-order messages done and thank-you text sent, confirmed_ts = confirmation emailed (both by stripe-webhook.js); texted_ts / emailed_ts = tracking sent to the customer
 const MARKS = `CREATE TABLE IF NOT EXISTS order_marks (session TEXT PRIMARY KEY, shipped_ts INTEGER, tracking TEXT, note TEXT, updated_ts INTEGER,
-  thanked_ts INTEGER, confirmed_ts INTEGER, texted_ts INTEGER, emailed_ts INTEGER, delivered_ts INTEGER)`;
+  thanked_ts INTEGER, confirmed_ts INTEGER, texted_ts INTEGER, emailed_ts INTEGER)`;
 let ready = null;
-// Tables made before delivered_ts existed get the column added once (the error when it's already there is expected)
-const addDelivered = db => db.prepare("ALTER TABLE order_marks ADD COLUMN delivered_ts INTEGER").run().catch(e => {
-  if (!/duplicate column/i.test(String(e && e.message))) throw e;
-});
-export const ensureMarks = db => ready || (ready = db.prepare(MARKS).run().then(() => addDelivered(db))
+export const ensureMarks = db => ready || (ready = db.prepare(MARKS).run()
   .then(() => db.prepare(MESSAGES).run()).catch(e => { ready = null; throw e; }));
 
 // Every text and email the site sends about an order, with its wording, so the orders page can show the history.
@@ -105,8 +100,8 @@ export async function onRequestGet({ request, env }) {
   if (env.DB) {
     try {
       await ensureMarks(env.DB);
-      const r = await env.DB.prepare("SELECT session, shipped_ts, tracking, note, thanked_ts, confirmed_ts, texted_ts, emailed_ts, delivered_ts FROM order_marks").all();
-      for (const m of r.results) marks[m.session] = { shipped: m.shipped_ts, tracking: m.tracking, note: m.note, thanked: m.thanked_ts, confirmed: m.confirmed_ts, texted: m.texted_ts, emailed: m.emailed_ts, delivered: m.delivered_ts };
+      const r = await env.DB.prepare("SELECT session, shipped_ts, tracking, note, thanked_ts, confirmed_ts, texted_ts, emailed_ts FROM order_marks").all();
+      for (const m of r.results) marks[m.session] = { shipped: m.shipped_ts, tracking: m.tracking, note: m.note, thanked: m.thanked_ts, confirmed: m.confirmed_ts, texted: m.texted_ts, emailed: m.emailed_ts };
       const ms = await env.DB.prepare("SELECT session, ts, who, channel, to_addr, subject, body, status FROM order_messages WHERE ts >= ? ORDER BY ts").bind(since - 86400e3).all();
       for (const m of ms.results) ((marks[m.session] = marks[m.session] || {}).messages = marks[m.session].messages || [])
         .push({ ts: m.ts, who: m.who, channel: m.channel, to: m.to_addr, subject: m.subject, body: m.body, status: m.status });
@@ -129,7 +124,7 @@ export async function onRequestPost({ request, env }) {
   const now = Date.now();
   // Tracking numbers are copied off the sticker with spaces ("03 08006 ..."); store them without
   const tracking = clip(b.tracking == null ? null : String(b.tracking).replace(/\s+/g, ""), 60), note = clip(b.note, 1000);
-  const old = await env.DB.prepare("SELECT shipped_ts, texted_ts, emailed_ts, delivered_ts FROM order_marks WHERE session = ?").bind(session).first() || {};
+  const old = await env.DB.prepare("SELECT shipped_ts, texted_ts, emailed_ts FROM order_marks WHERE session = ?").bind(session).first() || {};
   // Keep the first "sent" time if it's already marked sent
   const shipped = b.shipped ? old.shipped_ts || now : null;
   let texted = old.texted_ts || null, emailed = old.emailed_ts || null, sent = null;
@@ -153,15 +148,12 @@ export async function onRequestPost({ request, env }) {
     sent = { sms, email: mail };
   }
   // Sending tracking marks the order sent, but only if the text or the email actually went
-  let shippedFinal = b.notify ? (sent.sms.ok || sent.email.ok ? old.shipped_ts || now : old.shipped_ts || null) : shipped;
-  // Delivered implies sent; "not sent" also clears delivered. Keep the first delivered time.
-  const delivered = b.delivered && (shippedFinal || !b.notify) ? old.delivered_ts || now : null;
-  if (delivered && !shippedFinal) shippedFinal = old.shipped_ts || now;
-  await env.DB.prepare(`INSERT INTO order_marks (session, shipped_ts, tracking, note, updated_ts, texted_ts, emailed_ts, delivered_ts) VALUES (?,?,?,?,?,?,?,?)
+  const shippedFinal = b.notify ? (sent.sms.ok || sent.email.ok ? old.shipped_ts || now : old.shipped_ts || null) : shipped;
+  await env.DB.prepare(`INSERT INTO order_marks (session, shipped_ts, tracking, note, updated_ts, texted_ts, emailed_ts) VALUES (?,?,?,?,?,?,?)
       ON CONFLICT(session) DO UPDATE SET shipped_ts = excluded.shipped_ts, tracking = excluded.tracking, note = excluded.note, updated_ts = excluded.updated_ts,
-        texted_ts = excluded.texted_ts, emailed_ts = excluded.emailed_ts, delivered_ts = excluded.delivered_ts`)
-    .bind(session, shippedFinal, tracking, note, now, texted, emailed, delivered).run();
+        texted_ts = excluded.texted_ts, emailed_ts = excluded.emailed_ts`)
+    .bind(session, shippedFinal, tracking, note, now, texted, emailed).run();
   let messages;
   if (sent) messages = (await env.DB.prepare("SELECT ts, who, channel, to_addr AS \"to\", subject, body, status FROM order_messages WHERE session = ? ORDER BY ts").bind(session).all()).results;
-  return json({ ok: true, shipped: shippedFinal, delivered, tracking, note, texted, emailed, sent, messages });
+  return json({ ok: true, shipped: shippedFinal, tracking, note, texted, emailed, sent, messages });
 }
