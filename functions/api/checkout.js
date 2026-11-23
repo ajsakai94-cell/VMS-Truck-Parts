@@ -6,6 +6,7 @@
 
 import { quoteShipping } from "./shipping.js";
 import { logEvents } from "./t.js";
+import { alertOwner } from "./notify.js";
 
 export async function onRequestPost({ request, env, waitUntil }) {
   const json = (body, status = 200) =>
@@ -91,11 +92,13 @@ export async function onRequestPost({ request, env, waitUntil }) {
     out = await res.json();
   } catch (e) {
     log({ n: "checkout_failed", p: { error: "Stripe unreachable: " + String(e.message || e).slice(0, 150), items } });
+    waitUntil(alertOwner(env, "stripe-down", "checkout couldn't reach Stripe, so a customer couldn't pay. Check Stripe status; they may call you.").catch(() => {}));
     return json({ error: "The payment page is not responding" }, 503);
   }
   if (!res.ok) {
     const error = (out.error && out.error.message) || "Stripe error";
     log({ n: "checkout_failed", p: { error, items } });
+    waitUntil(alertOwner(env, "stripe-error", `checkout failed for a customer: ${error.slice(0, 120)}`).catch(() => {}));
     return json({ error }, 502);
   }
   log({ n: "checkout_session", p: { session: out.id, total: out.amount_total / 100, shipping: ship.cents / 100, shippingSource: ship.source || "quote", postcode: postcode || undefined, items } });
