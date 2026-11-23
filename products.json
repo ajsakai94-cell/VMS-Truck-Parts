@@ -391,7 +391,8 @@
     "engines": []
    },
    "satchel": "small",
-   "kg": 0.3
+   "kg": 0.3,
+   "maxQty": 12
   },
   {
    "id": "diesel-water-separator",
@@ -484,7 +485,8 @@
     "engines": []
    },
    "satchel": "small",
-   "kg": 0.3
+   "kg": 0.3,
+   "maxQty": 12
   },
   {
    "id": "air-dryer-cartridge",
@@ -1740,7 +1742,7 @@
   {
    "id": "turbocharger-om473",
    "slug": "turbocharger-om473-mp4-mp5-actros",
-   "name": "Turbocharger (OM473)",
+   "name": "Holset Turbocharger (OM473)",
    "cat": "Engine",
    "price": 2300.0,
    "available": true,
@@ -1796,7 +1798,8 @@
     "2663 turbo",
     "DD16 turbo",
     "replacement turbo",
-    "HE500WG turbo"
+    "HE500WG turbo",
+    "Holset turbo"
    ],
    "keywords": [
     "engine",
@@ -1827,8 +1830,8 @@
     "3789534",
     "HE500WG"
    ],
-   "desc": "Holset turbocharger for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663 (also listed for the Detroit DD15 / DD16). Signs your turbo is failing: loss of power or boost, blue or black smoke, oil in the intercooler pipes, or a loud whistle or siren noise. Mercedes used two turbo styles on the OM473 (Holset HE500WG and HX55) under several part numbers, so check the number on your old turbo's tag matches one of these, or text us your VIN and we'll confirm fit before you pay. Fix the cause of the old turbo failing (oil feed, air leaks, blocked filter) before fitting the new one. Freight is quoted to your door, or pick up free in Victoria.",
-   "brand": "VMS",
+   "desc": "Holset turbocharger for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663 (also listed for the Detroit DD15 / DD16). Signs your turbo is failing: loss of power or boost, blue or black smoke, oil in the intercooler pipes, or a loud whistle or siren noise. Mercedes used two turbo styles on the OM473 (Holset HE500WG and HX55) under several part numbers, so check the number on your old turbo's tag matches one of these, or text us your VIN and we'll confirm fit before you pay. Fix the cause of the old turbo failing (oil feed, air leaks, blocked filter) before fitting the new one. Fit new exhaust manifold gaskets (A 472 142 18 80 / A 472 142 19 80) while it's off. Freight is quoted to your door, or pick up free in Victoria.",
+   "brand": "Holset",
    "mpn": "VMS-E06",
    "identifierExists": false,
    "condition": "new",
@@ -1843,6 +1846,83 @@
    },
    "freightQuote": true,
    "maxQty": 1
+  },
+  {
+   "id": "exhaust-manifold-gasket-om473",
+   "slug": "exhaust-manifold-gasket-om473-mp4-mp5-actros",
+   "name": "Exhaust Manifold Gasket (OM473)",
+   "cat": "Engine",
+   "price": 86.0,
+   "available": false,
+   "sku": "VMS-E07",
+   "image": "/images/exhaust-manifold-gasket-om473-1000.webp",
+   "thumb": "/images/exhaust-manifold-gasket-om473-400.webp",
+   "oldHandle": "",
+   "oem": [
+    "A 472 142 18 80",
+    "A 472 142 19 80"
+   ],
+   "cross": [],
+   "options": [
+    "Cylinders 1-3 (A 472 142 18 80)",
+    "Cylinders 4-6 (A 472 142 19 80)"
+   ],
+   "optionLabel": "Position",
+   "specs": [
+    [
+     "Positions",
+     "A 472 142 18 80 = cylinders 1-3, A 472 142 19 80 = cylinders 4-6"
+    ],
+    [
+     "Engine",
+     "OM473 15.6 L (Actros 2658, 2663)"
+    ],
+    [
+     "Fits between",
+     "Exhaust manifold and cylinder head"
+    ]
+   ],
+   "tags": [
+    "exhaust manifold gasket",
+    "manifold gasket",
+    "exhaust gasket",
+    "extractor gasket",
+    "header gasket",
+    "OM473 manifold gasket",
+    "2658 exhaust gasket",
+    "DD16 manifold gasket"
+   ],
+   "keywords": [
+    "engine",
+    "exhaust leak",
+    "ticking noise",
+    "turbo",
+    "4721421880",
+    "A4721421880",
+    "472 142 18 80",
+    "4721421980",
+    "A4721421980",
+    "472 142 19 80",
+    "DD15",
+    "DD16"
+   ],
+   "desc": "Aftermarket exhaust manifold gasket to suit the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663. Replace it if you hear an exhaust tick or blow at the manifold, see soot marks around the manifold joints, or whenever the manifold or turbo comes off. There are two: A 472 142 18 80 for cylinders 1-3 and A 472 142 19 80 for cylinders 4-6. Pick the position you need, and add one of each to do the whole engine. Priced per gasket.",
+   "brand": "VMS",
+   "mpn": "VMS-E07",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM473"
+    ]
+   },
+   "satchel": "small",
+   "kg": 0.3,
+   "maxQty": 12
   }
  ]
 }
