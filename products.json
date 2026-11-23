@@ -122,7 +122,7 @@
     "Arocs",
     "Antos"
    ],
-   "desc": "Engine oil filter element for the OM471 / OM473. Change at every oil service.",
+   "desc": "Engine oil filter element (cartridge type) for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros. Fits inside the plastic filter housing on the engine and comes with new O-rings. Change it at every oil service, and match the number on your old element: it replaces OE A 472 184 04 25 and the A 473 180 00 09 / A 472 180 01 09 family, and is the same size as MAHLE OX 832D, MANN HU 12 001 z and Hengst E510H07 D129.",
    "brand": "Hydwell",
    "mpn": "MP4OF",
    "identifierExists": false,
@@ -281,7 +281,7 @@
     "intake",
     "air box"
    ],
-   "desc": "Engine air filter element. Check at every service and replace when the restriction indicator shows.",
+   "desc": "Engine air filter element for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros. A blocked air filter costs power and fuel, so check it at every service and replace it when the restriction indicator shows or at least once a year, sooner on dusty roads. Same size as MAHLE LX 5437, MANN C 50 004/1 and Hengst E2059L. Note the element is about 491 mm long, so it ships in its own box.",
    "brand": "VMS",
    "mpn": "VMS-F03",
    "identifierExists": false,
@@ -358,8 +358,12 @@
    "thumb": "/images/adblue-filter-400.webp",
    "oldHandle": "adblue-filter-to-suit-mp5-mp5-mercedes-actros",
    "sku": "VMS-F05",
-   "oem": [],
-   "cross": [],
+   "oem": [
+    "A 000 142 05 89"
+   ],
+   "cross": [
+    "MAHLE UX 13KIT"
+   ],
    "tags": [
     "AdBlue filter",
     "urea filter",
@@ -374,7 +378,7 @@
     "SCR pump",
     "emissions"
    ],
-   "desc": "AdBlue (urea) pump filter. A blocked filter can trigger an emissions warning and power loss.",
+   "desc": "AdBlue (urea, DEF) pump filter for the SCR emissions system on the MP4 / MP5 Mercedes-Benz Actros. A blocked AdBlue filter starves the dosing pump, which can bring up an emissions warning and put the truck into derate (limp mode). Change it with the AdBlue system service. MAHLE lists UX 13KIT (OE A 000 142 05 89) for MP4 / MP5 trucks; check the number on your old filter or send us your VIN.",
    "brand": "VMS",
    "mpn": "VMS-F05",
    "identifierExists": false,
@@ -451,8 +455,12 @@
    "thumb": "/images/power-steering-filter-400.webp",
    "oldHandle": "power-steering-filter-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-F07",
-   "oem": [],
-   "cross": [],
+   "oem": [
+    "A 000 184 22 25"
+   ],
+   "cross": [
+    "MAHLE HX 15"
+   ],
    "tags": [
     "steering filter",
     "hydraulic filter",
@@ -463,7 +471,7 @@
     "steering",
     "hydraulic"
    ],
-   "desc": "Power steering hydraulic filter. Replace when changing steering fluid.",
+   "desc": "Power steering hydraulic filter for the MP4 / MP5 Mercedes-Benz Actros. Replace it whenever you change the steering fluid, or if the steering feels heavy or the pump is noisy. MAHLE lists HX 15 (OE A 000 184 22 25) for MP4 / MP5 trucks; check the number on your old filter or send us your VIN.",
    "brand": "VMS",
    "mpn": "VMS-F07",
    "identifierExists": false,
@@ -627,15 +635,17 @@
   "sku": "VMS-B03",
   "mpn": "VMS-B03",
   "oem": [
-   "A 006 420 14 20",
-   "A 006 420 52 20",
-   "A 000 421 72 10"
-  ],
+    "A 006 420 14 20",
+    "A 006 420 52 20",
+    "A 000 421 72 10"
+   ],
   "cross": [
-   "WVA 29246",
-   "WVA 29247",
-   "Knorr-Bremse SM7"
-  ],
+    "WVA 29246",
+    "WVA 29247",
+    "Knorr-Bremse SM7",
+    "Ferodo FCV4417PTS",
+    "Febi 16997"
+   ],
   "specs": [
    [
     "Axle",
@@ -718,14 +728,15 @@
   "sku": "VMS-B04",
   "mpn": "VMS-B04",
   "oem": [
-   "A 006 420 53 20",
-   "A 006 420 15 20"
-  ],
+    "A 006 420 53 20",
+    "A 006 420 15 20"
+   ],
   "cross": [
-   "WVA 29244",
-   "WVA 29245",
-   "Knorr-Bremse SL7"
-  ],
+    "WVA 29244",
+    "WVA 29245",
+    "Knorr-Bremse SL7",
+    "Ferodo FCV4418PTS"
+   ],
   "specs": [
    [
     "Axle",
@@ -1145,7 +1156,7 @@
     "overheating",
     "radiator fan"
    ],
-   "desc": "Viscous fan clutch for the engine cooling fan. Replace if the fan won't engage or the engine runs hot.",
+   "desc": "Viscous fan clutch (viscous coupling) for the engine cooling fan on the OM471 MP4 / MP5 Mercedes-Benz Actros. Signs it has failed: the engine runs hot on hills or in traffic, the fan roars all the time, or oil is leaking from the hub. Replaces OE A 470 200 07 22, same as MAHLE CFC 173 000P, NRF 49159 and Nissens 86140.",
    "brand": "VMS",
    "mpn": "VMS-K01",
    "identifierExists": false,
@@ -1174,7 +1185,8 @@
    "oldHandle": "expension-tank-to-suit-mp4-mp5-mercedes-actros",
    "sku": "VMS-K02",
    "oem": [
-    "A 960 501 42 03"
+    "A 960 501 42 03",
+    "A 960 501 87 03"
    ],
    "cross": [
     "MAHLE CRT 235 000P",
@@ -1194,7 +1206,7 @@
     "radiator",
     "overheating"
    ],
-   "desc": "Coolant expansion (header) tank. Replace if cracked or leaking.",
+   "desc": "Coolant expansion tank (header tank) for the MP4 / MP5 Mercedes-Benz Actros. The plastic tank cracks with age and heat, so coolant loss, a sweet smell or crusty coolant around the tank are the usual signs. Replace the cap at the same time if it doesn't hold pressure. Replaces OE A 960 501 42 03 (also A 960 501 87 03), same as MAHLE CRT 235 000P and Nissens 996053.",
    "brand": "VMS",
    "mpn": "VMS-K02",
    "identifierExists": false,
@@ -1312,7 +1324,7 @@
     "driveline",
     "PowerShift"
    ],
-   "desc": "Complete clutch kit for the MP4 / MP5 Actros.",
+   "desc": "Complete clutch kit for the MP4 / MP5 Mercedes-Benz Actros with the PowerShift automated gearbox: clutch plate (disc), pressure plate and release bearing. Signs it's due: slipping under load, juddering when taking off, or a clutch wear warning on the dash. Clutch kits differ by gearbox and engine, so send us your VIN and we'll confirm the right kit before you pay.",
    "brand": "VMS",
    "mpn": "VMS-L01",
    "identifierExists": false,
@@ -1353,7 +1365,7 @@
     "auto clutch",
     "automated manual"
    ],
-   "desc": "Clutch actuator for the automated (PowerShift) gearbox.",
+   "desc": "Clutch actuator (clutch servo) for the PowerShift automated manual gearbox in the MP4 / MP5 Mercedes-Benz Actros. A failing actuator causes rough or slow take-offs, the clutch not fully releasing, air leaks at the actuator, or clutch fault codes on the dash. Send us your VIN and we'll confirm it matches your gearbox before you pay.",
    "brand": "VMS",
    "mpn": "VMS-L02",
    "identifierExists": false,
@@ -1392,7 +1404,8 @@
     "S5307S",
     "DRS1034",
     "11139182",
-    "AZG4879"
+    "AZG4879",
+    "MAHLE MS 754"
    ],
    "tags": [
     "starter motor",
@@ -1407,7 +1420,7 @@
     "cranking",
     "24 volt"
    ],
-   "desc": "24V 7.5kW starter motor for the OM471 and OM473, including the Actros 2658.",
+   "desc": "24V 7.5kW starter motor for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros, including the Actros 2658. Replace it if the engine cranks slowly with good batteries, the starter clicks but doesn't turn, or it grinds on engagement. Replaces OE A 007 151 45 01, same as MAHLE MS 754 and Prestolite (TRP 1549007).",
    "brand": "JuBoHui",
    "mpn": "VMS-E01",
    "identifierExists": false,
@@ -1450,7 +1463,7 @@
     "rebuild",
     "overhaul"
    ],
-   "desc": "Cylinder liner kit for the OM473 engine.",
+   "desc": "Cylinder liner kit for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros (2658, 2663), for an in-frame or out-of-frame engine rebuild. Liner kits vary by piston and engine build, so send us your VIN or engine number and we'll confirm the right kit and lead time.",
    "brand": "VMS",
    "mpn": "VMS-E02",
    "identifierExists": false,
@@ -1496,7 +1509,7 @@
     "timing",
     "special tool"
    ],
-   "desc": "Engine timing tool kit for the MP4 / MP5 Actros.",
+   "desc": "Engine timing tool kit for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros. Locks the camshafts and crankshaft in position for timing work, cylinder head jobs and cam replacement. Ask us what's in the kit and the lead time.",
    "brand": "VMS",
    "mpn": "VMS-T01",
    "identifierExists": false,
