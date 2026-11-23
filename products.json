@@ -2005,6 +2005,104 @@
    "satchel": "small",
    "kg": 0.3,
    "maxQty": 12
+  },
+  {
+   "id": "injector-line-seal",
+   "slug": "injector-line-seal-om471-om473-mp4-mp5-actros",
+   "name": "Injector Line Seal (OM471 / OM473)",
+   "cat": "Engine",
+   "price": 25.0,
+   "available": false,
+   "sku": "VMS-E08",
+   "image": "/images/injector-line-seal-1000.webp",
+   "thumb": "/images/injector-line-seal-400.webp",
+   "oldHandle": "",
+   "oem": [
+    "A 472 078 04 80",
+    "A 472 078 01 80",
+    "A 472 078 00 80",
+    "A 472 078 06 80"
+   ],
+   "cross": [
+    "PAI 631368"
+   ],
+   "specs": [
+    [
+     "Position",
+     "Valve cover, where the fuel injector line passes through (1 per cylinder)"
+    ],
+    [
+     "Per engine",
+     "6"
+    ],
+    [
+     "Type",
+     "Rubber seal bonded to a two-bolt metal flange, marked TOP"
+    ],
+    [
+     "Engines",
+     "OM471 12.8 L, OM473 15.6 L"
+    ]
+   ],
+   "tags": [
+    "injector line seal",
+    "injector seal",
+    "fuel injector seal",
+    "injector pipe seal",
+    "fuel line seal",
+    "injector line passthrough seal",
+    "valve cover injector seal",
+    "rocker cover injector seal",
+    "injector gasket",
+    "OM471 injector seal",
+    "OM473 injector seal",
+    "DD15 injector seal"
+   ],
+   "keywords": [
+    "engine",
+    "oil leak",
+    "valve cover leak",
+    "rocker cover leak",
+    "oil on injector lines",
+    "fuel injector",
+    "4720780480",
+    "A4720780480",
+    "472 078 04 80",
+    "4720780180",
+    "A4720780180",
+    "472 078 01 80",
+    "4720780080",
+    "A4720780080",
+    "4720780680",
+    "A4720780680",
+    "631368",
+    "DD13",
+    "DD15",
+    "DD16",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Aftermarket fuel injector line seal to suit the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros, OE A 472 078 04 80 (also listed as A 472 078 01 80). It seals the injector line where it passes through the valve cover, so a hard or split one lets oil weep onto the lines and down the side of the head. There's one per cylinder, six per engine, and it's worth replacing them whenever the valve cover comes off or the injectors are done. Fit it with TOP facing up. Priced per seal.",
+   "brand": "VMS",
+   "mpn": "VMS-E08",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   },
+   "satchel": "small",
+   "kg": 0.05,
+   "maxQty": 12,
+   "pairsWith": [
+    "exhaust-manifold-gasket-om473"
+   ]
   }
  ]
 }
