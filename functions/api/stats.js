@@ -63,7 +63,9 @@ export async function onRequestGet({ request, env }) {
   const off = (new Intl.DateTimeFormat("en-AU", { timeZone: "Australia/Melbourne", timeZoneName: "shortOffset" }).formatToParts(new Date()).find(p => p.type === "timeZoneName") || {}).value || "GMT+10";
   const tzShift = (Number((off.match(/[+-]\d+/) || ["+10"])[0]) >= 0 ? "+" : "") + Number((off.match(/[+-]\d+/) || ["+10"])[0]) + " hours";
   const ownVids = new Set((await db.prepare("SELECT DISTINCT vid FROM events WHERE own = 1").all()).results.map(r => r.vid));
-  const [totals, daily, pages, parts, adds, searches, refs, places, devices, carts, sessions, contacts, errors] = await db.batch([
+  const prevSince = since - days * 86400e3;
+  const [totals, daily, pages, parts, adds, searches, refs, places, devices, carts, sessions, contacts, errors,
+    prev, funnel, partViews, partLandings, partAdds, partCheckouts, partPaid, bounce] = await db.batch([
     q(`SELECT COUNT(DISTINCT vid) visitors, COUNT(DISTINCT sid) sessions,
         SUM(name='page_view') pageViews, COUNT(DISTINCT CASE WHEN name='view_item' THEN vid END) viewedPart,
         COUNT(DISTINCT CASE WHEN name='add_to_cart' THEN vid END) addedToCart,
@@ -100,8 +102,58 @@ export async function onRequestGet({ request, env }) {
          SUM(name IN ('call_click','sms_click','email_click','ask_form')) contacts
        FROM events e WHERE ts >= ? GROUP BY sid ORDER BY startTs DESC LIMIT 150`),
     q(`SELECT ts, vid, name, path, props, city FROM events WHERE ts >= ? AND name IN ('call_click','sms_click','email_click','ask_form','copy') ORDER BY ts DESC LIMIT 60`),
-    q(`SELECT ts, name, path, props FROM events WHERE ts >= ? AND name IN ('js_error','checkout_error','checkout_failed','shipping_quote_failed') ORDER BY ts DESC LIMIT 30`),
+    q(`SELECT ts, name, path, props FROM events WHERE ts >= ? AND (name IN ('load_error','checkout_error','checkout_failed','shipping_quote_failed') OR (name='js_error' AND json_extract(props,'$.msg') NOT IN ('error','') AND json_extract(props,'$.msg') NOT LIKE 'http%')) ORDER BY ts DESC LIMIT 30`),
+    // The same headline numbers for the period before, to show the trend
+    db.prepare(F(`SELECT COUNT(DISTINCT vid) visitors, SUM(name='page_view') pageViews,
+        COUNT(DISTINCT CASE WHEN name='add_to_cart' THEN vid END) addedToCart, COUNT(DISTINCT CASE WHEN name='begin_checkout' THEN vid END) beganCheckout,
+        COUNT(DISTINCT CASE WHEN name='purchase' THEN vid END) purchased FROM events WHERE ts >= ? AND ts < ?`)).bind(prevSince, since),
+    // Where people drop off: distinct visitors reaching each step
+    q(`SELECT COUNT(DISTINCT vid) visited,
+        COUNT(DISTINCT CASE WHEN name='view_item' THEN vid END) viewedPart,
+        COUNT(DISTINCT CASE WHEN name='add_to_cart' THEN vid END) added,
+        COUNT(DISTINCT CASE WHEN name IN ('cart_open','begin_checkout') THEN vid END) openedCart,
+        COUNT(DISTINCT CASE WHEN name='shipping_quote' THEN vid END) sawShipping,
+        COUNT(DISTINCT CASE WHEN name='begin_checkout' THEN vid END) pressedCheckout,
+        COUNT(DISTINCT CASE WHEN name='checkout_session' THEN vid END) reachedStripe,
+        COUNT(DISTINCT CASE WHEN name='purchase' THEN vid END) paid,
+        COUNT(DISTINCT CASE WHEN name='add_blocked' THEN vid END) hitStockLimit,
+        COUNT(DISTINCT CASE WHEN name IN ('checkout_error','checkout_failed','shipping_quote_failed') THEN vid END) hadError
+       FROM events WHERE ts >= ?`),
+    // Per part: views, people, and how they arrived on that part's page
+    q(`SELECT json_extract(props,'$.id') pid, MAX(json_extract(props,'$.name')) name, MAX(json_extract(props,'$.price')) price, MAX(json_extract(props,'$.available')) available,
+        COUNT(*) views, COUNT(DISTINCT vid) people, MAX(path) path FROM events WHERE ts >= ? AND name='view_item' GROUP BY pid`),
+    q(`SELECT path, json_extract(props,'$.ref') ref, json_extract(props,'$.utm.gclid') gclid, vid FROM events
+       WHERE ts >= ? AND name='page_view' AND path LIKE '/parts/%' LIMIT 50000`),
+    q(`SELECT json_extract(props,'$.id') pid, COUNT(DISTINCT vid) people FROM events WHERE ts >= ? AND name='add_to_cart' GROUP BY pid`),
+    q(`SELECT json_extract(c.value,'$.id') pid, COUNT(DISTINCT e.vid) people FROM events e, json_each(json_extract(e.props,'$.cart')) c
+       WHERE e.ts >= ? AND e.name='begin_checkout' GROUP BY pid`),
+    // purchase carts are saved as { "id|option": qty }
+    q(`SELECT CASE WHEN instr(c.key,'|') > 0 THEN substr(c.key, 1, instr(c.key,'|') - 1) ELSE c.key END pid, COUNT(DISTINCT e.vid) people FROM events e, json_each(json_extract(e.props,'$.cart')) c
+       WHERE e.ts >= ? AND e.name='purchase' AND json_type(e.props,'$.cart') = 'object' GROUP BY pid`),
+    // Visits that left within 10 seconds having seen one page
+    q(`SELECT COUNT(*) quick, (SELECT COUNT(DISTINCT sid) FROM events WHERE ts >= ?) visits FROM
+       (SELECT sid FROM events WHERE ts >= ? GROUP BY sid HAVING SUM(name='page_view') = 1 AND MAX(ts) - MIN(ts) < 10000 AND SUM(name='click') = 0)`, since),
   ]);
+  // Top parts: views, where those visitors came from, adds, checkouts
+  const own0 = /vmstruckparts\.com\.au|vms-truck-parts\.pages\.dev/;
+  const pathOf = p => String(p || "").split("?")[0];
+  const byPath = {};
+  for (const r of partLandings.results) {
+    if (r.ref && own0.test(r.ref)) continue; // came from another of our pages, not a landing
+    const k = pathOf(r.path), o = byPath[k] || (byPath[k] = { google: new Set(), shopping: new Set(), other: new Set(), direct: new Set() });
+    const shop = /[?&]srsltid=/.test(r.path) || /shopping|merchant/.test(r.ref || "");
+    const bucket = shop ? "shopping" : r.gclid ? "google" : /google\./.test(r.ref || "") ? "google" : r.ref ? "other" : "direct";
+    o[bucket].add(r.vid);
+  }
+  const idMap = rows => Object.fromEntries(rows.results.map(r => [r.pid, r.people]));
+  const addsBy = idMap(partAdds), coBy = idMap(partCheckouts), paidBy = idMap(partPaid);
+  const topParts = partViews.results.map(r => {
+    const l = byPath[pathOf(r.path)] || {};
+    const n = k => (l[k] ? l[k].size : 0);
+    return { id: r.pid, name: r.name, price: r.price, available: !!r.available, views: r.views, people: r.people,
+      fromGoogle: n("google"), fromShopping: n("shopping"), fromOther: n("other"), direct: n("direct"),
+      added: addsBy[r.pid] || 0, checkout: coBy[r.pid] || 0, paid: paidBy[r.pid] || 0 };
+  }).sort((a, b) => b.people - a.people || b.views - a.views);
   // Where visitors came from: the referring site's name, an ad tag, or direct
   const own = /vmstruckparts\.com\.au|vms-truck-parts\.pages\.dev/;
   const src = {};
@@ -118,7 +170,7 @@ export async function onRequestGet({ request, env }) {
     searches: searches.results, sources, places: places.results, devices: devices.results,
     carts: carts.results, sessions: sessions.results, contacts: contacts.results, errors: errors.results,
     stripe: (r => Array.isArray(r) ? r.map(x => ({ ...x, ownerTest: x.ownerTest || ownVids.has(x.visitor) })) : r)(await stripe),
-    withOwn,
+    withOwn, prev: prev.results[0], funnel: funnel.results[0], topParts, bounce: bounce.results[0],
   });
 }
 

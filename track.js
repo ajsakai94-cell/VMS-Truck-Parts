@@ -81,7 +81,18 @@
   });
 
   // Broken things
+  // A file that didn't load (photo, font, script) is logged with its address. Only our own photos and
+  // scripts count as problems ("load_error"); blocked add-ons like Cloudflare's analytics beacon (ad
+  // blockers) and preloaded fonts (iPhone Lockdown Mode, data saver) are harmless ("blocked_load").
   window.addEventListener("error", function (e) {
-    track("js_error", { msg: String(e.message || (e.target && e.target.src) || "error").slice(0, 200), src: String(e.filename || "").slice(0, 120), line: e.lineno });
+    var el = e.target;
+    if (el && el !== window && el.tagName) {
+      var url = String(el.currentSrc || el.src || el.href || ""), tag = el.tagName.toLowerCase();
+      var ours = url.indexOf(location.origin) === 0 || url.charAt(0) === "/";
+      var harmless = !ours || (tag === "link" && el.rel === "preload");
+      track(harmless ? "blocked_load" : "load_error", { tag: tag, url: url.slice(0, 200) });
+      return;
+    }
+    track("js_error", { msg: String(e.message || "error").slice(0, 200), src: String(e.filename || "").slice(0, 120), line: e.lineno, col: e.colno });
   }, true);
 })();
