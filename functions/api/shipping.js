@@ -7,6 +7,8 @@
 // If the key is missing, the API fails, or a heavy part has no "pack", it falls back to the flat
 // size-class rates in products.json (shipping.flatRate / shipping.rates), so checkout never breaks.
 
+import { alertOwner } from "./notify.js";
+
 const PAC = "https://digitalapi.auspost.com.au/postage/parcel/domestic/calculate.json";
 const MAX_KG = 22, MAX_CM = 105, MAX_M3 = 0.25; // Australia Post domestic parcel limits
 const SLACK = 1.1; // combined parcels need a bit more room than the parts' boxes add up to
@@ -102,7 +104,7 @@ export async function quoteShipping(env, data, items, postcode) {
   }
 }
 
-export async function onRequestPost({ request, env }) {
+export async function onRequestPost({ request, env, waitUntil }) {
   const json = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
   let body;
   try { body = await request.json(); } catch { return json({ error: "Bad request" }, 400); }
@@ -111,5 +113,7 @@ export async function onRequestPost({ request, env }) {
   const origin = new URL(request.url).origin;
   const data = await (await fetch(origin + "/products.json")).json();
   const q = await quoteShipping(env, data, items, body.postcode);
+  // The flat-rate fallback keeps checkout working, but it may under- or over-charge: tell AJ the live quote broke
+  if (q.error && q.source === "flat" && waitUntil) waitUntil(alertOwner(env, "auspost", `Australia Post postage quoting failed (${String(q.error).slice(0, 100)}). Boxed parts are on flat rates until it's fixed.`).catch(() => {}));
   return json({ cents: q.cents, label: q.label, quote: !!q.quote, source: q.source || null, needsPostcode: !!q.needsPostcode, error: q.error || null });
 }

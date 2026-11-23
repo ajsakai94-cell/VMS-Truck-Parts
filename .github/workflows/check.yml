@@ -18,5 +18,7 @@ jobs:
           node --check app.js
           node --check track.js
           for f in functions/api/*.js; do cp "$f" /tmp/fn.mjs && node --check /tmp/fn.mjs || exit 1; done
+      - name: Checkout works for every part (Stripe and Australia Post faked)
+        run: node tools/test-checkout.mjs
       - name: Generated pages are up to date
         run: node build.mjs --check
