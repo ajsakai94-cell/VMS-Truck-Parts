@@ -45,6 +45,8 @@ async function pacPrice(env, from, to, p) {
 // Each part takes up some of a satchel ("fits": small 1, medium 2, large 4, xl 8); parts share satchels
 // biggest first, and each satchel is charged at the smallest size that holds what's in it.
 // A part can also list its own satchels (the service kit ships as two XL satchels).
+// "satchelShare" overrides how much room a part takes (e.g. a small mirror cover 1.5 + battery sensor 0.5
+// share one medium satchel: AJ packed exactly that on 23 Nov 2026).
 function packSatchels(sizes, units) {
   const order = Object.keys(sizes).sort((a, b) => sizes[a].fits - sizes[b].fits);
   const cap = sizes[order[order.length - 1]].fits, bags = [];
@@ -67,7 +69,7 @@ export async function quoteShipping(env, data, items, postcode) {
   const sat = lines.filter(l => l.p.satchel);
   const units = sat.flatMap(l => each(l, () => Array.isArray(l.p.satchel)
     ? l.p.satchel.map(z => ({ fits: s.satchels[z].fits, kg: 5, own: true }))
-    : [{ fits: s.satchels[l.p.satchel].fits, kg: l.p.kg || 0 }]));
+    : [{ fits: l.p.satchelShare || s.satchels[l.p.satchel].fits, kg: l.p.kg || 0 }]));
   const bags = packSatchels(s.satchels, units);
   const satCents = bags.reduce((t, z) => t + Math.round(s.satchels[z].price * 100), 0);
   const parts = bags.length ? [`Australia Post satchel${bags.length > 1 ? " x" + bags.length : ""}`] : [];

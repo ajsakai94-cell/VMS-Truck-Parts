@@ -1110,6 +1110,7 @@
     "engines": []
    },
    "satchel": "medium",
+   "satchelShare": 1.5,
    "kg": 0.5
   },
   {
@@ -1650,6 +1651,7 @@
    "maxQty": 5,
    "thumb": "/images/battery-sensor-v2-400.webp",
    "satchel": "small",
+   "satchelShare": 0.5,
    "kg": 0.3
   },
   {
