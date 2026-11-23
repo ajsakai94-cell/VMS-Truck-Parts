@@ -24,7 +24,7 @@
 <item>
   <g:id>oil-filter</g:id>
   <g:title>Engine Oil Filter for Mercedes-Benz Actros MP4 / MP5 OM471/OM473 – OE A 472 184 04 25</g:title>
-  <g:description>Engine oil filter element for the OM471 / OM473. Change at every oil service. Replaces OE A 472 184 04 25, A 472 184 05 25, A 472 180 03 09, A 472 180 01 09, A 473 180 00 09. Cross-reference: MAHLE OX 832D, MANN HU 12 001 z, Hengst E510H07 D129, Luber-finer LP5090, Baldwin P7505, Bosch F 026 407 192, Wix 57909, Donaldson P551005, Fleetguard LF17511.</g:description>
+  <g:description>Engine oil filter element (cartridge type) for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros. Fits inside the plastic filter housing on the engine and comes with new O-rings. Change it at every oil service, and match the number on your old element: it replaces OE A 472 184 04 25 and the A 473 180 00 09 / A 472 180 01 09 family, and is the same size as MAHLE OX 832D, MANN HU 12 001 z and Hengst E510H07 D129. Replaces OE A 472 184 04 25, A 472 184 05 25, A 472 180 03 09, A 472 180 01 09, A 473 180 00 09. Cross-reference: MAHLE OX 832D, MANN HU 12 001 z, Hengst E510H07 D129, Luber-finer LP5090, Baldwin P7505, Bosch F 026 407 192, Wix 57909, Donaldson P551005, Fleetguard LF17511.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/oil-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/oil-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -56,7 +56,7 @@
 <item>
   <g:id>air-filter</g:id>
   <g:title>Engine Air Filter for Mercedes-Benz Actros MP4 / MP5 OM471/OM473 – OE A 004 094 69 04</g:title>
-  <g:description>Engine air filter element. Check at every service and replace when the restriction indicator shows. Replaces OE A 004 094 69 04, A 004 094 68 04. Cross-reference: MAHLE LX 5437, MANN C 50 004/1, Hengst E2059L.</g:description>
+  <g:description>Engine air filter element for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros. A blocked air filter costs power and fuel, so check it at every service and replace it when the restriction indicator shows or at least once a year, sooner on dusty roads. Same size as MAHLE LX 5437, MANN C 50 004/1 and Hengst E2059L. Note the element is about 491 mm long, so it ships in its own box. Replaces OE A 004 094 69 04, A 004 094 68 04. Cross-reference: MAHLE LX 5437, MANN C 50 004/1, Hengst E2059L.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/air-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/air-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -87,8 +87,8 @@
 </item>
 <item>
   <g:id>adblue-filter</g:id>
-  <g:title>AdBlue Pump Filter for Mercedes-Benz Actros MP4 / MP5</g:title>
-  <g:description>AdBlue (urea) pump filter. A blocked filter can trigger an emissions warning and power loss.</g:description>
+  <g:title>AdBlue Pump Filter for Mercedes-Benz Actros MP4 / MP5 – OE A 000 142 05 89</g:title>
+  <g:description>AdBlue (urea, DEF) pump filter for the SCR emissions system on the MP4 / MP5 Mercedes-Benz Actros. A blocked AdBlue filter starves the dosing pump, which can bring up an emissions warning and put the truck into derate (limp mode). Change it with the AdBlue system service. MAHLE lists UX 13KIT (OE A 000 142 05 89) for MP4 / MP5 trucks; check the number on your old filter or send us your VIN. Replaces OE A 000 142 05 89. Cross-reference: MAHLE UX 13KIT.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/adblue-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/adblue-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -119,8 +119,8 @@
 </item>
 <item>
   <g:id>power-steering-filter</g:id>
-  <g:title>Power Steering Filter for Mercedes-Benz Actros MP4 / MP5</g:title>
-  <g:description>Power steering hydraulic filter. Replace when changing steering fluid.</g:description>
+  <g:title>Power Steering Filter for Mercedes-Benz Actros MP4 / MP5 – OE A 000 184 22 25</g:title>
+  <g:description>Power steering hydraulic filter for the MP4 / MP5 Mercedes-Benz Actros. Replace it whenever you change the steering fluid, or if the steering feels heavy or the pump is noisy. MAHLE lists HX 15 (OE A 000 184 22 25) for MP4 / MP5 trucks; check the number on your old filter or send us your VIN. Replaces OE A 000 184 22 25. Cross-reference: MAHLE HX 15.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/power-steering-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/power-steering-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -168,7 +168,7 @@
 <item>
   <g:id>brake-pads-front</g:id>
   <g:title>Front Brake Pad Set (Axle Set) for Mercedes-Benz Actros MP4 / MP5 – OE A 006 420 14 20</g:title>
-  <g:description>Front axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SM7 disc brakes. 4 pads plus a repair kit, enough to do both front wheels. Front and rear pads are different sizes, so check the WVA number on your old pad (29246 or 29247) before you order, or send us your VIN and we&#39;ll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won&#39;t fit. New stock is on its way. Replaces OE A 006 420 14 20, A 006 420 52 20, A 000 421 72 10. Cross-reference: WVA 29246, WVA 29247, Knorr-Bremse SM7.</g:description>
+  <g:description>Front axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SM7 disc brakes. 4 pads plus a repair kit, enough to do both front wheels. Front and rear pads are different sizes, so check the WVA number on your old pad (29246 or 29247) before you order, or send us your VIN and we&#39;ll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won&#39;t fit. New stock is on its way. Replaces OE A 006 420 14 20, A 006 420 52 20, A 000 421 72 10. Cross-reference: WVA 29246, WVA 29247, Knorr-Bremse SM7, Ferodo FCV4417PTS, Febi 16997.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/front-brake-pads-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/brake-pads-front-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
@@ -184,7 +184,7 @@
 <item>
   <g:id>brake-pads-rear</g:id>
   <g:title>Rear Brake Pad Set (Axle Set) for Mercedes-Benz Actros MP4 / MP5 – OE A 006 420 53 20</g:title>
-  <g:description>Rear axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SL7 disc brakes. 4 pads plus a repair kit, enough to do both wheels on one rear axle (order 2 sets for a tandem drive). Front and rear pads are different sizes, so check the WVA number on your old pad (29244 or 29245) before you order, or send us your VIN and we&#39;ll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won&#39;t fit. New stock is on its way. Replaces OE A 006 420 53 20, A 006 420 15 20. Cross-reference: WVA 29244, WVA 29245, Knorr-Bremse SL7.</g:description>
+  <g:description>Rear axle brake pad set for the MP4 Mercedes-Benz Actros with Knorr-Bremse SL7 disc brakes. 4 pads plus a repair kit, enough to do both wheels on one rear axle (order 2 sets for a tandem drive). Front and rear pads are different sizes, so check the WVA number on your old pad (29244 or 29245) before you order, or send us your VIN and we&#39;ll confirm fit. If your old pads say WVA 29315 you have Wabco MAXX22L calipers and these won&#39;t fit. New stock is on its way. Replaces OE A 006 420 53 20, A 006 420 15 20. Cross-reference: WVA 29244, WVA 29245, Knorr-Bremse SL7, Ferodo FCV4418PTS.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/rear-brake-pads-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/brake-pads-rear-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
@@ -280,7 +280,7 @@
 <item>
   <g:id>viscous-fan-clutch</g:id>
   <g:title>Viscous Fan Clutch for Mercedes-Benz Actros MP4 / MP5 OM471 – OE A 470 200 07 22</g:title>
-  <g:description>Viscous fan clutch for the engine cooling fan. Replace if the fan won&#39;t engage or the engine runs hot. Replaces OE A 470 200 07 22. Cross-reference: NRF 49159, Nissens 86140, MAHLE CFC 173 000P.</g:description>
+  <g:description>Viscous fan clutch (viscous coupling) for the engine cooling fan on the OM471 MP4 / MP5 Mercedes-Benz Actros. Signs it has failed: the engine runs hot on hills or in traffic, the fan roars all the time, or oil is leaking from the hub. Replaces OE A 470 200 07 22, same as MAHLE CFC 173 000P, NRF 49159 and Nissens 86140. Replaces OE A 470 200 07 22. Cross-reference: NRF 49159, Nissens 86140, MAHLE CFC 173 000P.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/viscous-fan-clutch-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/viscous-fan-clutch-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -296,7 +296,7 @@
 <item>
   <g:id>expansion-tank</g:id>
   <g:title>Coolant Expansion Tank for Mercedes-Benz Actros MP4 / MP5 – OE A 960 501 42 03</g:title>
-  <g:description>Coolant expansion (header) tank. Replace if cracked or leaking. Replaces OE A 960 501 42 03. Cross-reference: MAHLE CRT 235 000P, Nissens 996053.</g:description>
+  <g:description>Coolant expansion tank (header tank) for the MP4 / MP5 Mercedes-Benz Actros. The plastic tank cracks with age and heat, so coolant loss, a sweet smell or crusty coolant around the tank are the usual signs. Replace the cap at the same time if it doesn&#39;t hold pressure. Replaces OE A 960 501 42 03 (also A 960 501 87 03), same as MAHLE CRT 235 000P and Nissens 996053. Replaces OE A 960 501 42 03, A 960 501 87 03. Cross-reference: MAHLE CRT 235 000P, Nissens 996053.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/expansion-tank-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/expansion-tank-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
@@ -312,7 +312,7 @@
 <item>
   <g:id>clutch-kit</g:id>
   <g:title>Clutch Kit for Mercedes-Benz Actros MP4 / MP5</g:title>
-  <g:description>Complete clutch kit for the MP4 / MP5 Actros.</g:description>
+  <g:description>Complete clutch kit for the MP4 / MP5 Mercedes-Benz Actros with the PowerShift automated gearbox: clutch plate (disc), pressure plate and release bearing. Signs it&#39;s due: slipping under load, juddering when taking off, or a clutch wear warning on the dash. Clutch kits differ by gearbox and engine, so send us your VIN and we&#39;ll confirm the right kit before you pay.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/clutch-kit-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/clutch-kit-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -328,7 +328,7 @@
 <item>
   <g:id>clutch-actuator</g:id>
   <g:title>Clutch Actuator (PowerShift) for Mercedes-Benz Actros MP4 / MP5</g:title>
-  <g:description>Clutch actuator for the automated (PowerShift) gearbox.</g:description>
+  <g:description>Clutch actuator (clutch servo) for the PowerShift automated manual gearbox in the MP4 / MP5 Mercedes-Benz Actros. A failing actuator causes rough or slow take-offs, the clutch not fully releasing, air leaks at the actuator, or clutch fault codes on the dash. Send us your VIN and we&#39;ll confirm it matches your gearbox before you pay.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/clutch-actuator-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/clutch-actuator-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -344,7 +344,7 @@
 <item>
   <g:id>starter-motor</g:id>
   <g:title>Starter Motor 24V 7.5kW for Mercedes-Benz Actros MP4 / MP5 OM471/OM473 – OE A 007 151 45 01</g:title>
-  <g:description>24V 7.5kW starter motor for the OM471 and OM473, including the Actros 2658. Replaces OE A 007 151 45 01. Cross-reference: Prestolite (TRP 1549007), S5307S, DRS1034, 11139182, AZG4879.</g:description>
+  <g:description>24V 7.5kW starter motor for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros, including the Actros 2658. Replace it if the engine cranks slowly with good batteries, the starter clicks but doesn&#39;t turn, or it grinds on engagement. Replaces OE A 007 151 45 01, same as MAHLE MS 754 and Prestolite (TRP 1549007). Replaces OE A 007 151 45 01. Cross-reference: Prestolite (TRP 1549007), S5307S, DRS1034, 11139182, AZG4879, MAHLE MS 754.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/starter-motor-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/starter-motor-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
@@ -360,7 +360,7 @@
 <item>
   <g:id>cylinder-liner-kit-om473</g:id>
   <g:title>Cylinder Liner Kit (OM473) for Mercedes-Benz Actros MP4 / MP5</g:title>
-  <g:description>Cylinder liner kit for the OM473 engine.</g:description>
+  <g:description>Cylinder liner kit for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros (2658, 2663), for an in-frame or out-of-frame engine rebuild. Liner kits vary by piston and engine build, so send us your VIN or engine number and we&#39;ll confirm the right kit and lead time.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/cylinder-liner-kit-om473-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/cylinder-liner-kit-om473-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
@@ -376,7 +376,7 @@
 <item>
   <g:id>timing-tool-kit</g:id>
   <g:title>Engine Timing Tool Kit for Mercedes-Benz Actros MP4 / MP5</g:title>
-  <g:description>Engine timing tool kit for the MP4 / MP5 Actros.</g:description>
+  <g:description>Engine timing tool kit for the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros. Locks the camshafts and crankshaft in position for timing work, cylinder head jobs and cam replacement. Ask us what&#39;s in the kit and the lead time.</g:description>
   <g:link>https://vmstruckparts.com.au/parts/timing-tool-kit-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/timing-tool-kit-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>

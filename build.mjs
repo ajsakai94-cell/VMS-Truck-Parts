@@ -36,12 +36,12 @@ const shipRate = p => (p.satchel ? [].concat(p.satchel).reduce((t, z) => t + SHI
   + (p.pack || !p.satchel ? (p.shipClass ? SHIP.rates[p.shipClass] : SHIP.flatRate) : 0);
 
 const CATS = {
-  Filters: { path: "filters", title: "Actros MP4 / MP5 Filters", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
-  Cooling: { path: "cooling", title: "Actros MP4 / MP5 Cooling Parts", intro: "Viscous fan clutches and coolant expansion tanks for the MP4 and MP5 Mercedes-Benz Actros, with OE and cross-reference numbers." },
+  Filters: { path: "filters", title: "Actros MP4 / MP5 Filters", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters and air dryer cartridges for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
+  Cooling: { path: "cooling", title: "Actros MP4 / MP5 Cooling Parts", intro: "Radiators, viscous fan clutches and coolant expansion tanks for the MP4 and MP5 Mercedes-Benz Actros, with OE numbers and MAHLE, Nissens and NRF cross-references." },
   Clutch: { path: "clutch", title: "Actros MP4 / MP5 Clutch Parts", intro: "Clutch kits and clutch actuators for the MP4 and MP5 Mercedes-Benz Actros. Send us your VIN and we'll confirm the right part for your gearbox before you pay." },
-  Engine: { path: "engine", title: "Actros MP4 / MP5 Engine Parts", intro: "Starter motors, cylinder heads, liner kits, oil separators and sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
-  Brakes: { path: "brakes", title: "Actros MP4 / MP5 Brake and Air Parts", intro: "Front and rear brake pads, brake hoses and air-line fittings for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
-  Cab: { path: "cab", title: "Actros MP4 / MP5 Cab Parts", intro: "Mirror covers, headlight globes and other cab parts for the MP4 and MP5 Mercedes-Benz Actros." },
+  Engine: { path: "engine", title: "Actros MP4 / MP5 Engine Parts", intro: "Starter motors, cylinder heads, liner kits, oil spinners (crankcase oil separators) and battery sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
+  Brakes: { path: "brakes", title: "Actros MP4 / MP5 Brake and Air Parts", intro: "Front and rear brake pads, brake hoses, air-line fittings and trailer suzi coils (ABS/EBS ISO 7638 and 7 pin lighting) for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number with WVA, Knorr-Bremse and Narva cross-references." },
+  Cab: { path: "cab", title: "Actros MP4 / MP5 Cab Parts", intro: "Main and corner mirror covers (left and right), H7 24V headlight globes and other cab parts for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
   Workshop: { path: "workshop-equipment", title: "Workshop Equipment", intro: "Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any workshop, not just the Actros." },
   Tools: { path: "workshop-tools", title: "Actros MP4 / MP5 Workshop Tools", intro: "Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
 };
@@ -154,8 +154,9 @@ const sortParts = list => [...list].sort((a, b) => (b.available - a.available) |
 // OE "A 472 184 04 25" is also searched as "A4721840425", "4721840425" and "472 184 04 25".
 // Aftermarket "MANN HU 12 001 z" is also searched as "HU12001z" (with or without the brand).
 const oeForms = n => { const sp = n.replace(/^A\s*/i, ""); const c = sp.replace(/\s+/g, ""); return [n, "A" + c, c, sp]; };
-const BRANDS = ["DT Spare Parts", "Luber-finer", "MAHLE", "MANN", "Hengst", "Bosch", "Febi", "Fleetguard", "Donaldson", "Wix", "Baldwin", "Sakura", "Trucktec", "NRF", "Nissens", "Prestolite", "WVA", "Knorr", "Narva", "Hella", "Trail Link"];
-const crossSplit = s => { const b = BRANDS.find(b => s.startsWith(b + " ")); return b ? [b, s.slice(b.length + 1)] : ["", s]; };
+const BRANDS = ["DT Spare Parts", "Luber-finer", "Knorr-Bremse", "Highway Automotive", "AKS Dasis", "Osram Truckstar Pro", "MAHLE", "MANN", "Hengst", "Bosch", "Febi", "Fleetguard", "Donaldson", "Wix", "Baldwin", "Sakura", "Trucktec", "NRF", "Nissens", "Prestolite", "WVA", "Knorr", "Narva", "Hella", "Trail Link", "Osram", "Philips", "Haldex", "Ferodo", "AVA", "Frigair", "TitanX"];
+// case-insensitive, so "Mahle AL 35" and "febi 106249" are split like "MAHLE OX 832D"
+const crossSplit = s => { const b = BRANDS.find(b => s.toLowerCase().startsWith(b.toLowerCase() + " ")); return b ? [s.slice(0, b.length), s.slice(b.length + 1)] : ["", s]; };
 const crossForms = s => { const [b, n] = crossSplit(s.replace(/[()]/g, "")); const c = n.replace(/\s+/g, ""); return c === n ? [s] : [s, (b ? b + " " : "") + c, c]; };
 // every distinct form after the one already shown, for the "Also written as" line
 const altNumbers = p => [...new Set([...p.oem.flatMap(n => oeForms(n).slice(1)), ...p.cross.flatMap(n => crossForms(n).slice(1))])];
@@ -254,7 +255,7 @@ function catPage(cat) {
   <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Australia Post to your postcode · Free pickup in Victoria</p>
 </section>
 <section class="block"><div class="grid">${list.map(card).join("")}</div></section>`;
-  return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.slice(0, 155), path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });
+  return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.length > 160 ? c.intro.slice(0, 157).replace(/[\s,(]+\S*$/, "") + "…" : c.intro, path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });
 }
 
 function notFound() {
