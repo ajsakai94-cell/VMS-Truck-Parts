@@ -18,9 +18,16 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:is_bundle>yes</g:is_bundle>
   <g:shipping_length>50 cm</g:shipping_length><g:shipping_width>31 cm</g:shipping_width><g:shipping_height>22 cm</g:shipping_height><g:shipping_weight>2.9 kg</g:shipping_weight>
 
+=======
+  <g:is_bundle>yes</g:is_bundle>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>64.40 AUD</g:price></g:shipping>
+  <g:shipping_length>50 cm</g:shipping_length><g:shipping_width>31 cm</g:shipping_width><g:shipping_height>22 cm</g:shipping_height><g:shipping_weight>2.9 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>oil-filter</g:id>
@@ -36,8 +43,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>fuel-filter</g:id>
@@ -53,8 +65,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>air-filter</g:id>
@@ -70,8 +87,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>50 cm</g:shipping_length><g:shipping_width>31 cm</g:shipping_width><g:shipping_height>22 cm</g:shipping_height><g:shipping_weight>2.9 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>39.95 AUD</g:price></g:shipping>
+  <g:shipping_length>50 cm</g:shipping_length><g:shipping_width>31 cm</g:shipping_width><g:shipping_height>22 cm</g:shipping_height><g:shipping_weight>2.9 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>cabin-filter</g:id>
@@ -87,8 +110,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>20.25 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>20.25 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>adblue-filter</g:id>
@@ -104,8 +132,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>diesel-water-separator</g:id>
@@ -121,8 +154,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>power-steering-filter</g:id>
@@ -138,8 +176,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>air-dryer-cartridge</g:id>
@@ -155,8 +198,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>20.25 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>20.25 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>brake-hose</g:id>
@@ -172,8 +220,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Brakes</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>brake-pads-front</g:id>
@@ -189,8 +242,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Brakes</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>26 cm</g:shipping_length><g:shipping_width>24 cm</g:shipping_width><g:shipping_height>14 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>39.95 AUD</g:price></g:shipping>
+  <g:shipping_length>26 cm</g:shipping_length><g:shipping_width>24 cm</g:shipping_width><g:shipping_height>14 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>brake-pads-rear</g:id>
@@ -206,8 +265,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Brakes</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>23 cm</g:shipping_length><g:shipping_width>24 cm</g:shipping_width><g:shipping_height>14 cm</g:shipping_height><g:shipping_weight>7 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>39.95 AUD</g:price></g:shipping>
+  <g:shipping_length>23 cm</g:shipping_length><g:shipping_width>24 cm</g:shipping_width><g:shipping_height>14 cm</g:shipping_height><g:shipping_weight>7 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>ebs-trailer-cable</g:id>
@@ -223,8 +288,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Brakes</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.45 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.45 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>trailer-light-suzi-coil</g:id>
@@ -240,8 +310,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Brakes</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.45 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.45 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>long-mirror-cover</g:id>
@@ -257,8 +332,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cab</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.45 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.45 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>h7-globe-24v</g:id>
@@ -274,8 +354,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cab</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>small-mirror-cover</g:id>
@@ -291,8 +376,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cab</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>viscous-fan-clutch</g:id>
@@ -308,8 +398,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cooling</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>35 cm</g:shipping_length><g:shipping_width>35 cm</g:shipping_width><g:shipping_height>35 cm</g:shipping_height><g:shipping_weight>12 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
+  <g:shipping_length>35 cm</g:shipping_length><g:shipping_width>35 cm</g:shipping_width><g:shipping_height>35 cm</g:shipping_height><g:shipping_weight>12 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>expansion-tank</g:id>
@@ -325,8 +421,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cooling</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>45 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>30 cm</g:shipping_height><g:shipping_weight>2 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.95 AUD</g:price></g:shipping>
+  <g:shipping_length>45 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>30 cm</g:shipping_height><g:shipping_weight>2 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>top-radiator-hose</g:id>
@@ -342,8 +444,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cooling</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>80 cm</g:shipping_length><g:shipping_width>40 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>2 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.95 AUD</g:price></g:shipping>
+  <g:shipping_length>80 cm</g:shipping_length><g:shipping_width>40 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>2 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>clutch-kit</g:id>
@@ -359,8 +467,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Clutch</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>99.95 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>99.95 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>clutch-actuator</g:id>
@@ -376,8 +489,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Clutch</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>40 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
+  <g:shipping_length>40 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>starter-motor</g:id>
@@ -393,8 +512,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>39 cm</g:shipping_length><g:shipping_width>22 cm</g:shipping_width><g:shipping_height>19 cm</g:shipping_height><g:shipping_weight>14 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
+  <g:shipping_length>39 cm</g:shipping_length><g:shipping_width>22 cm</g:shipping_width><g:shipping_height>19 cm</g:shipping_height><g:shipping_weight>14 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>cylinder-liner-kit-om473</g:id>
@@ -410,8 +535,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>35 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
+  <g:shipping_length>35 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>timing-tool-kit</g:id>
@@ -427,8 +558,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Hardware &gt; Tools</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Tools</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>45 cm</g:shipping_length><g:shipping_width>35 cm</g:shipping_width><g:shipping_height>15 cm</g:shipping_height><g:shipping_weight>5 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
+  <g:shipping_length>45 cm</g:shipping_length><g:shipping_width>35 cm</g:shipping_width><g:shipping_height>15 cm</g:shipping_height><g:shipping_weight>5 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>oil-separator</g:id>
@@ -444,8 +581,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>16.00 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>battery-sensor</g:id>
@@ -461,8 +603,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>pneumatic-oil-pump</g:id>
@@ -478,8 +625,14 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Hardware &gt; Tools</g:google_product_category>
   <g:product_type>Workshop</g:product_type>
+<<<<<<< HEAD
   <g:shipping_length>60 cm</g:shipping_length><g:shipping_width>40 cm</g:shipping_width><g:shipping_height>30 cm</g:shipping_height><g:shipping_weight>12 kg</g:shipping_weight>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
+  <g:shipping_length>60 cm</g:shipping_length><g:shipping_width>40 cm</g:shipping_width><g:shipping_height>30 cm</g:shipping_height><g:shipping_weight>12 kg</g:shipping_weight>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>exhaust-manifold-gasket-om473</g:id>
@@ -495,8 +648,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 <item>
   <g:id>injector-line-seal</g:id>
@@ -512,8 +670,13 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+<<<<<<< HEAD
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
+=======
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+>>>>>>> origin/main
 </item>
 </channel>
 </rss>
