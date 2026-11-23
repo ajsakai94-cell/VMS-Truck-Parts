@@ -1740,7 +1740,7 @@
   {
    "id": "turbocharger-om473",
    "slug": "turbocharger-om473-mp4-mp5-actros",
-   "name": "Turbocharger (OM473)",
+   "name": "Genuine Holset Turbocharger (OM473)",
    "cat": "Engine",
    "price": 2300.0,
    "available": true,
@@ -1796,7 +1796,9 @@
     "2663 turbo",
     "DD16 turbo",
     "replacement turbo",
-    "HE500WG turbo"
+    "HE500WG turbo",
+    "genuine Holset",
+    "Holset turbo"
    ],
    "keywords": [
     "engine",
@@ -1827,8 +1829,8 @@
     "3789534",
     "HE500WG"
    ],
-   "desc": "Holset turbocharger for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663 (also listed for the Detroit DD15 / DD16). Signs your turbo is failing: loss of power or boost, blue or black smoke, oil in the intercooler pipes, or a loud whistle or siren noise. Mercedes used two turbo styles on the OM473 (Holset HE500WG and HX55) under several part numbers, so check the number on your old turbo's tag matches one of these, or text us your VIN and we'll confirm fit before you pay. Fix the cause of the old turbo failing (oil feed, air leaks, blocked filter) before fitting the new one. Freight is quoted to your door, or pick up free in Victoria.",
-   "brand": "VMS",
+   "desc": "Genuine Holset turbocharger for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663 (also listed for the Detroit DD15 / DD16). Signs your turbo is failing: loss of power or boost, blue or black smoke, oil in the intercooler pipes, or a loud whistle or siren noise. Mercedes used two turbo styles on the OM473 (Holset HE500WG and HX55) under several part numbers, so check the number on your old turbo's tag matches one of these, or text us your VIN and we'll confirm fit before you pay. Fix the cause of the old turbo failing (oil feed, air leaks, blocked filter) before fitting the new one. Freight is quoted to your door, or pick up free in Victoria.",
+   "brand": "Holset",
    "mpn": "VMS-E06",
    "identifierExists": false,
    "condition": "new",
