@@ -95,6 +95,7 @@ function card(o){
     (isPickup(o)?'<div class="addr"><b>Pickup</b> (message them to arrange)</div>':'<div class="addr">'+esc(addrText(o))+'</div>')+
     '<div class="row">'+
       (isPickup(o)?'':'<button type="button" data-act="copy">Copy address</button>')+
+      '<button type="button" data-act="slip">Packing slip</button>'+
       (ph?'<a class="btn" href="tel:'+esc(ph)+'">Call '+esc(o.phone)+'</a><a class="btn" href="sms:'+esc(ph)+'">Text</a>':'')+
       (o.email?'<a class="btn" href="mailto:'+esc(o.email)+'?subject='+encodeURIComponent("Your VMS Truck Parts order")+'">Email</a>':'')+
     '</div>'+
@@ -140,10 +141,31 @@ function render(){
   if(window.vmsBadge)vmsBadge("orders",all.filter(needsSending).length);
 }
 
+// Packing slip: a printable A4/A5 page to put in the box (opens in a new tab and starts printing)
+function slip(o){
+  var w=window.open("","_blank");if(!w){alert("Allow pop-ups for this page to print a packing slip");return}
+  var ref=o.id.slice(-8).toUpperCase(), d=new Date(o.created).toLocaleDateString("en-AU",Object.assign({day:"numeric",month:"long",year:"numeric"},TZ));
+  w.document.write('<!doctype html><html lang="en-AU"><head><meta charset="utf-8"><title>Packing slip '+esc(ref)+'</title><style>'+
+    'body{font:15px/1.45 system-ui,sans-serif;color:#111;max-width:680px;margin:28px auto;padding:0 20px}h1{font-size:22px;margin:0}'+
+    '.top{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:16px}'+
+    'table{width:100%;border-collapse:collapse;margin:16px 0}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid #ccc;vertical-align:top}'+
+    'th{font-size:12px;text-transform:uppercase;color:#555}.q{width:48px;text-align:center}.tick{width:40px}.box{display:inline-block;width:16px;height:16px;border:1.5px solid #111}'+
+    '.addr{white-space:pre-line;font-size:16px}.mut{color:#555;font-size:13px}@media print{body{margin:0}}</style></head><body>'+
+    '<div class="top"><div><h1>VMS Truck Parts</h1><div class="mut">Mercedes-Benz Actros MP4 / MP5 parts · 0481 309 893 · vmstruckparts@gmail.com · vmstruckparts.com.au</div></div>'+
+    '<div style="text-align:right"><b>Packing slip</b><div>Order '+esc(ref)+'</div><div class="mut">'+esc(d)+'</div></div></div>'+
+    '<div><b>'+(isPickup(o)?'Pickup':'Ship to')+'</b><div class="addr">'+esc(isPickup(o)?(o.name||""):addrText(o))+(o.phone?'\n'+esc(o.phone):'')+'</div></div>'+
+    '<table><thead><tr><th class="q">Qty</th><th>Part</th><th class="tick">Packed</th></tr></thead><tbody>'+
+    o.items.map(function(i){return '<tr><td class="q">'+esc(i.qty)+'</td><td>'+esc(i.name)+'</td><td class="tick"><span class="box"></span></td></tr>'}).join("")+
+    '</tbody></table><div class="mut">'+esc(o.shippingName||"")+'</div>'+
+    '<p style="margin-top:28px">Thanks for your order. If anything is wrong or doesn\'t fit, text 0481 309 893 with order '+esc(ref)+' before fitting and we\'ll sort it out. Unused parts can be returned within 30 days.</p>'+
+    '<script>window.onload=function(){window.print()}<\/script></body></html>');
+  w.document.close();
+}
 function say(id,t){$("msg").textContent=t;var c=document.querySelector('.card[data-id="'+id+'"]'),s=c&&c.querySelector(".say");if(s){s.textContent=t;s.hidden=!t;s.scrollIntoView({block:"nearest"})}}
 $("out").onclick=function(e){
   var b=e.target.closest("button[data-act]");if(!b)return;
   var c=b.closest(".card"), id=c.dataset.id, o=data.orders.find(function(x){return x.id===id});
+  if(b.dataset.act==="slip"){slip(o);return}
   if(b.dataset.act==="copy"){var t=addrText(o)+(o.phone?"\n"+o.phone:"");(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent="Copied ✓"},function(){prompt("Copy the address:",t)});return}
   var act=b.dataset.act, shipped=act==="send"||act==="notify"?true:act==="unsend"?false:!!o.shipped;
   var tr=c.querySelector('[data-f=tracking]').value.trim();
