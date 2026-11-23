@@ -26,7 +26,7 @@ ul{margin:10px 0;padding:0 0 0 18px}li{margin:2px 0}
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.tile b{display:block;font-size:24px;line-height:1.1}.tile span{color:var(--mut);font-size:13px}
 details summary{cursor:pointer;color:var(--mut);margin-top:6px}
-#msg{margin:0 0 12px}.empty{color:var(--mut);padding:24px 0;text-align:center}
+#msg{margin:0 0 12px}.say{margin:8px 0 0;font-weight:600}.empty{color:var(--mut);padding:24px 0;text-align:center}
 </style></head>
 <body>
 <header>
@@ -73,7 +73,7 @@ function card(o){
   if(o.shipped)pills.push('<span class="pill done">'+(isPickup(o)?"Picked up":"Sent")+' '+esc(new Date(o.shipped).toLocaleDateString("en-AU",Object.assign({day:"numeric",month:"short"},TZ)))+'</span>');
   else if(needsSending(o))pills.push('<span class="pill todo">'+(isPickup(o)?"Pickup to arrange":"To send")+'</span>');
   var pc=o.quotedPostcode&&o.address.postcode&&o.quotedPostcode!==o.address.postcode&&!isPickup(o)?'<div class="pill bad">Postage was quoted to '+esc(o.quotedPostcode)+', address is '+esc(o.address.postcode)+'</div>':"";
-  var ph=phoneDigits(o.phone), first=(o.name||"").split(" ")[0];
+  var canSend=!!(data.sms||data.email), ph=phoneDigits(o.phone), first=(o.name||"").split(" ")[0];
   var trackMsg="Hi "+first+", your VMS Truck Parts order is on its way."+(o.tracking?" Australia Post tracking: "+o.tracking+" https://auspost.com.au/mypost/track/details/"+o.tracking:"")+" Thanks, AJ";
   var h='<div class="card'+(o.shipped?' sent':'')+'" data-id="'+esc(o.id)+'">'+
     '<div class="top"><div><b>'+esc(o.name||o.email||"Customer")+'</b><div class="mut small">'+esc(when(o.created))+'</div></div><div class="total">'+money(o.total)+'</div></div>'+
@@ -89,11 +89,12 @@ function card(o){
     (o.email?'<div class="mut small">'+esc(o.email)+'</div>':'')+
     (isPickup(o)?'<input data-f="tracking" type="hidden" value="">':'<div class="row"><input data-f="tracking" placeholder="Australia Post tracking number" value="'+esc(o.tracking||"")+'" style="flex:1;min-width:180px"></div>')+
     '<div class="row"><textarea data-f="note" rows="2" placeholder="Private note (optional)">'+esc(o.note||"")+'</textarea></div>'+
-    '<div class="row">'+(isPickup(o)?'':'<button type="button" class="go" data-act="notify">'+(o.texted||o.emailed?"Send shipped message again":"Send shipped + tracking")+'</button>')+
+    '<div class="row">'+(isPickup(o)||!canSend?'':'<button type="button" class="go" data-act="notify">'+(o.texted||o.emailed?"Send shipped message again":"Send shipped + tracking")+'</button>')+
       (o.shipped
       ?'<button type="button" data-act="save">Save</button><button type="button" data-act="unsend">Mark not sent</button>'
-      :'<button type="button"'+(isPickup(o)?' class="go"':'')+' data-act="send">'+(isPickup(o)?"Mark picked up":"Mark sent (no message)")+'</button><button type="button" data-act="save">Save note</button>')+
+      :'<button type="button"'+(isPickup(o)||!canSend?' class="go"':'')+' data-act="send">'+(isPickup(o)?"Mark picked up":"Mark sent (no message)")+'</button><button type="button" data-act="save">Save note</button>')+
     '</div>'+
+    '<p class="say" hidden></p>'+
     '<div class="mut small">'+[
       o.confirmed?"Confirmation emailed ✓":null,
       o.thanked?"Thank-you text sent ✓":null,
@@ -125,6 +126,7 @@ function render(){
   $("out").innerHTML=h;
 }
 
+function say(id,t){$("msg").textContent=t;var c=document.querySelector('.card[data-id="'+id+'"]'),s=c&&c.querySelector(".say");if(s){s.textContent=t;s.hidden=!t;s.scrollIntoView({block:"nearest"})}}
 $("out").onclick=function(e){
   var b=e.target.closest("button[data-act]");if(!b)return;
   var c=b.closest(".card"), id=c.dataset.id, o=data.orders.find(function(x){return x.id===id});
@@ -132,8 +134,8 @@ $("out").onclick=function(e){
   var act=b.dataset.act, shipped=act==="send"||act==="notify"?true:act==="unsend"?false:!!o.shipped;
   var tr=c.querySelector('[data-f=tracking]').value.trim();
   if(act==="notify"){
-    if(!tr){$("msg").textContent="Type the tracking number first.";c.querySelector('[data-f=tracking]').focus();return}
-    if(!data.sms&&!data.email){$("msg").textContent="Texting and emailing customers isn't switched on yet, so use Mark sent and the Text button.";return}
+    if(!tr){say(id,"Type the tracking number first.");c.querySelector('[data-f=tracking]').focus();return}
+    if(!data.sms&&!data.email){say(id,"Texting and emailing customers isn't switched on yet, so use Mark sent and the Text button.");return}
     if(!confirm("Send tracking "+tr+" to "+(o.name||"the customer")+(data.sms&&o.phone?" by text":"")+(data.email&&o.email?(data.sms&&o.phone?" and":" by")+" email":"")+"?"))return;
   }
   var body={session:id,shipped:shipped,notify:act==="notify",tracking:c.querySelector('[data-f=tracking]').value,note:c.querySelector('[data-f=note]').value};
@@ -143,8 +145,8 @@ $("out").onclick=function(e){
       if(j.error)throw new Error(j.error);
       o.shipped=j.shipped;o.tracking=j.tracking;o.note=j.note;o.texted=j.texted;o.emailed=j.emailed;
       var notes=[];if(j.sent){["sms","email"].forEach(function(k){var r=j.sent[k];notes.push((k==="sms"?"Text: ":"Email: ")+(r.ok?"sent ✓":r.skipped||r.error))})}
-      $("msg").textContent=notes.length?(o.name||"Customer")+". "+notes.join(". "):"Saved.";render();
-    }).catch(function(err){b.disabled=false;b.textContent="Try again";$("msg").textContent=err.message});
+      var t=notes.length?(o.name||"Customer")+". "+notes.join(". "):o.shipped?"Saved. Marked sent ✓ (it's under the Sent tab now).":"Saved.";render();say(id,t);
+    }).catch(function(err){b.disabled=false;b.textContent="Try again";say(id,err.message)});
 };
 
 function load(){

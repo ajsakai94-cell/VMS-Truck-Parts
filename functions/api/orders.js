@@ -103,7 +103,8 @@ export async function onRequestPost({ request, env }) {
   const clip = (v, n) => (v == null ? null : String(v).trim().slice(0, n) || null);
   await ensureMarks(env.DB);
   const now = Date.now();
-  const tracking = clip(b.tracking, 60), note = clip(b.note, 1000);
+  // Tracking numbers are copied off the sticker with spaces ("03 08006 ..."); store them without
+  const tracking = clip(b.tracking == null ? null : String(b.tracking).replace(/\s+/g, ""), 60), note = clip(b.note, 1000);
   const old = await env.DB.prepare("SELECT shipped_ts, texted_ts, emailed_ts FROM order_marks WHERE session = ?").bind(session).first() || {};
   // Keep the first "sent" time if it's already marked sent
   const shipped = b.shipped ? old.shipped_ts || now : null;
