@@ -42,7 +42,7 @@ const CATS = {
   Engine: { path: "engine", title: "Actros MP4 / MP5 Engine Parts", intro: "Starter motors, cylinder heads, liner kits, oil spinners (crankcase oil separators) and battery sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
   Brakes: { path: "brakes", title: "Actros MP4 / MP5 Brake and Air Parts", intro: "Front and rear brake pads, brake hoses, air-line fittings and trailer suzi coils (ABS/EBS ISO 7638 and 7 pin lighting) for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number with WVA, Knorr-Bremse and Narva cross-references." },
   Cab: { path: "cab", title: "Actros MP4 / MP5 Cab Parts", intro: "Main and corner mirror covers (left and right), H7 24V headlight globes and other cab parts for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
-  Workshop: { path: "workshop-equipment", title: "Workshop Equipment", intro: "Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any workshop, not just the Actros." },
+  Workshop: { path: "workshop-equipment", title: "Truck Workshop Equipment for Actros MP4 / MP5 Servicing", intro: "Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any truck workshop, and are handy for oil services on the Mercedes-Benz Actros MP4 / MP5." },
   Tools: { path: "workshop-tools", title: "Actros MP4 / MP5 Workshop Tools", intro: "Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
 };
 
@@ -52,6 +52,8 @@ const shortMoney = n => "$" + (Number.isInteger(n) ? n.toLocaleString("en-AU") :
 const partUrl = p => `/parts/${p.slug}/`;
 const catUrl = cat => `/${CATS[cat].path}/`;
 const truckPart = p => p.fits.models.length > 0;
+// non-vehicle items (workshop gear) still name the truck we specialise in
+const WORKSHOP = " for truck workshops, great for Mercedes-Benz Actros MP4 / MP5 servicing";
 const fitsText = p => !truckPart(p) ? "Any workshop (not vehicle-specific)" : "MP4 / MP5 Mercedes-Benz Actros" + (p.fits.engines.length ? `, ${p.fits.engines.join(" / ")} engine` : "");
 const products = data.products;
 
@@ -136,7 +138,7 @@ const crumbs = items => `<nav class="crumbs" aria-label="Breadcrumb"><ol>${items
 const crumbLd = items => ({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: items.map(([t, u], i) => ({ "@type": "ListItem", position: i + 1, name: t, ...(u ? { item: SITE.url + u } : {}) })) });
 
 const pic = (p, cls = "") => p.image
-  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? ' fetchpriority="high"' : ' loading="lazy"'}>`
+  ? `<img src="${esc(cls === "big" ? p.image : (p.thumb || p.image))}" alt="${esc(p.name)}${truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : WORKSHOP}" width="${cls === "big" ? 1000 : 400}" height="${cls === "big" ? 1000 : 400}"${cls === "big" ? ' fetchpriority="high"' : ' loading="lazy"'}>`
   : `<span class="noimg">${esc(p.cat)}</span>`;
 const picBig = p => pic(p, "big") + (p.image && p.illustration ? `<p class="illus">Illustration – actual part may vary</p>` : "");
 
@@ -166,8 +168,8 @@ function partPage(p) {
   const oe = p.oem[0] ? ` ${p.oem[0]}` : "";
   const eng = p.fits.engines.length && !/OM47\d/.test(p.name) ? ` ${p.fits.engines.join("/")}` : "";
   // Google title: plain part name, then fitment, then OE number, then price
-  const title = `${p.name}${truckPart(p) ? " for Mercedes Actros MP4/MP5" + eng : ""}${p.oem[0] ? " – OE " + p.oem[0] : ""}${p.price != null ? " | " + shortMoney(p.price) + (p.available ? " In Stock" : "") : ""} | ${SITE.name}`;
-  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : ""}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Shipped Australia-wide from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
+  const title = `${p.name}${truckPart(p) ? " for Mercedes Actros MP4/MP5" + eng : " for Truck Workshops, Actros MP4/MP5 Servicing"}${p.oem[0] ? " – OE " + p.oem[0] : ""}${p.price != null ? " | " + shortMoney(p.price) + (p.available ? " In Stock" : "") : ""} | ${SITE.name}`;
+  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : WORKSHOP}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Shipped Australia-wide from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
@@ -193,7 +195,7 @@ function partPage(p) {
 <article class="pdp">
   <div class="pic big">${picBig(p)}</div>
   <div class="info">
-    <h1>${esc(p.name)}${truckPart(p) ? " <small>to suit Mercedes-Benz Actros MP4 / MP5</small>" : ""}</h1>
+    <h1>${esc(p.name)} <small>${truckPart(p) ? "to suit Mercedes-Benz Actros MP4 / MP5" : WORKSHOP.trim()}</small></h1>
     <span class="pn">${p.oem.length ? "OE " + esc(p.oem[0]) + " · " : ""}Part no. ${esc(p.sku)}</span>
     ${priceHtml(p).replace("price", "price big")}
     ${stockHtml(p)}
@@ -210,7 +212,7 @@ ${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2
   const crumbItems = [["Home", "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
   const product = {
     "@context": "https://schema.org", "@type": "Product",
-    name: p.name + (truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : ""),
+    name: p.name + (truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : WORKSHOP),
     description: p.desc, sku: p.sku, mpn: p.mpn,
     brand: { "@type": "Brand", name: p.brand },
     category: p.cat,
