@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-AU"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Settings | VMS Truck Parts</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{padding:14px 16px;border-bottom:1px solid var(--line);background:var(--card);position:sticky;top:0;z-index:2}
+h1{font-size:18px;margin:0}h2{font-size:16px;margin:0 0 10px}
+main{max-width:760px;margin:0 auto;padding:16px}a{color:inherit}
+input,button{font:inherit;color:inherit}input{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 11px;min-height:44px}
+button{background:var(--chip);border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer;min-height:44px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.it{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:12px 0;border-top:1px solid var(--line)}
+.it:first-of-type{border-top:0}.it p{margin:0;color:var(--mut);font-size:14px;grid-column:1/-1}
+.pill{border-radius:999px;padding:2px 10px;font-size:13px;font-weight:700;white-space:nowrap;align-self:start}
+.pill.on{background:var(--good);color:#fff}.pill.off{background:var(--chip);color:var(--mut);border:1px solid var(--line)}
+.mut{color:var(--mut)}
+</style>
+<link rel="stylesheet" href="/admin/shell.css?v=1"></head>
+<body>
+<header><h1>Settings</h1></header>
+<main>
+  <div class="card" id="login" hidden>
+    <h2>Enter your backend password</h2>
+    <p class="mut">The same password as the orders page. It's saved on this device only.</p>
+    <form id="keyForm" class="row"><input id="key" type="password" autocomplete="current-password" placeholder="Password" aria-label="Password" style="flex:1;min-width:200px"><button>Open</button></form>
+  </div>
+  <p id="msg" class="mut"></p>
+  <div id="out"></div>
+</main>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+var get=function(k){try{return localStorage.getItem(k)}catch(e){return null}}, set=function(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
+var key=get("vms-stats-key")||"";
+$("keyForm").onsubmit=function(e){e.preventDefault();key=$("key").value.trim();set("vms-stats-key",key);load()};
+function item(on,title,onText,offText){
+  return '<div class="it"><b>'+title+'</b><span class="pill '+(on?'on">On':'off">Off')+'</span><p>'+(on?onText:offText)+'</p></div>';
+}
+function load(){
+  if(!key){$("login").hidden=false;return}
+  $("login").hidden=true;$("msg").textContent="Checking…";
+  fetch("/api/orders?days=1",{headers:{"X-Stats-Key":key}}).then(function(r){return r.json().then(function(j){if(r.status===401){set("vms-stats-key",null);key="";throw new Error("Wrong password")}return j})})
+  .then(function(j){
+    if(j.error)throw new Error(j.error);
+    var s=j.setup||{};
+    $("msg").textContent="";
+    $("out").innerHTML='<div class="card"><h2>Messages</h2>'+
+      item(j.sms,"Texts to customers","Thank-you texts after an order, and the shipped text with the tracking link, go from your SMS phone.","Not connected yet. Until then, use \"Text tracking from my phone\" on each order.")+
+      item(s.ownerAlerts,"New-order texts to you","You get a text for every new order.","Turns on when your mobile is saved in Cloudflare.")+
+      item(s.webhook,"Messages sent automatically after checkout","Stripe tells the shop the moment an order is paid, so the thank-you and alert texts go straight away.","Turns on once Stripe is connected to the shop.")+
+      item(j.email,"Emails from the shop","Order confirmation and shipped emails come from orders@vmstruckparts.com.au.","Off by choice. Customers still get Stripe's emailed receipt.")+
+      '</div><div class="card"><h2>Backend password</h2><p class="mut">It\'s the STATS_KEY secret in Cloudflare (Workers &amp; Pages, vms-truck-parts, Settings, Variables and secrets). To change it, edit it there and retry the latest deployment, or ask Claude to open it for you.</p>'+
+      '<div class="row"><button type="button" id="out1">Log out on this device</button></div></div>';
+    $("out1").onclick=function(){set("vms-stats-key",null);location.reload()};
+  }).catch(function(err){$("msg").textContent=err.message;if(!key)$("login").hidden=false});
+}
+load();
+})();
+</script>
+<script src="/admin/shell.js?v=1" data-page="settings"></script>
+</body></html>

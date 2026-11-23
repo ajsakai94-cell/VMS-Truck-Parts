@@ -27,18 +27,18 @@ ul{margin:10px 0;padding:0 0 0 18px}li{margin:2px 0}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.tile b{display:block;font-size:24px;line-height:1.1}.tile span{color:var(--mut);font-size:13px}
 details summary{cursor:pointer;color:var(--mut);margin-top:6px}
 #msg{margin:0 0 12px}.say{margin:8px 0 0;font-weight:600}.empty{color:var(--mut);padding:24px 0;text-align:center}
-</style></head>
+</style>
+<link rel="stylesheet" href="/admin/shell.css?v=1"></head>
 <body>
 <header>
   <h1>Orders</h1>
   <div class="row" id="tabs" style="margin:0"></div>
-  <a class="btn" href="/admin/">Stats</a>
 </header>
 <main>
   <div class="card" id="login" hidden>
-    <h2>Enter the stats key</h2>
+    <h2>Enter your backend password</h2>
     <p class="mut">The same key as the stats page. It's saved on this device only. It's the STATS_KEY secret in Cloudflare (Pages project, Settings, Variables and secrets).</p>
-    <form id="keyForm" class="row"><input id="key" type="password" autocomplete="off" placeholder="Stats key" style="flex:1;min-width:200px"><button>Open</button></form>
+    <form id="keyForm" class="row"><input id="key" type="password" autocomplete="off" placeholder="Password" aria-label="Password" style="flex:1;min-width:200px"><button>Open</button></form>
   </div>
   <p id="msg" class="mut"></p>
   <div id="out"></div>
@@ -124,6 +124,7 @@ function render(){
   if(data.marksError)h+='<p class="mut small">'+esc(data.marksError)+'</p>';
   h+=list.length?list.map(card).join(""):'<div class="empty">'+(tab==="todo"?"Nothing to send. All caught up.":"No orders here yet.")+'</div>';
   $("out").innerHTML=h;
+  if(window.vmsBadge)vmsBadge("orders",all.filter(needsSending).length);
 }
 
 function say(id,t){$("msg").textContent=t;var c=document.querySelector('.card[data-id="'+id+'"]'),s=c&&c.querySelector(".say");if(s){s.textContent=t;s.hidden=!t;s.scrollIntoView({block:"nearest"})}}
@@ -160,4 +161,5 @@ document.addEventListener("visibilitychange",function(){if(!document.hidden&&key
 load();
 })();
 </script>
+<script src="/admin/shell.js?v=1" data-page="orders"></script>
 </body></html>
