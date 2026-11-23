@@ -18,12 +18,13 @@ writeFileSync(join(dir, "package.json"), '{"type":"module"}');
 const checkout = await import(pathToFileURL(join(dir, "checkout.js")));
 const shipping = await import(pathToFileURL(join(dir, "shipping.js")));
 
-let stripeMode = "ok", lastForm = null;
+let stripeMode = "ok", lastForm = null, texts = [];
 globalThis.fetch = async (url, opts = {}) => {
   url = String(url);
   const res = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
   if (url.endsWith("/products.json")) return res(data);
-  if (url.startsWith("https://digitalapi.auspost.com.au/")) return res({ postage_result: { total_cost: "31.50" } });
+  if (url.startsWith("https://digitalapi.auspost.com.au/")) return stripeMode === "auspost-down" ? res({ error: "bad key" }, 403) : res({ postage_result: { total_cost: "31.50" } });
+  if (url.startsWith("https://sms.example/")) { texts.push(JSON.parse(opts.body)); return res({ state: "Pending" }); }
   if (url === "https://api.stripe.com/v1/checkout/sessions") {
     if (stripeMode === "down") throw new Error("network connection lost");
     if (stripeMode === "error") return res({ error: { message: "Invalid API Key provided" } }, 401);
@@ -37,9 +38,12 @@ globalThis.fetch = async (url, opts = {}) => {
 };
 
 const env = { STRIPE_SECRET_KEY: "sk_test_fake", AUSPOST_API_KEY: "fake" };
+const alertEnv = { ...env, OWNER_MOBILE: "0400000000", SMS_GATEWAY_URL: "https://sms.example/", SMS_GATEWAY_USER: "u", SMS_GATEWAY_PASS: "p" };
 const call = async (fn, body, e = env) => {
+  const waits = [];
   const request = new Request("https://vmstruckparts.com.au/api/x", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
-  const r = await fn({ request, env: e, waitUntil: () => {} });
+  const r = await fn({ request, env: e, waitUntil: p => waits.push(p) });
+  await Promise.all(waits);
   let j; try { j = await r.json(); } catch { j = { notJson: true }; }
   return { status: r.status, j };
 };
@@ -94,8 +98,21 @@ check(r.status === 502 && typeof r.j.error === "string", `Stripe error: no clear
 stripeMode = "down";
 r = await call(checkout.onRequestPost, { items: [{ id: one.id, qty: 1 }], postcode: "3000" });
 check(r.status >= 500 && typeof r.j.error === "string", `Stripe unreachable: no clear message (${r.status} ${JSON.stringify(r.j)})`);
+texts = [];
+await call(checkout.onRequestPost, { items: [{ id: one.id, qty: 1 }], postcode: "3000" }, alertEnv);
+check(texts.length === 1 && texts[0].phoneNumbers[0] === "+61400000000" && /Stripe/.test(texts[0].textMessage.text), "owner wasn't texted when Stripe was unreachable");
 stripeMode = "ok";
 check((await call(checkout.onRequestPost, { items: [{ id: one.id, qty: 1 }] }, {})).status === 500, "missing Stripe key not reported");
+
+// 4b. Australia Post down: the cart still gets a (flat) price, and the owner is texted
+const boxed = buyable.find(p => p.pack && !p.satchel && !p.freightQuote);
+if (boxed) {
+  stripeMode = "auspost-down"; texts = [];
+  const q = await call(shipping.onRequestPost, { items: [{ id: boxed.id, qty: 1 }], postcode: "3000" }, alertEnv);
+  check(q.status === 200 && q.j.cents > 0 && q.j.source === "flat", `Aus Post down: no flat-rate fallback (${JSON.stringify(q.j)})`);
+  check(texts.length === 1 && /Australia Post/.test(texts[0].textMessage.text), "owner wasn't texted when Australia Post quoting failed");
+  stripeMode = "ok";
+}
 
 // 5. The cart's postage quote and the checkout postage are the same number
 for (const p of buyable.filter(p => !p.freightQuote)) {
