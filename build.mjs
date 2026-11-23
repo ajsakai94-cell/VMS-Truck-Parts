@@ -26,7 +26,7 @@ const data = JSON.parse(readFileSync(join(ROOT, "products.json"), "utf8"));
 const SITE = {
   name: "VMS Truck Parts",
   url: "https://vmstruckparts.com.au",
-  region: "Victoria, Australia",
+  region: "Melbourne, Victoria, Australia",
   ...(data.site || {}),
 };
 const C = data.contact, SHIP = data.shipping;
@@ -169,15 +169,15 @@ function partPage(p) {
   const eng = p.fits.engines.length && !/OM47\d/.test(p.name) ? ` ${p.fits.engines.join("/")}` : "";
   // Google title: plain part name, then fitment, then OE number, then price
   const title = `${p.name}${truckPart(p) ? " for Mercedes Actros MP4/MP5" + eng : " for Truck Workshops, Actros MP4/MP5 Servicing"}${p.oem[0] ? " – OE " + p.oem[0] : ""}${p.price != null ? " | " + shortMoney(p.price) + (p.available ? " In Stock" : "") : ""} | ${SITE.name}`;
-  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : WORKSHOP}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Victoria." : `Shipped Australia-wide from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
+  const desc = `${p.available && p.price != null ? "In stock, " + shortMoney(p.price) + ". " : p.available ? "In stock. " : ""}${p.name}${truckPart(p) ? " for the Mercedes-Benz Actros MP4 / MP5" + (eng ? " (" + eng.trim() + ")" : "") : WORKSHOP}.${p.oem.length ? " Replaces OE " + p.oem.slice(0, 3).join(", ") + "." : ""} ${p.freightQuote ? "Freight quoted, or free pickup in Melbourne." : `Shipped Australia-wide from ${SITE.region.split(",")[0]}.`}${truckPart(p) ? " Text your VIN and we'll check it fits." : ""}`;
   const canBuy = p.available && p.price != null;
   const shipNote = p.freightQuote
-    ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Victoria."
+    ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Melbourne."
       : p.satchel && !p.pack
-        ? `${money(shipRate(p))} Australia-wide by Australia Post satchel${Array.isArray(p.satchel) ? "s" : ""}, or free pickup in Victoria.`
+        ? `${money(shipRate(p))} Australia-wide by Australia Post satchel${Array.isArray(p.satchel) ? "s" : ""}, or free pickup in Melbourne.`
       : Array.isArray(p.pack)
-        ? "Australia Post to your postcode: enter it in the cart to see the cost. Or free pickup in Victoria."
-        : `${money(shipRate(p))} Australia-wide, or free pickup in Victoria.`;
+        ? "Australia Post to your postcode: enter it in the cart to see the cost. Or free pickup in Melbourne."
+        : `${money(shipRate(p))} Australia-wide, or free pickup in Melbourne.`;
   // "Often replaced with": optional pairsWith ids in products.json, shown above the category list
   const pairs = (p.pairsWith || []).map(id => products.find(x => x.id === id)).filter(Boolean);
   const related = sortParts(products.filter(x => x.cat === p.cat && x.id !== p.id && !pairs.includes(x))).slice(0, 4);
@@ -256,7 +256,7 @@ function catPage(cat) {
 <section class="block catintro">
   <h1>${esc(c.title)}</h1>
   <p>${esc(c.intro)}</p>
-  <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Australia Post to your postcode · Free pickup in Victoria</p>
+  <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Australia Post to your postcode · Free pickup in Melbourne</p>
 </section>
 <section class="block"><div class="grid">${list.map(card).join("")}</div></section>`;
   return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.length > 160 ? c.intro.slice(0, 157).replace(/[\s,(]+\S*$/, "") + "…" : c.intro, path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });
@@ -480,10 +480,20 @@ ${feedItems.map(p => `<item>
   <g:google_product_category>${x(GCAT[p.cat] || "Vehicles & Parts > Vehicle Parts & Accessories > Motor Vehicle Parts")}</g:google_product_category>
   <g:product_type>${x((truckPart(p) ? "Actros MP4 MP5 > " : "") + p.cat)}</g:product_type>
 ${p.bundle ? "  <g:is_bundle>yes</g:is_bundle>\n" : ""}  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${shipRate(p).toFixed(2)} AUD</g:price></g:shipping>
+${Array.isArray(p.pack) ? `  <g:shipping_length>${p.pack[0]} cm</g:shipping_length><g:shipping_width>${p.pack[1]} cm</g:shipping_width><g:shipping_height>${p.pack[2]} cm</g:shipping_height><g:shipping_weight>${p.pack[3]} kg</g:shipping_weight>\n` : ""}
 </item>`).join("\n")}
 </channel>
 </rss>
 `);
+
+// favicon set on every generated page (Google shows the 48px+ icon next to search results)
+const FAVICONS = `<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0f2237">`;
+for (const [rel, html] of out) if (rel.endsWith(".html") && !html.includes('rel="apple-touch-icon"'))
+  out.set(rel, html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + FAVICONS));
 
 const check = process.argv.includes("--check");
 const stale = [];

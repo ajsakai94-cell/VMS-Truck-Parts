@@ -1547,7 +1547,7 @@
     "rebuild",
     "overhaul"
    ],
-   "desc": "Cylinder liner kit for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros (2658, 2663), for an in-frame or out-of-frame engine rebuild. Liner kits vary by piston and engine build, so send us your VIN or engine number and we'll confirm the right kit and lead time.",
+   "desc": "Cylinder liner kit for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros (2658, 2663), for an in-frame or out-of-frame engine rebuild. Liner kits vary by piston and engine build, so send us your VIN or engine number and we'll confirm the right kit and lead time. Not for the OM471 12.8 litre, which has a smaller bore and different liners.",
    "brand": "VMS",
    "mpn": "VMS-E02",
    "identifierExists": false,
@@ -1638,7 +1638,7 @@
     "head",
     "rebuild"
    ],
-   "desc": "Complete bare cylinder head for the OM473 (also listed for the OM472 and the DD15 / DD16). One in stock. Freight isn't included: it's quoted on request, or pick up free in Melbourne. Send us your VIN or engine number and we'll confirm fit before you pay.",
+   "desc": "Complete bare cylinder head for the OM473 (also listed for the OM472 and the DD15 / DD16). One in stock. Freight isn't included: it's quoted on request, or pick up free in Melbourne. Send us your VIN or engine number and we'll confirm fit before you pay. Not for the OM471 12.8 litre, which uses a different head.",
    "brand": "VMS",
    "mpn": "VMS-E03",
    "identifierExists": false,
@@ -1711,7 +1711,7 @@
    "slug": "battery-sensor-mp4-mp5-actros",
    "name": "Battery Terminal Sensor (Negative)",
    "cat": "Engine",
-   "price": 150.0,
+   "price": 269.0,
    "available": true,
    "sku": "VMS-E05",
    "image": "/images/battery-sensor-v2-1000.webp",
@@ -1912,7 +1912,7 @@
     "3789534",
     "HE500WG"
    ],
-   "desc": "Holset turbocharger for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663 (also listed for the Detroit DD15 / DD16). Signs your turbo is failing: loss of power or boost, blue or black smoke, oil in the intercooler pipes, or a loud whistle or siren noise. Mercedes used two turbo styles on the OM473 (Holset HE500WG and HX55) under several part numbers, so check the number on your old turbo's tag matches one of these, or text us your VIN and we'll confirm fit before you pay. Fix the cause of the old turbo failing (oil feed, air leaks, blocked filter) before fitting the new one. Fit new exhaust manifold gaskets (A 472 142 18 80 / A 472 142 19 80) while it's off. Freight is quoted to your door, or pick up free in Victoria.",
+   "desc": "Holset turbocharger for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663 (also listed for the Detroit DD15 / DD16). Signs your turbo is failing: loss of power or boost, blue or black smoke, oil in the intercooler pipes, or a loud whistle or siren noise. Mercedes used two turbo styles on the OM473 (Holset HE500WG and HX55) under several part numbers, so check the number on your old turbo's tag matches one of these, or text us your VIN and we'll confirm fit before you pay. Fix the cause of the old turbo failing (oil feed, air leaks, blocked filter) before fitting the new one. Fit new exhaust manifold gaskets (A 472 142 18 80 / A 472 142 19 80) while it's off. Not for the OM471 12.8 litre: it uses a different turbo. Freight is quoted to your door, or pick up free in Victoria.",
    "brand": "Holset",
    "mpn": "VMS-E06",
    "identifierExists": false,
@@ -1988,7 +1988,7 @@
     "DD15",
     "DD16"
    ],
-   "desc": "Aftermarket exhaust manifold gasket to suit the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663. Replace it if you hear an exhaust tick or blow at the manifold, see soot marks around the manifold joints, or whenever the manifold or turbo comes off. There are two: A 472 142 18 80 for cylinders 1-3 and A 472 142 19 80 for cylinders 4-6. Pick the position you need, and add one of each to do the whole engine. Priced per gasket.",
+   "desc": "Aftermarket exhaust manifold gasket to suit the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663. Replace it if you hear an exhaust tick or blow at the manifold, see soot marks around the manifold joints, or whenever the manifold or turbo comes off. There are two: A 472 142 18 80 for cylinders 1-3 and A 472 142 19 80 for cylinders 4-6. Pick the position you need, and add one of each to do the whole engine. Priced per gasket. Not for the OM471 12.8 litre: its manifold gaskets are A 471 142 01 80 (cylinders 1-3) and A 471 142 02 80 (cylinders 4-6), so check the number on your old gasket.",
    "brand": "VMS",
    "mpn": "VMS-E07",
    "identifierExists": false,
