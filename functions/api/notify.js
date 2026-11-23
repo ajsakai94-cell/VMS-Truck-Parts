@@ -2,7 +2,8 @@
 // Each one is optional and switches itself on when its secrets are added in Cloudflare:
 //   SMS, either of:
 //     - AJ's own gateway (SMS Gateway for Android API, reached through a private Cloudflare tunnel or a relay):
-//       SMS_GATEWAY_URL (https base URL, no trailing /) + SMS_GATEWAY_USER + SMS_GATEWAY_PASS,
+//       SMS_GATEWAY_URL (https; a bare host gets /message, or a full send URL such as
+//       https://app.trakkhq.com/api/ext/sms) + SMS_GATEWAY_USER + SMS_GATEWAY_PASS,
 //       optional CF_ACCESS_CLIENT_ID + CF_ACCESS_CLIENT_SECRET when the URL sits behind Cloudflare Access.
 //       Used first when set.
 //     - ClickSend (Australian):  CLICKSEND_USERNAME + CLICKSEND_API_KEY   (optional CLICKSEND_FROM, a sender number)
@@ -54,7 +55,10 @@ async function sendViaGateway(env, num, body) {
     headers["CF-Access-Client-Secret"] = env.CF_ACCESS_CLIENT_SECRET;
   }
   try {
-    const r = await fetch(env.SMS_GATEWAY_URL.replace(/\/+$/, "") + "/message", {
+    // A bare host gets the gateway's own /message path; a full path (e.g. TrakkHQ's /api/ext/sms) is used as is
+    const u = new URL(env.SMS_GATEWAY_URL);
+    if (u.pathname === "/" || u.pathname === "") u.pathname = "/message";
+    const r = await fetch(u.toString(), {
       method: "POST", headers,
       body: JSON.stringify({ textMessage: { text: body }, phoneNumbers: [num] }),
       signal: AbortSignal.timeout(15000),
