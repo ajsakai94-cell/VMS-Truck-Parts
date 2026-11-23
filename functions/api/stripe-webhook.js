@@ -8,7 +8,7 @@
 // secrets described in notify.js, and the D1 binding DB. Anything not set up is skipped quietly.
 
 import { sendSms, sendEmail, thanksSms, confirmEmail, SHOP } from "./notify.js";
-import { ensureMarks } from "./orders.js";
+import { ensureMarks, logMessage } from "./orders.js";
 
 const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
 
@@ -54,19 +54,21 @@ async function newOrder(env, id) {
   const short = order.items.map(i => `${i.qty} x ${i.name.replace(/ to suit .*$/, "")}`);
   const where = [a.city, a.state].filter(Boolean).join(" ");
 
-  const conf = confirmEmail(order);
+  const conf = confirmEmail(order), thanks = thanksSms(name);
   const [mail, sms] = await Promise.all([
     sendEmail(env, email, conf.subject, conf.text, conf.html),
-    sendSms(env, c.phone, thanksSms(name)),
+    sendSms(env, c.phone, thanks),
+  ]);
+  await Promise.all([
+    logMessage(env.DB, id, { who: "customer", channel: "email", to: email, subject: conf.subject, body: conf.text, result: mail }),
+    logMessage(env.DB, id, { who: "customer", channel: "text", to: c.phone, body: thanks, result: sms }),
   ]);
   if (env.DB) await env.DB.prepare("UPDATE order_marks SET confirmed_ts = ? WHERE session = ?").bind(mail.ok ? Date.now() : null, id).run();
   if (env.DB && !sms.ok) await env.DB.prepare("UPDATE order_marks SET thanked_ts = NULL WHERE session = ?").bind(id).run();
 
-  await Promise.all([
-    env.OWNER_MOBILE ? sendSms(env, env.OWNER_MOBILE,
-      `New VMS order ${money(order.total)}: ${short.join(", ") || "see orders page"}. ${name || email || "Customer"}${order.pickup ? " (pickup)" : where ? ", " + where : ""}${c.phone ? ", " + c.phone : ""}. vmstruckparts.com.au/admin/orders/`) : null,
-    sendEmail(env, SHOP.email, `New order: ${money(order.total)} from ${name || email || "a customer"}`,
-      `New paid order on the website.
+  const alert = `New VMS order ${money(order.total)}: ${short.join(", ") || "see orders page"}. ${name || email || "Customer"}${order.pickup ? " (pickup)" : where ? ", " + where : ""}${c.phone ? ", " + c.phone : ""}. vmstruckparts.com.au/admin/orders/`;
+  const shopSubject = `New order: ${money(order.total)} from ${name || email || "a customer"}`;
+  const shopText = `New paid order on the website.
 
 ${order.pickup ? "PICKUP: message them to arrange\n" + (name || "") : order.address.join("\n")}
 ${c.phone || ""}  ${email || ""}
@@ -78,7 +80,14 @@ Total: ${money(order.total)}
 Order confirmation email: ${mail.ok ? "sent" : mail.skipped || mail.error}
 Thank-you text: ${sms.ok ? "sent" : sms.skipped || sms.error}
 
-See the order and send tracking: https://vmstruckparts.com.au/admin/orders/`),
+See the order and send tracking: https://vmstruckparts.com.au/admin/orders/`;
+  const [own, shop] = await Promise.all([
+    env.OWNER_MOBILE ? sendSms(env, env.OWNER_MOBILE, alert) : null,
+    sendEmail(env, SHOP.email, shopSubject, shopText),
+  ]);
+  await Promise.all([
+    logMessage(env.DB, id, { who: "owner", channel: "text", to: env.OWNER_MOBILE, body: alert, result: own }),
+    logMessage(env.DB, id, { who: "shop", channel: "email", to: SHOP.email, subject: shopSubject, body: shopText, result: shop }),
   ]);
 }
 

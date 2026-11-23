@@ -23,7 +23,9 @@ input,textarea{background:var(--card);border:1px solid var(--line);border-radius
 ul{margin:10px 0;padding:0 0 0 18px}li{margin:2px 0}
 .addr{background:var(--chip);border-radius:10px;padding:10px 12px;margin:8px 0;white-space:pre-line}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
-.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0 0 14px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:0 0 14px}
+@media (max-width:520px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.msg{border-top:1px solid var(--line);padding:8px 0}.msg pre{white-space:pre-wrap;word-break:break-word;font:13px/1.4 system-ui,sans-serif;background:var(--chip);border-radius:8px;padding:8px 10px;margin:6px 0 0}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}.tile b{display:block;font-size:24px;line-height:1.1}.tile span{color:var(--mut);font-size:13px}
 details summary{cursor:pointer;color:var(--mut);margin-top:6px}
 #msg{margin:0 0 12px}.say{margin:8px 0 0;font-weight:600}.empty{color:var(--mut);padding:24px 0;text-align:center}
@@ -53,16 +55,28 @@ var when=function(ts){return new Date(ts).toLocaleString("en-AU",Object.assign({
 var money=function(n){return "$"+Number(n||0).toFixed(2)};
 var key=get("vms-stats-key")||"", tab=get("vms-orders-tab")||"todo", data=null;
 
-var TABS=[["todo","To send"],["sent","Sent"],["all","All"]];
+var TABS=[["todo","Ordered"],["sent","Sent"],["delivered","Delivered"],["all","All"]];
+if(!TABS.some(function(t){return t[0]===tab}))tab="todo";
 $("tabs").innerHTML=TABS.map(function(t){return '<button type="button" data-t="'+t[0]+'" aria-pressed="'+(t[0]===tab)+'">'+t[1]+'</button>'}).join("");
 $("tabs").onclick=function(e){var b=e.target.closest("button");if(!b)return;tab=b.dataset.t;set("vms-orders-tab",tab);[].forEach.call($("tabs").children,function(x){x.setAttribute("aria-pressed",String(x===b))});render()};
 $("keyForm").onsubmit=function(e){e.preventDefault();key=$("key").value.trim();set("vms-stats-key",key);load()};
 
 function isPickup(o){return /pickup/i.test(o.shippingName||"")}
 function needsSending(o){return o.paid&&!o.fullyRefunded&&!o.shipped&&!o.ownerTest}
+function onTheWay(o){return !!o.shipped&&!o.delivered}
+var day=function(ts){return new Date(ts).toLocaleDateString("en-AU",Object.assign({day:"numeric",month:"short"},TZ))};
 function addrText(o){var a=o.address;return [o.name,a.line1,a.line2,[a.city,a.state,a.postcode].filter(Boolean).join(" ")].filter(Boolean).join("\n")}
 function phoneDigits(p){return String(p||"").replace(/[^\d+]/g,"")}
 
+var WHO={customer:"Customer",owner:"You",shop:"Shop Gmail"};
+function msgs(o){
+  var m=o.messages||[];if(!m.length)return "";
+  return '<details class="msgs"><summary>Messages sent ('+m.length+')</summary>'+m.map(function(x){
+    var ok=x.status==="sent";
+    return '<div class="msg"><div class="small"><b>'+(x.channel==="email"?"Email":"Text")+' to '+esc(WHO[x.who]||x.who||"")+'</b> <span class="mut">'+esc(x.to||"")+' · '+esc(when(x.ts))+'</span> '+
+      (ok?'<span class="pill done">Sent</span>':'<span class="pill bad">'+esc(x.status)+'</span>')+'</div>'+
+      (x.subject?'<div class="small"><b>'+esc(x.subject)+'</b></div>':'')+'<pre>'+esc(x.body)+'</pre></div>'}).join("")+'</details>';
+}
 function card(o){
   var pills=[];
   if(o.ownerTest)pills.push('<span class="pill">Your test</span>');
@@ -70,7 +84,8 @@ function card(o){
   else if(o.refunded)pills.push('<span class="pill bad">Part refunded '+money(o.refunded)+'</span>');
   if(o.disputed)pills.push('<span class="pill bad">Disputed</span>');
   if(!o.paid)pills.push('<span class="pill bad">Not paid yet</span>');
-  if(o.shipped)pills.push('<span class="pill done">'+(isPickup(o)?"Picked up":"Sent")+' '+esc(new Date(o.shipped).toLocaleDateString("en-AU",Object.assign({day:"numeric",month:"short"},TZ)))+'</span>');
+  if(o.delivered)pills.push('<span class="pill done">'+(isPickup(o)?"Picked up":"Delivered")+' '+esc(day(o.delivered))+'</span>');
+  else if(o.shipped)pills.push('<span class="pill done">'+(isPickup(o)?"Picked up":"Sent")+' '+esc(day(o.shipped))+'</span>');
   else if(needsSending(o))pills.push('<span class="pill todo">'+(isPickup(o)?"Pickup to arrange":"To send")+'</span>');
   var pc=o.quotedPostcode&&o.address.postcode&&o.quotedPostcode!==o.address.postcode&&!isPickup(o)?'<div class="pill bad">Postage was quoted to '+esc(o.quotedPostcode)+', address is '+esc(o.address.postcode)+'</div>':"";
   var canSend=!!(data.sms||data.email), ph=phoneDigits(o.phone), first=(o.name||"").split(" ")[0];
@@ -90,8 +105,10 @@ function card(o){
     (isPickup(o)?'<input data-f="tracking" type="hidden" value="">':'<div class="row"><input data-f="tracking" placeholder="Australia Post tracking number" value="'+esc(o.tracking||"")+'" style="flex:1;min-width:180px"></div>')+
     '<div class="row"><textarea data-f="note" rows="2" placeholder="Private note (optional)">'+esc(o.note||"")+'</textarea></div>'+
     '<div class="row">'+(isPickup(o)||!canSend?'':'<button type="button" class="go" data-act="notify">'+(o.texted||o.emailed?"Send shipped message again":"Send shipped + tracking")+'</button>')+
-      (o.shipped
-      ?'<button type="button" data-act="save">Save</button><button type="button" data-act="unsend">Mark not sent</button>'
+      (o.delivered
+      ?'<button type="button" data-act="save">Save</button><button type="button" data-act="undeliver">'+(isPickup(o)?"Mark not picked up":"Mark not delivered")+'</button>'
+      :o.shipped
+      ?'<button type="button" class="go" data-act="deliver">Mark delivered</button><button type="button" data-act="save">Save</button><button type="button" data-act="unsend">Mark not sent</button>'
       :'<button type="button"'+(isPickup(o)||!canSend?' class="go"':'')+' data-act="send">'+(isPickup(o)?"Mark picked up":"Mark sent (no message)")+'</button><button type="button" data-act="save">Save note</button>')+
     '</div>'+
     '<p class="say" hidden></p>'+
@@ -102,6 +119,7 @@ function card(o){
       o.emailed?"Tracking emailed "+esc(when(o.emailed))+" ✓":null
     ].filter(Boolean).join(" · ")+'</div>'+
     (!data.sms&&ph&&!isPickup(o)?'<div class="row"><a class="btn" href="sms:'+esc(ph)+'?&body='+encodeURIComponent(trackMsg)+'">Text tracking from my phone</a></div>':'')+
+    msgs(o)+
     '<details><summary>More</summary><div class="row small">'+
       (o.receipt?'<a href="'+esc(o.receipt)+'" target="_blank" rel="noopener">Customer receipt</a>':'')+
       (o.dashboard?'<a href="'+esc(o.dashboard)+'" target="_blank" rel="noopener">Open in Stripe (refunds)</a>':'')+
@@ -112,17 +130,18 @@ function card(o){
 
 function render(){
   if(!data)return;
-  var all=data.orders, list=all.filter(function(o){return tab==="all"?true:tab==="sent"?!!o.shipped:needsSending(o)});
+  var all=data.orders, list=all.filter(function(o){return tab==="all"?true:tab==="sent"?onTheWay(o):tab==="delivered"?!!o.delivered:needsSending(o)});
   var real=all.filter(function(o){return o.paid&&!o.ownerTest});
   var month=new Date().toLocaleString("en-AU",Object.assign({month:"numeric",year:"numeric"},TZ));
   var inMonth=real.filter(function(o){return new Date(o.created).toLocaleString("en-AU",Object.assign({month:"numeric",year:"numeric"},TZ))===month});
   var sum=function(a){return a.reduce(function(s,o){return s+o.total-o.refunded},0)};
   var h='<div class="tiles">'+
     '<div class="tile"><b>'+all.filter(needsSending).length+'</b><span>to send</span></div>'+
+    '<div class="tile"><b>'+all.filter(onTheWay).length+'</b><span>on the way</span></div>'+
     '<div class="tile"><b>'+money(sum(inMonth)).replace(/\.\d\d$/,"")+'</b><span>this month ('+inMonth.length+')</span></div>'+
     '<div class="tile"><b>'+real.length+'</b><span>orders, last year</span></div></div>';
   if(data.marksError)h+='<p class="mut small">'+esc(data.marksError)+'</p>';
-  h+=list.length?list.map(card).join(""):'<div class="empty">'+(tab==="todo"?"Nothing to send. All caught up.":"No orders here yet.")+'</div>';
+  h+=list.length?list.map(card).join(""):'<div class="empty">'+(tab==="todo"?"Nothing to send. All caught up.":tab==="sent"?"Nothing on the way right now.":"No orders here yet.")+'</div>';
   $("out").innerHTML=h;
   if(window.vmsBadge)vmsBadge("orders",all.filter(needsSending).length);
 }
@@ -132,21 +151,23 @@ $("out").onclick=function(e){
   var b=e.target.closest("button[data-act]");if(!b)return;
   var c=b.closest(".card"), id=c.dataset.id, o=data.orders.find(function(x){return x.id===id});
   if(b.dataset.act==="copy"){var t=addrText(o)+(o.phone?"\n"+o.phone:"");(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent="Copied ✓"},function(){prompt("Copy the address:",t)});return}
-  var act=b.dataset.act, shipped=act==="send"||act==="notify"?true:act==="unsend"?false:!!o.shipped;
+  var act=b.dataset.act, shipped=act==="send"||act==="notify"||act==="deliver"?true:act==="unsend"?false:!!o.shipped;
+  // A pickup is done once it's collected, so "Mark picked up" also counts as delivered
+  var delivered=act==="deliver"||(act==="send"&&isPickup(o))?true:act==="undeliver"||act==="unsend"?false:!!o.delivered;
   var tr=c.querySelector('[data-f=tracking]').value.trim();
   if(act==="notify"){
     if(!tr){say(id,"Type the tracking number first.");c.querySelector('[data-f=tracking]').focus();return}
     if(!data.sms&&!data.email){say(id,"Texting and emailing customers isn't switched on yet, so use Mark sent and the Text button.");return}
     if(!confirm("Send tracking "+tr+" to "+(o.name||"the customer")+(data.sms&&o.phone?" by text":"")+(data.email&&o.email?(data.sms&&o.phone?" and":" by")+" email":"")+"?"))return;
   }
-  var body={session:id,shipped:shipped,notify:act==="notify",tracking:c.querySelector('[data-f=tracking]').value,note:c.querySelector('[data-f=note]').value};
+  var body={session:id,shipped:shipped,delivered:delivered,notify:act==="notify",tracking:c.querySelector('[data-f=tracking]').value,note:c.querySelector('[data-f=note]').value};
   b.disabled=true;b.textContent="Saving…";
   fetch("/api/orders",{method:"POST",headers:{"X-Stats-Key":key,"Content-Type":"application/json"},body:JSON.stringify(body)})
     .then(function(r){return r.json()}).then(function(j){
       if(j.error)throw new Error(j.error);
-      o.shipped=j.shipped;o.tracking=j.tracking;o.note=j.note;o.texted=j.texted;o.emailed=j.emailed;
+      o.shipped=j.shipped;o.delivered=j.delivered;if(j.messages)o.messages=j.messages;o.tracking=j.tracking;o.note=j.note;o.texted=j.texted;o.emailed=j.emailed;
       var notes=[];if(j.sent){["sms","email"].forEach(function(k){var r=j.sent[k];notes.push((k==="sms"?"Text: ":"Email: ")+(r.ok?"sent ✓":r.skipped||r.error))})}
-      var t=notes.length?(o.name||"Customer")+". "+notes.join(". "):o.shipped?"Saved. Marked sent ✓ (it's under the Sent tab now).":"Saved.";render();say(id,t);
+      var t=notes.length?(o.name||"Customer")+". "+notes.join(". "):act==="deliver"&&o.delivered?"Marked delivered ✓ (it's under the Delivered tab now).":o.delivered?"Saved.":o.shipped&&act!=="save"?"Saved. Marked sent ✓ (it's under the Sent tab now).":"Saved.";render();say(id,t);
     }).catch(function(err){b.disabled=false;b.textContent="Try again";say(id,err.message)});
 };
 
