@@ -469,5 +469,21 @@
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 </item>
+<item>
+  <g:id>injector-line-seal</g:id>
+  <g:title>Injector Line Seal (OM471 / OM473) for Mercedes-Benz Actros MP4 / MP5 – OE A 472 078 04 80</g:title>
+  <g:description>Aftermarket fuel injector line seal to suit the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros, OE A 472 078 04 80 (also listed as A 472 078 01 80). It seals the injector line where it passes through the valve cover, so a hard or split one lets oil weep onto the lines and down the side of the head. There&#39;s one per cylinder, six per engine, and it&#39;s worth replacing them whenever the valve cover comes off or the injectors are done. Fit it with TOP facing up. Priced per seal. Replaces OE A 472 078 04 80, A 472 078 01 80, A 472 078 00 80, A 472 078 06 80. Cross-reference: PAI 631368.</g:description>
+  <g:link>https://vmstruckparts.com.au/parts/injector-line-seal-om471-om473-mp4-mp5-actros/</g:link>
+  <g:image_link>https://vmstruckparts.com.au/images/injector-line-seal-1000.webp</g:image_link>
+  <g:availability>out_of_stock</g:availability>
+  <g:price>25.00 AUD</g:price>
+  <g:brand>VMS</g:brand>
+  <g:mpn>VMS-E08</g:mpn>
+  <g:identifier_exists>no</g:identifier_exists>
+  <g:condition>new</g:condition>
+  <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
+  <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+</item>
 </channel>
 </rss>
