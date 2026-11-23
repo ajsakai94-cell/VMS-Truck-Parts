@@ -1298,7 +1298,89 @@
      "OM473"
     ]
    },
-   "freightQuote": true
+   "freightQuote": true,
+   "pairsWith": ["top-radiator-hose", "expansion-tank"]
+  },
+  {
+   "id": "top-radiator-hose",
+   "slug": "top-radiator-hose-mp4-mp5-actros",
+   "name": "Top Radiator Hose",
+   "cat": "Cooling",
+   "price": 235.0,
+   "available": false,
+   "sku": "VMS-K04",
+   "image": "/images/top-radiator-hose-1000.webp",
+   "thumb": "/images/top-radiator-hose-400.webp",
+   "oldHandle": "",
+   "oem": [
+    "A 960 501 61 93"
+   ],
+   "cross": [],
+   "specs": [
+    [
+     "Position",
+     "Top (upper) hose, engine to radiator"
+    ],
+    [
+     "Type",
+     "Moulded rubber coolant hose"
+    ],
+    [
+     "Engines",
+     "OM471, OM473"
+    ]
+   ],
+   "tags": [
+    "top radiator hose",
+    "upper radiator hose",
+    "radiator hose",
+    "top hose",
+    "upper coolant hose",
+    "coolant hose",
+    "water hose",
+    "radiator pipe"
+   ],
+   "keywords": [
+    "cooling",
+    "coolant",
+    "coolant leak",
+    "split hose",
+    "burst hose",
+    "overheating",
+    "9605016193",
+    "A9605016193",
+    "960 501 61 93",
+    "DD15",
+    "DD16",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Top (upper) radiator hose to suit the MP4 and MP5 Mercedes-Benz Actros, OE A 960 501 61 93. It carries hot coolant from the engine to the top of the radiator. Replace it if it's split, swollen, soft or weeping coolant at the clamps, and it's worth doing whenever the radiator comes out. Check the number on your old hose or send us your VIN and we'll confirm fit before you order. New stock is on its way.",
+   "brand": "VMS",
+   "mpn": "VMS-K04",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   },
+   "pack": [
+    80,
+    40,
+    25,
+    2
+   ],
+   "maxQty": 4,
+   "pairsWith": [
+    "radiator",
+    "expansion-tank"
+   ]
   },
   {
    "id": "clutch-kit",

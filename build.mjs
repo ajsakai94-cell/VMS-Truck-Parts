@@ -176,7 +176,9 @@ function partPage(p) {
       : Array.isArray(p.pack)
         ? "Australia Post to your postcode: enter it in the cart to see the cost. Or free pickup in Victoria."
         : `${money(shipRate(p))} Australia-wide, or free pickup in Victoria.`;
-  const related = sortParts(products.filter(x => x.cat === p.cat && x.id !== p.id)).slice(0, 4);
+  // "Often replaced with": optional pairsWith ids in products.json, shown above the category list
+  const pairs = (p.pairsWith || []).map(id => products.find(x => x.id === id)).filter(Boolean);
+  const related = sortParts(products.filter(x => x.cat === p.cat && x.id !== p.id && !pairs.includes(x))).slice(0, 4);
   const spec = [
     ["Fits", esc(fitsText(p))],
     p.oem.length && ["Replaces OE", `<span class="mono">${p.oem.map(esc).join("<br>")}</span>`],
@@ -204,7 +206,7 @@ ${p.specs ? `    <p><b>At a glance:</b></p><ul class="kit">${p.specs.map(([k, v]
     <details><summary>Shipping and returns</summary><p>${shipNote} Unused parts can be returned within 30 days. <a href="/policies.html#shipping">Shipping</a> · <a href="/policies.html#returns">Returns</a></p></details>
   </div>
 </article>
-${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
+${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2><div class="grid">${pairs.map(card).join("")}</div></section>\n` : ""}${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
   const crumbItems = [["Home", "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
   const product = {
     "@context": "https://schema.org", "@type": "Product",
