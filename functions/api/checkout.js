@@ -77,15 +77,22 @@ export async function onRequestPost({ request, env, waitUntil }) {
   form.append("phone_number_collection[enabled]", "true");
   form.append("billing_address_collection", "auto");
   form.append("success_url", origin + "/success.html?session={CHECKOUT_SESSION_ID}");
-  form.append("cancel_url", origin + "/");
+  form.append("cancel_url", origin + "/#cart"); // back from Stripe = the cart open again, still filled
 
-  const res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
-    body: form,
-  });
-  const out = await res.json();
   const log = ev => waitUntil(logEvents(env, request, vid, sid, [{ ...ev, path: "/api/checkout" }], own).catch(() => {}));
+  // If Stripe can't be reached at all, still answer with a message the cart can show (it adds our phone number)
+  let res, out;
+  try {
+    res = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${env.STRIPE_SECRET_KEY}`, "Content-Type": "application/x-www-form-urlencoded" },
+      body: form,
+    });
+    out = await res.json();
+  } catch (e) {
+    log({ n: "checkout_failed", p: { error: "Stripe unreachable: " + String(e.message || e).slice(0, 150), items } });
+    return json({ error: "The payment page is not responding" }, 503);
+  }
   if (!res.ok) {
     const error = (out.error && out.error.message) || "Stripe error";
     log({ n: "checkout_failed", p: { error, items } });
