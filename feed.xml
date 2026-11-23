@@ -11,7 +11,7 @@
   <g:link>https://vmstruckparts.com.au/parts/service-kit-om471-om473-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/service-kit-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>290.00 AUD</g:price>
+  <g:price>306.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-KIT01</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -19,7 +19,6 @@
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
   <g:is_bundle>yes</g:is_bundle>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>64.40 AUD</g:price></g:shipping>
   <g:shipping_length>50 cm</g:shipping_length><g:shipping_width>31 cm</g:shipping_width><g:shipping_height>22 cm</g:shipping_height><g:shipping_weight>2.9 kg</g:shipping_weight>
 
 </item>
@@ -30,7 +29,7 @@
   <g:link>https://vmstruckparts.com.au/parts/oil-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/oil-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>40.00 AUD</g:price>
+  <g:price>42.00 AUD</g:price>
   <g:brand>Hydwell</g:brand>
   <g:mpn>MP4OF</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -71,7 +70,6 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Filters</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>39.95 AUD</g:price></g:shipping>
   <g:shipping_length>50 cm</g:shipping_length><g:shipping_width>31 cm</g:shipping_width><g:shipping_height>22 cm</g:shipping_height><g:shipping_weight>2.9 kg</g:shipping_weight>
 
 </item>
@@ -82,7 +80,7 @@
   <g:link>https://vmstruckparts.com.au/parts/cabin-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/cabin-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>40.00 AUD</g:price>
+  <g:price>45.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-F04</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -116,7 +114,7 @@
   <g:link>https://vmstruckparts.com.au/parts/diesel-water-separator-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/diesel-water-separator-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>50.00 AUD</g:price>
+  <g:price>59.00 AUD</g:price>
   <g:brand>Hydwell</g:brand>
   <g:mpn>VMS-F06</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -133,7 +131,7 @@
   <g:link>https://vmstruckparts.com.au/parts/power-steering-filter-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/power-steering-filter-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>15.00 AUD</g:price>
+  <g:price>35.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-F07</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -150,7 +148,7 @@
   <g:link>https://vmstruckparts.com.au/parts/air-dryer-cartridge-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/air-dryer-cartridge-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
-  <g:price>50.00 AUD</g:price>
+  <g:price>59.00 AUD</g:price>
   <g:brand>ZOKE</g:brand>
   <g:mpn>VMS-F10</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -184,14 +182,13 @@
   <g:link>https://vmstruckparts.com.au/parts/front-brake-pads-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/brake-pads-front-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
-  <g:price>150.00 AUD</g:price>
+  <g:price>169.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-B03</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Brakes</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>39.95 AUD</g:price></g:shipping>
   <g:shipping_length>26 cm</g:shipping_length><g:shipping_width>24 cm</g:shipping_width><g:shipping_height>14 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
 
 </item>
@@ -202,14 +199,13 @@
   <g:link>https://vmstruckparts.com.au/parts/rear-brake-pads-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/brake-pads-rear-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
-  <g:price>150.00 AUD</g:price>
+  <g:price>169.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-B04</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Brakes</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>39.95 AUD</g:price></g:shipping>
   <g:shipping_length>23 cm</g:shipping_length><g:shipping_width>24 cm</g:shipping_width><g:shipping_height>14 cm</g:shipping_height><g:shipping_weight>7 kg</g:shipping_weight>
 
 </item>
@@ -220,7 +216,7 @@
   <g:link>https://vmstruckparts.com.au/parts/abs-ebs-trailer-cable-7-core-iso-7638/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/ebs-trailer-cable-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>220.00 AUD</g:price>
+  <g:price>239.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-B05</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -237,7 +233,7 @@
   <g:link>https://vmstruckparts.com.au/parts/7-pin-trailer-light-suzi-coil/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/trailer-light-suzi-coil-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>147.00 AUD</g:price>
+  <g:price>135.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-B06</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -254,7 +250,7 @@
   <g:link>https://vmstruckparts.com.au/parts/long-mirror-cover-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/long-mirror-cover-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>70.00 AUD</g:price>
+  <g:price>72.00 AUD</g:price>
   <g:brand>Nuopei</g:brand>
   <g:mpn>VMS-C01</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -271,7 +267,7 @@
   <g:link>https://vmstruckparts.com.au/parts/h7-24v-70w-headlight-globes-2-pack-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/h7-globe-pair-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>43.00 AUD</g:price>
+  <g:price>59.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-C02</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -305,14 +301,13 @@
   <g:link>https://vmstruckparts.com.au/parts/viscous-fan-clutch-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/viscous-fan-clutch-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>750.00 AUD</g:price>
+  <g:price>795.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-K01</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cooling</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
   <g:shipping_length>35 cm</g:shipping_length><g:shipping_width>35 cm</g:shipping_width><g:shipping_height>35 cm</g:shipping_height><g:shipping_weight>12 kg</g:shipping_weight>
 
 </item>
@@ -323,14 +318,13 @@
   <g:link>https://vmstruckparts.com.au/parts/expansion-tank-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/expansion-tank-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
-  <g:price>525.00 AUD</g:price>
+  <g:price>629.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-K02</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cooling</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.95 AUD</g:price></g:shipping>
   <g:shipping_length>45 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>30 cm</g:shipping_height><g:shipping_weight>2 kg</g:shipping_weight>
 
 </item>
@@ -348,7 +342,6 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Cooling</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>24.95 AUD</g:price></g:shipping>
   <g:shipping_length>80 cm</g:shipping_length><g:shipping_width>40 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>2 kg</g:shipping_weight>
 
 </item>
@@ -359,7 +352,7 @@
   <g:link>https://vmstruckparts.com.au/parts/clutch-kit-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/clutch-kit-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>1500.00 AUD</g:price>
+  <g:price>1750.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-L01</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
@@ -383,7 +376,6 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Clutch</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
   <g:shipping_length>40 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
 
 </item>
@@ -394,14 +386,13 @@
   <g:link>https://vmstruckparts.com.au/parts/starter-motor-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/starter-motor-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>475.00 AUD</g:price>
+  <g:price>575.00 AUD</g:price>
   <g:brand>JuBoHui</g:brand>
   <g:mpn>VMS-E01</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
   <g:shipping_length>39 cm</g:shipping_length><g:shipping_width>22 cm</g:shipping_width><g:shipping_height>19 cm</g:shipping_height><g:shipping_weight>14 kg</g:shipping_weight>
 
 </item>
@@ -419,7 +410,6 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
   <g:shipping_length>35 cm</g:shipping_length><g:shipping_width>30 cm</g:shipping_width><g:shipping_height>25 cm</g:shipping_height><g:shipping_weight>8 kg</g:shipping_weight>
 
 </item>
@@ -437,7 +427,6 @@
   <g:condition>new</g:condition>
   <g:google_product_category>Hardware &gt; Tools</g:google_product_category>
   <g:product_type>Actros MP4 MP5 &gt; Tools</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
   <g:shipping_length>45 cm</g:shipping_length><g:shipping_width>35 cm</g:shipping_width><g:shipping_height>15 cm</g:shipping_height><g:shipping_weight>5 kg</g:shipping_weight>
 
 </item>
@@ -482,14 +471,13 @@
   <g:link>https://vmstruckparts.com.au/parts/pneumatic-oil-drum-pump/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/pneumatic-oil-pump-v2-1000.webp</g:image_link>
   <g:availability>in_stock</g:availability>
-  <g:price>750.00 AUD</g:price>
+  <g:price>895.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-W01</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>
   <g:condition>new</g:condition>
   <g:google_product_category>Hardware &gt; Tools</g:google_product_category>
   <g:product_type>Workshop</g:product_type>
-  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>59.95 AUD</g:price></g:shipping>
   <g:shipping_length>60 cm</g:shipping_length><g:shipping_width>40 cm</g:shipping_width><g:shipping_height>30 cm</g:shipping_height><g:shipping_weight>12 kg</g:shipping_weight>
 
 </item>
@@ -500,7 +488,7 @@
   <g:link>https://vmstruckparts.com.au/parts/exhaust-manifold-gasket-om473-mp4-mp5-actros/</g:link>
   <g:image_link>https://vmstruckparts.com.au/images/exhaust-manifold-gasket-om473-1000.webp</g:image_link>
   <g:availability>out_of_stock</g:availability>
-  <g:price>86.00 AUD</g:price>
+  <g:price>95.00 AUD</g:price>
   <g:brand>VMS</g:brand>
   <g:mpn>VMS-E07</g:mpn>
   <g:identifier_exists>no</g:identifier_exists>

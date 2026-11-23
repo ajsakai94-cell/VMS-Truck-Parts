@@ -481,8 +481,7 @@ ${feedItems.map(p => `<item>
   <g:condition>${x(p.condition || "new")}</g:condition>
   <g:google_product_category>${x(GCAT[p.cat] || "Vehicles & Parts > Vehicle Parts & Accessories > Motor Vehicle Parts")}</g:google_product_category>
   <g:product_type>${x((truckPart(p) ? "Actros MP4 MP5 > " : "") + p.cat)}</g:product_type>
-${p.bundle ? "  <g:is_bundle>yes</g:is_bundle>\n" : ""}  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${shipRate(p).toFixed(2)} AUD</g:price></g:shipping>
-${Array.isArray(p.pack) ? `  <g:shipping_length>${p.pack[0]} cm</g:shipping_length><g:shipping_width>${p.pack[1]} cm</g:shipping_width><g:shipping_height>${p.pack[2]} cm</g:shipping_height><g:shipping_weight>${p.pack[3]} kg</g:shipping_weight>\n` : ""}
+${p.bundle ? "  <g:is_bundle>yes</g:is_bundle>\n" : ""}${Array.isArray(p.pack) ? "" : `  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>${shipRate(p).toFixed(2)} AUD</g:price></g:shipping>\n`}${Array.isArray(p.pack) ? `  <g:shipping_length>${p.pack[0]} cm</g:shipping_length><g:shipping_width>${p.pack[1]} cm</g:shipping_width><g:shipping_height>${p.pack[2]} cm</g:shipping_height><g:shipping_weight>${p.pack[3]} kg</g:shipping_weight>\n` : ""}
 </item>`).join("\n")}
 </channel>
 </rss>

@@ -27,6 +27,17 @@ export function mobile(p) {
 export const firstName = n => (String(n || "").trim().split(/\s+/)[0] || "there").replace(/^./, c => c.toUpperCase());
 export const trackUrl = t => "https://auspost.com.au/mypost/track/details/" + encodeURIComponent(String(t).replace(/\s+/g, ""));
 
+// Texts AJ (OWNER_MOBILE) when something stops a sale: checkout can't open, or Australia Post quoting is down.
+// At most one text per problem every 30 minutes, so an outage doesn't flood his phone.
+export async function alertOwner(env, key, body) {
+  if (!env.OWNER_MOBILE || !smsReady(env)) return { skipped: "owner alerts not set up" };
+  const c = typeof caches !== "undefined" ? caches.default : null;
+  const k = new Request("https://vmstruckparts.com.au/__alert/" + encodeURIComponent(key));
+  if (c && (await c.match(k))) return { skipped: "already alerted in the last 30 minutes" };
+  if (c) await c.put(k, new Response("1", { headers: { "Cache-Control": "max-age=1800" } }));
+  return sendSms(env, env.OWNER_MOBILE, "VMS website: " + body);
+}
+
 export async function sendSms(env, to, body) {
   if (!smsReady(env)) return { skipped: "SMS not set up" };
   const num = mobile(to);
