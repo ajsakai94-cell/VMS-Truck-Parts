@@ -90,7 +90,9 @@ export async function onRequestGet({ request, env }) {
       for (const m of r.results) marks[m.session] = { shipped: m.shipped_ts, tracking: m.tracking, note: m.note, thanked: m.thanked_ts, confirmed: m.confirmed_ts, texted: m.texted_ts, emailed: m.emailed_ts };
     } catch (e) { marksError = e.message; }
   } else marksError = "No database: sent marks can't be saved until the D1 binding DB is added";
-  return json({ orders: orders.map(o => ({ ...o, ...(marks[o.id] || {}) })), marksError, days, sms: smsReady(env), email: emailReady(env) });
+  return json({ orders: orders.map(o => ({ ...o, ...(marks[o.id] || {}) })), marksError, days, sms: smsReady(env), email: emailReady(env),
+    // Yes/no only (never the values), for the backend Settings page
+    setup: { ownerAlerts: !!env.OWNER_MOBILE, webhook: !!env.STRIPE_WEBHOOK_SECRET, db: !!env.DB } });
 }
 
 export async function onRequestPost({ request, env }) {
