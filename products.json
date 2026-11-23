@@ -1602,7 +1602,7 @@
     "breather",
     "blow by"
    ],
-   "desc": "Oil spinner (crankcase ventilation oil separator) for the OM471 engine. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
+   "desc": "Oil spinner (crankcase ventilation oil separator) for the OM471 and OM473 engines. Check the number on your old unit matches A 471 010 01 62 or A 472 010 31 62, or send us your VIN and we'll confirm.",
    "brand": "VMS",
    "mpn": "VMS-E04",
    "identifierExists": false,
@@ -1614,7 +1614,7 @@
     ],
     "engines": [
      "OM471",
-     "OM472"
+     "OM473"
     ]
    },
    "maxQty": 2,
