@@ -30,7 +30,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
     if (!p || !p.available || p.price == null || !(qty >= 1 && qty <= 50)) {
       return json({ error: `${p ? p.name : "A part"} can't be ordered online right now` }, 400);
     }
-    if (p.options && !p.options.includes(it.option)) return json({ error: `Pick a side for ${p.name}` }, 400);
+    if (p.options && !p.options.includes(it.option)) return json({ error: `Pick a ${(p.optionLabel || "side").toLowerCase()} for ${p.name}` }, 400);
     if (p.maxQty && qty > p.maxQty) return json({ error: `Only ${p.maxQty} ${p.name} available` }, 400);
     const name = p.name + (it.option ? ` (${it.option})` : "") + ` to suit ${data.truck}`;
     const cents = Math.round(p.price * 100);
