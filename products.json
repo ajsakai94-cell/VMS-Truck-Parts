@@ -1856,7 +1856,8 @@
    "price": 45.0,
    "available": false,
    "sku": "VMS-E07",
-   "image": "",
+   "image": "/images/exhaust-manifold-gasket-om473-1000.webp",
+   "thumb": "/images/exhaust-manifold-gasket-om473-400.webp",
    "oldHandle": "",
    "oem": [
     "A 472 142 18 80",
@@ -1897,7 +1898,7 @@
     "DD15",
     "DD16"
    ],
-   "desc": "Exhaust manifold gasket for the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663. Replace it if you hear an exhaust tick or blow at the manifold, see soot marks around the manifold joints, or whenever the manifold or turbo comes off. Mercedes lists two numbers, A 472 142 18 80 and A 472 142 19 80, so check which one you need or text us your VIN and we'll confirm.",
+   "desc": "Aftermarket exhaust manifold gasket to suit the OM473 15.6 litre engine in the MP4 / MP5 Mercedes-Benz Actros 2658 and 2663. Replace it if you hear an exhaust tick or blow at the manifold, see soot marks around the manifold joints, or whenever the manifold or turbo comes off. Mercedes lists two numbers, A 472 142 18 80 and A 472 142 19 80, so check which one you need or text us your VIN and we'll confirm.",
    "brand": "VMS",
    "mpn": "VMS-E07",
    "identifierExists": false,
