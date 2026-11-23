@@ -42,9 +42,11 @@ function hay(p){
     ...f.engines.map(e=>ENG_ALIAS[e]||e)].join(" ").toLowerCase();
 }
 function renderGrid(){
-  const words=st.q.toLowerCase().split(/\s+/).filter(Boolean);
+  // "OE A 012 542 62 18", "part no. 123" and "OEM ..." search the same as the bare number
+  const q0=st.q.replace(/^\s*(oem?|o\.e\.|part\s*(no\.?|number|#)?|p\/?n)\s*[:#.]?\s+/i,"");
+  const words=q0.toLowerCase().split(/\s+/).filter(Boolean);
   const norm=x=>x.toLowerCase().replace(/[^a-z0-9]/g,"");
-  const qn=norm(st.q).replace(/^a(?=\d)/,"");
+  const qn=norm(q0).replace(/^a(?=\d)/,"");
   const nums=p=>[p.sku||"",...(p.oem||[]),...(p.cross||[])].map(n=>norm(n).replace(/^a(?=\d)/,""));
   const fitsEng=p=>!st.eng||!p.fits||!(p.fits.engines||[]).length||p.fits.engines.includes(st.eng);
   let r=P.filter(p=>(!st.cat||p.cat===st.cat)&&fitsEng(p)&&((qn.length>=4&&nums(p).some(n=>n.includes(qn)))||words.every(w=>hay(p).includes(w))));
