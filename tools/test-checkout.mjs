@@ -18,11 +18,12 @@ writeFileSync(join(dir, "package.json"), '{"type":"module"}');
 const checkout = await import(pathToFileURL(join(dir, "checkout.js")));
 const shipping = await import(pathToFileURL(join(dir, "shipping.js")));
 
-let stripeMode = "ok", lastForm = null, texts = [];
+let stripeMode = "ok", lastForm = null, texts = [], intlCalls = [];
 globalThis.fetch = async (url, opts = {}) => {
   url = String(url);
   const res = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
   if (url.endsWith("/products.json")) return res(data);
+  if (url.startsWith("https://digitalapi.auspost.com.au/postage/parcel/international/")) { intlCalls.push(new URL(url).searchParams); return stripeMode === "auspost-down" ? res({ error: "bad key" }, 403) : res({ postage_result: { total_cost: "28.75" } }); }
   if (url.startsWith("https://digitalapi.auspost.com.au/")) return stripeMode === "auspost-down" ? res({ error: "bad key" }, 403) : res({ postage_result: { total_cost: "31.50" } });
   if (url.startsWith("https://sms.example/")) { texts.push(JSON.parse(opts.body)); return res({ state: "Pending" }); }
   if (url === "https://api.stripe.com/v1/checkout/sessions") {
@@ -120,6 +121,37 @@ for (const p of buyable.filter(p => !p.freightQuote)) {
   const q = await call(shipping.onRequestPost, { items: [item], postcode: "3000" });
   await call(checkout.onRequestPost, { items: [item], postcode: "3000" });
   check(q.status === 200 && q.j.cents === shipOptions(lastForm)[0].cents, `${p.id}: cart postage ${q.j.cents} != checkout postage ${shipOptions(lastForm)[0].cents}`);
+}
+
+
+// 6. New Zealand: satchel parts only, NZ addresses only, no pickup, live international price
+const nzPart = buyable.find(p => p.satchel && !p.pack && !p.freightQuote && !p.options);
+const notNz = buyable.find(p => p.pack || !p.satchel || p.freightQuote);
+if (nzPart) {
+  intlCalls = [];
+  const q = await call(shipping.onRequestPost, { items: [{ id: nzPart.id, qty: 2 }], country: "NZ" });
+  check(q.status === 200 && q.j.cents === 2875 && !q.j.unavailable, `NZ: ${nzPart.id} not priced (${JSON.stringify(q.j)})`);
+  check(intlCalls.length === 1 && intlCalls[0].get("country_code") === "NZ" && Number(intlCalls[0].get("weight")) > 0, "NZ: wrong Australia Post international request");
+  const r = await call(checkout.onRequestPost, { items: [{ id: nzPart.id, qty: 2 }], country: "NZ", postcode: "3000" });
+  check(r.status === 200, `NZ: checkout didn't open (${JSON.stringify(r.j)})`);
+  check(lastForm.get("shipping_address_collection[allowed_countries][0]") === "NZ" && !lastForm.has("shipping_address_collection[allowed_countries][1]"), "NZ: checkout must accept NZ addresses only");
+  const o = shipOptions(lastForm);
+  check(o.length === 1 && o[0].cents === 2875 && !o.some(x => /pickup/i.test(x.name)), `NZ: wrong postage options ${JSON.stringify(o)}`);
+  check(!lastForm.has("metadata[quoted_postcode]") && lastForm.get("metadata[ship_country]") === "NZ", "NZ: metadata wrong");
+  // the normal Australian checkout still only takes Australian addresses
+  await call(checkout.onRequestPost, { items: [{ id: nzPart.id, qty: 1 }], postcode: "3000" });
+  check(lastForm.get("shipping_address_collection[allowed_countries][0]") === "AU", "AU checkout lost its AU-only address rule");
+  stripeMode = "auspost-down"; texts = [];
+  const d = await call(shipping.onRequestPost, { items: [{ id: nzPart.id, qty: 1 }], country: "NZ" }, alertEnv);
+  check(d.j.unavailable && texts.length === 1, "NZ: Australia Post down should block NZ checkout and text the owner");
+  check((await call(checkout.onRequestPost, { items: [{ id: nzPart.id, qty: 1 }], country: "NZ" })).status === 400, "NZ: checkout opened without a real postage price");
+  stripeMode = "ok";
+}
+if (notNz) {
+  const q = await call(shipping.onRequestPost, { items: [{ id: notNz.id, qty: 1, option: notNz.options ? notNz.options[0] : undefined }], country: "NZ" });
+  check(q.j.unavailable && /Australia only/.test(q.j.label), `NZ: ${notNz.id} should be Australia-only (${JSON.stringify(q.j)})`);
+  const r = await call(checkout.onRequestPost, { items: [{ id: notNz.id, qty: 1, option: notNz.options ? notNz.options[0] : undefined }], country: "NZ" });
+  check(r.status === 400 && /Australia only/.test(r.j.error), `NZ: checkout let ${notNz.id} through`);
 }
 
 console.log(`Checkout test: ${passes} checks passed, ${fails} failed (${buyable.length} buyable parts)`);

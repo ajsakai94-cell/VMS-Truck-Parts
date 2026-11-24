@@ -117,6 +117,7 @@ ${body}
     <div class="tot">
       <div><span>Subtotal</span><span id="sub">$0.00</span></div>
       <div><span>Shipping</span><span id="ship">—</span></div>
+      <label class="pc" id="ctyRow" hidden>Deliver to <select id="country" autocomplete="country"><option value="AU">Australia</option><option value="NZ">New Zealand</option></select></label>
       <label class="pc" id="pcRow" hidden>Delivery postcode <input id="postcode" inputmode="numeric" autocomplete="postal-code" maxlength="4" placeholder="e.g. 4655"></label>
       <div class="big"><span>Total</span><span id="total">$0.00</span></div>
     </div>
@@ -176,7 +177,7 @@ function partPage(p) {
   const shipNote = p.freightQuote
     ? "Freight isn't included on this part. We'll quote it after you order and call you before sending, or pick up free in Melbourne."
       : p.satchel && !p.pack
-        ? `${money(shipRate(p))} Australia-wide by Australia Post satchel${Array.isArray(p.satchel) ? "s" : ""}, or free pickup in Melbourne.`
+        ? `${money(shipRate(p))} Australia-wide by Australia Post satchel${Array.isArray(p.satchel) ? "s" : ""}, or free pickup in Melbourne. Also ships to New Zealand: choose it in the cart to see the postage.`
       : Array.isArray(p.pack)
         ? "Australia Post to your postcode: enter it in the cart to see the cost. Or free pickup in Melbourne."
         : `${money(shipRate(p))} Australia-wide, or free pickup in Melbourne.`;

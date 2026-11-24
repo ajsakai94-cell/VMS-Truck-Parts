@@ -18,9 +18,9 @@ let lastCount=0, searchT=null;
 function trackSearch(how){clearTimeout(searchT);const q=st.q.trim();if(q.length<2)return;searchT=setTimeout(()=>T("search",{q:q.slice(0,100),results:lastCount,how,cat:st.cat||undefined,eng:st.eng||undefined}),how==="typed"?1200:0)}
 const money=n=>"$"+n.toFixed(2);
 let DATA=null, P=[], st={cat:null,q:"",eng:""}, cart={}, current=null;
-let pc="", sq=null, sqKey="", sqBusy=false, sqFail=""; // delivery postcode and the Australia Post quote for the cart as it is now
+let pc="", cty="AU", sq=null, sqKey="", sqBusy=false, sqFail=""; // delivery postcode and the Australia Post quote for the cart as it is now
 
-function load(){try{cart=JSON.parse(localStorage.getItem("vms-cart")||"{}");pc=localStorage.getItem("vms-pc")||""}catch(e){cart={}}}
+function load(){try{cart=JSON.parse(localStorage.getItem("vms-cart")||"{}");pc=localStorage.getItem("vms-pc")||"";cty=localStorage.getItem("vms-cty")==="NZ"?"NZ":"AU"}catch(e){cart={}}}
 function save(){try{localStorage.setItem("vms-cart",JSON.stringify(cart))}catch(e){}}
 const key=(id,opt)=>opt?id+"|"+opt:id;
 const parse=k=>{const [id,opt]=k.split("|");return {p:P.find(x=>x.id===id),opt}};
@@ -65,23 +65,23 @@ function totals(){
   const items=Object.entries(cart);
   const n=items.reduce((s,[,q])=>s+q,0);
   const sub=items.reduce((s,[k,q])=>{const {p}=parse(k);return s+(p&&p.price?p.price*q:0)},0);
-  const quote=items.some(([k])=>{const {p}=parse(k);return p&&p.freightQuote});
-  const ready=!!(sq&&sqKey===quoteKey()&&!sq.needsPostcode);
+  const quote=cty==="AU"&&items.some(([k])=>{const {p}=parse(k);return p&&p.freightQuote}); // NZ: shipping.js refuses freight-quoted parts
+  const ready=!!(sq&&sqKey===quoteKey()&&!sq.needsPostcode&&!sq.unavailable);
   const ship=n&&!quote&&ready?sq.cents/100:0;
   return {items,n,sub,ship,quote,ready};
 }
-const pc4=()=>/^\d{4}$/.test(pc)?pc:"";
-const quoteKey=()=>pc4()+"#"+JSON.stringify(Object.entries(cart).sort());
+const pc4=()=>cty==="AU"&&/^\d{4}$/.test(pc)?pc:"";
+const quoteKey=()=>cty+pc4()+"#"+JSON.stringify(Object.entries(cart).sort());
 async function getQuote(){
   const k=quoteKey();
   if(!Object.keys(cart).length||(sq&&sqKey===k)||sqBusy||sqFail===k)return;
   sqBusy=true;renderCart();
   try{
     const items=Object.entries(cart).map(([c,q])=>({id:c.split("|")[0],qty:q}));
-    const r=await fetch("/api/shipping",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc4()})});
+    const r=await fetch("/api/shipping",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc4(),country:cty})});
     const j=await r.json();if(!r.ok)throw new Error(j.error);
     sq=j;sqKey=k;
-    T("shipping_quote",{postcode:pc4()||undefined,cents:j.cents,source:j.source,needsPostcode:!!j.needsPostcode,items:items.length});
+    T("shipping_quote",{postcode:pc4()||undefined,country:cty==="NZ"?"NZ":undefined,unavailable:j.unavailable||undefined,cents:j.cents,source:j.source,needsPostcode:!!j.needsPostcode,items:items.length});
   }catch(e){sq=null;sqFail=k;T("shipping_quote_failed",{postcode:pc4()||undefined,error:String(e.message||e).slice(0,120)})}
   sqBusy=false;renderCart();
   if(sqKey!==quoteKey())getQuote(); // the cart changed while we were asking
@@ -93,10 +93,13 @@ function renderCart(){
     <span class="pn">${money(p.price)} each</span><span class="qty"><button type="button" data-dec="${k}" aria-label="Remove one">−</button>${q}<button type="button" data-inc="${k}" aria-label="Add one">+</button></span></div>`}).join("")
     :`<p class="note" style="padding:20px 0">Your cart is empty.</p>`;
   $("sub").textContent=money(sub);
-  const cur=sq&&sqKey===quoteKey(), needPc=cur&&sq.needsPostcode;
+  const cur=sq&&sqKey===quoteKey(), needPc=cur&&sq.needsPostcode, nz=cty==="NZ", noNz=cur&&sq.unavailable;
   const boxed=items.some(([k])=>{const {p}=parse(k);return p&&(p.pack||!p.satchel)}); // boxed parts are priced to the postcode
-  if($("pcRow"))$("pcRow").hidden=!(n&&!quote&&boxed);
-  $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":ready?money(ship)+" or free pickup":needPc?"Enter your postcode":sqBusy?"Checking…":"Couldn't check, call us";
+  if($("ctyRow"))$("ctyRow").hidden=!n;
+  if($("country"))$("country").value=cty;
+  if($("pcRow"))$("pcRow").hidden=!(n&&!nz&&!quote&&boxed);
+  $("ship").textContent=!n?"—":quote?"Freight quoted, or free pickup":noNz?"Not available":ready?money(ship)+(nz?"":" or free pickup"):needPc?"Enter your postcode":sqBusy?"Checking…":"Couldn't check, call us";
+  if($("checkoutNote"))$("checkoutNote").textContent=noNz?sq.label+" 0481 309 893":nz?"Shipped to New Zealand by Australia Post International, tracked. Prices and postage are in Australian dollars. Any NZ import charges are paid by you. No account needed.":"Shipped by Australia Post. No account needed, and you can choose free pickup at checkout instead.";
   $("total").textContent=money(sub+ship);
   if($("postcode")&&document.activeElement!==$("postcode"))$("postcode").value=pc;
   $("checkout").disabled=!n||(!quote&&!ready);
@@ -131,6 +134,7 @@ on("askForm","submit",e=>{
   location.href=how==="email"?`mailto:${f.dataset.email}?subject=${encodeURIComponent("Part check: "+v("part"))}&body=${encodeURIComponent(msg)}`:`sms:${f.dataset.phone}?&body=${encodeURIComponent(msg)}`;
 });
 on("openCart","click",()=>{$("drawer").hidden=false;T("cart_open",{items:Object.keys(cart).length,value:cartVal(),cart:cartSnap()})});
+on("country","change",e=>{cty=e.target.value==="NZ"?"NZ":"AU";try{localStorage.setItem("vms-cty",cty)}catch(x){}T("country",{country:cty});renderCart()});
 on("postcode","input",e=>{pc=e.target.value.replace(/\D/g,"").slice(0,4);e.target.value=pc;try{localStorage.setItem("vms-pc",pc)}catch(x){}if(pc.length===4)T("postcode",{postcode:pc});renderCart()});
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAll()});
 on("checkout","click",async()=>{
@@ -138,9 +142,9 @@ on("checkout","click",async()=>{
   try{
     const items=Object.entries(cart).map(([k,q])=>{const [id,option]=k.split("|");return {id,option:option||null,qty:q}});
     const {sub,ship}=totals();
-    T("begin_checkout",{value:sub,shipping:ship,postcode:pc4()||undefined,cart:cartSnap()});
+    T("begin_checkout",{value:sub,shipping:ship,postcode:pc4()||undefined,country:cty==="NZ"?"NZ":undefined,cart:cartSnap()});
     let vid="",sid="",own=0;try{vid=localStorage.getItem("vms-vid")||"";sid=sessionStorage.getItem("vms-sid")||"";own=localStorage.getItem("vms-owner")==="1"?1:0}catch(x){}
-    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc4(),vid,sid,own})});
+    const r=await fetch("/api/checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items,postcode:pc4(),country:cty,vid,sid,own})});
     const j=await r.json();
     if(!r.ok||!j.url)throw new Error(j.error||"Checkout failed");
     location.href=j.url;

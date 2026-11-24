@@ -80,7 +80,7 @@ function shape(s) {
     name: sh.name || c.name || null,
     email: c.email || s.customer_email || null,
     phone: c.phone || null,
-    address: { line1: a.line1 || "", line2: a.line2 || "", city: a.city || "", state: a.state || "", postcode: a.postal_code || "" },
+    address: { line1: a.line1 || "", line2: a.line2 || "", city: a.city || "", state: a.state || "", postcode: a.postal_code || "", country: a.country || "AU" },
     quotedPostcode: meta.quoted_postcode || null,
     ownerTest: meta.owner_test === "yes",
     receipt: ch.receipt_url || null,

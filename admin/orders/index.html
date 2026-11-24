@@ -63,7 +63,7 @@ $("keyForm").onsubmit=function(e){e.preventDefault();key=$("key").value.trim();s
 function isPickup(o){return /pickup/i.test(o.shippingName||"")}
 function needsSending(o){return o.paid&&!o.fullyRefunded&&!o.shipped&&!o.ownerTest}
 var day=function(ts){return new Date(ts).toLocaleDateString("en-AU",Object.assign({day:"numeric",month:"short"},TZ))};
-function addrText(o){var a=o.address;return [o.name,a.line1,a.line2,[a.city,a.state,a.postcode].filter(Boolean).join(" ")].filter(Boolean).join("\n")}
+function addrText(o){var a=o.address;return [o.name,a.line1,a.line2,[a.city,a.state,a.postcode].filter(Boolean).join(" "),a.country&&a.country!=="AU"?(a.country==="NZ"?"NEW ZEALAND":a.country):""].filter(Boolean).join("\n")}
 function phoneDigits(p){return String(p||"").replace(/[^\d+]/g,"")}
 
 var WHO={customer:"Customer",owner:"You",shop:"Shop Gmail"};
@@ -82,6 +82,7 @@ function card(o){
   else if(o.refunded)pills.push('<span class="pill bad">Part refunded '+money(o.refunded)+'</span>');
   if(o.disputed)pills.push('<span class="pill bad">Disputed</span>');
   if(!o.paid)pills.push('<span class="pill bad">Not paid yet</span>');
+  if(o.address&&o.address.country&&o.address.country!=="AU")pills.push('<span class="pill todo">Overseas: '+esc(o.address.country)+', customs form needed</span>');
   if(o.shipped)pills.push('<span class="pill done">'+(isPickup(o)?"Picked up":"Sent")+' '+esc(day(o.shipped))+'</span>');
   else if(needsSending(o))pills.push('<span class="pill todo">'+(isPickup(o)?"Pickup to arrange":"To send")+'</span>');
   var pc=o.quotedPostcode&&o.address.postcode&&o.quotedPostcode!==o.address.postcode&&!isPickup(o)?'<div class="pill bad">Postage was quoted to '+esc(o.quotedPostcode)+', address is '+esc(o.address.postcode)+'</div>':"";

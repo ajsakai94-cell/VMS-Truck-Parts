@@ -47,12 +47,12 @@ async function newOrder(env, id) {
     shippingName: rate && typeof rate === "object" ? rate.display_name : "Postage",
     shipping: ((s.total_details || {}).amount_shipping || 0) / 100,
     total: s.amount_total / 100,
-    address: [sh.name, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(" ")].filter(Boolean),
+    address: [sh.name, a.line1, a.line2, [a.city, a.state, a.postal_code].filter(Boolean).join(" "), a.country && a.country !== "AU" ? (a.country === "NZ" ? "NEW ZEALAND" : a.country) : ""].filter(Boolean),
   };
   order.pickup = /pickup/i.test(order.shippingName || "");
   const money = n => "$" + n.toFixed(2);
   const short = order.items.map(i => `${i.qty} x ${i.name.replace(/ to suit .*$/, "")}`);
-  const where = [a.city, a.state].filter(Boolean).join(" ");
+  const where = [a.city, a.state, a.country && a.country !== "AU" ? a.country : ""].filter(Boolean).join(" ");
 
   const conf = confirmEmail(order), thanks = thanksSms(name);
   const [mail, sms] = await Promise.all([
