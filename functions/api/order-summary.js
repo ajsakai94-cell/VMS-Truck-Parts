@@ -1,5 +1,5 @@
 // Cloudflare Pages Function: GET /api/order-summary?session=cs_...
-// Used only by /success.html right after payment, to offer Google Customer Reviews (Google emails the buyer
+// Used only by /success.html right after payment, to record the sale for Google Ads and offer Google Customer Reviews (Google emails the buyer
 // once the parcel should have arrived and asks them to rate the shop; the ratings show as seller stars on
 // Google Shopping). Returns the buyer's own email and a delivery estimate, and only for a paid order
 // less than 2 hours old, so an old or guessed link gives nothing away.
@@ -18,5 +18,6 @@ export async function onRequestGet({ request, env }) {
   const pickup = /pickup/i.test((rate && rate.display_name) || "");
   // Pack and post in 1-2 business days + 2-7 days in transit: ask about 10 days out (pickups 5)
   const eta = new Date(Date.now() + (pickup ? 5 : 10) * 86400e3).toLocaleDateString("en-CA", { timeZone: "Australia/Melbourne" });
-  return json({ order: session.slice(-12), email, country: "AU", eta });
+  // value = what the customer paid in AUD (for the Google Ads sale record)
+  return json({ order: session.slice(-12), email, country: (s.customer_details?.address?.country) || "AU", eta, value: (s.amount_total || 0) / 100 });
 }

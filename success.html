@@ -17,22 +17,32 @@
   <p>Questions about your order? Call or text <b>0481 309 893</b> or email <b>vmstruckparts@gmail.com</b>.</p>
   <p><a href="/">Back to the shop</a></p>
 </main>
-<script src="/track.js?v=c8f0c7ad"></script>
+<script src="/track.js?v=221592df"></script>
 <script>
 var cart=null;try{cart=JSON.parse(localStorage.getItem("vms-cart")||"null");localStorage.removeItem("vms-cart")}catch(e){}
 window.vmsTrack("purchase",{session:new URLSearchParams(location.search).get("session"),cart:cart});
 </script>
 <script>
-// Google Customer Reviews: Google offers the buyer a short survey after the parcel should have arrived.
-// The ratings become seller stars on Google Shopping (Merchant Center 5904115734). Skipped quietly if anything fails.
+// After a paid order: (1) tell Google Ads about the sale, if the Ads tag is switched on in track.js, so the
+// ads can be judged on sales rather than clicks; (2) Google Customer Reviews: Google offers the buyer a short
+// survey after the parcel should have arrived. The ratings become seller stars on Google Shopping
+// (Merchant Center 5904115734). Each step is skipped quietly if anything fails.
 (function(){
   var s=new URLSearchParams(location.search).get("session");if(!s)return;
+  var ads=window.vmsAds||{},sent=false;
+  function adsSale(o){
+    if(sent||!window.gtag||!ads.id||!ads.purchase)return;sent=true;
+    var e={send_to:ads.id+"/"+ads.purchase,currency:"AUD",transaction_id:s.slice(-12)};
+    if(o&&o.value)e.value=o.value;
+    window.gtag("event","conversion",e);
+  }
   fetch("/api/order-summary?session="+encodeURIComponent(s)).then(function(r){return r.ok?r.json():null}).then(function(o){
+    adsSale(o);
     if(!o||!o.email)return;
     window.renderOptIn=function(){window.gapi.load("surveyoptin",function(){window.gapi.surveyoptin.render({
       merchant_id:5904115734,order_id:o.order,email:o.email,delivery_country:o.country,estimated_delivery_date:o.eta,opt_in_style:"CENTER_DIALOG"})})};
     var g=document.createElement("script");g.src="https://apis.google.com/js/platform.js?onload=renderOptIn";g.async=true;document.body.appendChild(g);
-  }).catch(function(){});
+  }).catch(function(){adsSale(null)});
 })();
 </script>
 </body></html>
