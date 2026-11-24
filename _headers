@@ -11,7 +11,7 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
   Content-Security-Policy: frame-ancestors 'none'; object-src 'none'; base-uri 'self'
-  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://apis.google.com https://*.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com; frame-src https://*.google.com; form-action 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com https://apis.google.com https://*.gstatic.com https://www.googletagmanager.com https://www.googleadservices.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://cloudflareinsights.com https://www.google.com https://*.google.com https://googleads.g.doubleclick.net https://www.googleadservices.com; frame-src https://*.google.com https://*.doubleclick.net https://www.googletagmanager.com; form-action 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'
 
 # Browser caching. Photos and fonts rarely change, so phones keep them for a week.
 # When a photo is replaced, give it a new file name (e.g. -v2) so everyone sees it straight away.
