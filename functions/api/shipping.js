@@ -10,7 +10,7 @@
 import { alertOwner } from "./notify.js";
 
 const PAC = "https://digitalapi.auspost.com.au/postage/parcel/domestic/calculate.json";
-const PAC_INTL = "https://digitalapi.auspost.com.au/postage/parcel/international/calculate.json";
+const PAC_INTL_BASE = "https://digitalapi.auspost.com.au/postage/parcel/international";
 const MAX_KG = 22, MAX_CM = 105, MAX_M3 = 0.25; // Australia Post domestic parcel limits
 const SLACK = 1.1; // combined parcels need a bit more room than the parts' boxes add up to
 
@@ -75,13 +75,25 @@ async function quoteNZ(env, lines) {
   const kg = Math.round((lines.reduce((t, l) => t + (Number(l.p.kg) || 0.5) * l.qty, 0) + NZ_PACKING_KG) * 100) / 100;
   if (kg > INTL_MAX_KG) return { cents: 0, unavailable: true, label: "That's too heavy for one parcel to New Zealand. Call us for a price." };
   if (!env.AUSPOST_API_KEY) return { cents: 0, unavailable: true, label: "Couldn't price postage to New Zealand. Call us.", error: "AUSPOST_API_KEY not set" };
-  try {
-    const q = new URLSearchParams({ country_code: "NZ", weight: kg, service_code: "INT_PARCEL_STD_OWN_PACKAGING" });
-    const res = await fetch(`${PAC_INTL}?${q}`, { headers: { "AUTH-KEY": env.AUSPOST_API_KEY, "Accept": "application/json" } });
+  const get = async (path, params) => {
+    const res = await fetch(`${PAC_INTL_BASE}/${path}?${new URLSearchParams(params)}`, { headers: { "AUTH-KEY": env.AUSPOST_API_KEY, "Accept": "application/json" } });
     if (!res.ok) throw new Error("Australia Post " + res.status + " " + (await res.text()).slice(0, 200));
-    const out = await res.json();
-    const cost = Number(out && out.postage_result && out.postage_result.total_cost);
-    if (!(cost > 0)) throw new Error("Australia Post gave no price");
+    return res.json();
+  };
+  try {
+    let cost;
+    try {
+      const out = await get("calculate.json", { country_code: "NZ", weight: kg, service_code: "INT_PARCEL_STD_OWN_PACKAGING" });
+      cost = Number(out && out.postage_result && out.postage_result.total_cost);
+      if (!(cost > 0)) throw new Error("Australia Post gave no price");
+    } catch (e) {
+      // If that service code is ever renamed, take the Standard price from the list of services to NZ
+      const out = await get("service.json", { country_code: "NZ", weight: kg });
+      const list = [].concat((out && out.services && out.services.service) || []);
+      const std = list.find(x => /_STD_/.test(x.code || "")) || list.find(x => /standard/i.test(x.name || ""));
+      cost = Number(std && std.price);
+      if (!(cost > 0)) throw e;
+    }
     return { cents: Math.round(cost * 100), label: "Australia Post International Standard to New Zealand (tracked)", source: "auspost-intl", country: "NZ", kg };
   } catch (e) {
     return { cents: 0, unavailable: true, label: "Couldn't price postage to New Zealand. Call us.", error: String(e.message || e) };

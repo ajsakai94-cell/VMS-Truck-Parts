@@ -23,7 +23,12 @@ globalThis.fetch = async (url, opts = {}) => {
   url = String(url);
   const res = (body, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
   if (url.endsWith("/products.json")) return res(data);
-  if (url.startsWith("https://digitalapi.auspost.com.au/postage/parcel/international/")) { intlCalls.push(new URL(url).searchParams); return stripeMode === "auspost-down" ? res({ error: "bad key" }, 403) : res({ postage_result: { total_cost: "28.75" } }); }
+  if (url.startsWith("https://digitalapi.auspost.com.au/postage/parcel/international/")) {
+    intlCalls.push(new URL(url).searchParams);
+    if (stripeMode === "auspost-down") return res({ error: "bad key" }, 403);
+    if (url.includes("/service.json")) return res({ services: { service: [{ code: "INT_PARCEL_COR_OWN_PACKAGING", name: "Courier", price: "90.00" }, { code: "INT_PARCEL_STD_OWN_PACKAGING", name: "Standard", price: "28.75" }] } });
+    return stripeMode === "intl-code-gone" ? res({ error: { errorMessage: "Please enter a valid Service code." } }, 404) : res({ postage_result: { total_cost: "28.75" } });
+  }
   if (url.startsWith("https://digitalapi.auspost.com.au/")) return stripeMode === "auspost-down" ? res({ error: "bad key" }, 403) : res({ postage_result: { total_cost: "31.50" } });
   if (url.startsWith("https://sms.example/")) { texts.push(JSON.parse(opts.body)); return res({ state: "Pending" }); }
   if (url === "https://api.stripe.com/v1/checkout/sessions") {
@@ -141,6 +146,9 @@ if (nzPart) {
   // the normal Australian checkout still only takes Australian addresses
   await call(checkout.onRequestPost, { items: [{ id: nzPart.id, qty: 1 }], postcode: "3000" });
   check(lastForm.get("shipping_address_collection[allowed_countries][0]") === "AU", "AU checkout lost its AU-only address rule");
+  stripeMode = "intl-code-gone";
+  const g = await call(shipping.onRequestPost, { items: [{ id: nzPart.id, qty: 1 }], country: "NZ" });
+  check(g.j.cents === 2875 && !g.j.unavailable, `NZ: service-list fallback didn't price it (${JSON.stringify(g.j)})`);
   stripeMode = "auspost-down"; texts = [];
   const d = await call(shipping.onRequestPost, { items: [{ id: nzPart.id, qty: 1 }], country: "NZ" }, alertEnv);
   check(d.j.unavailable && texts.length === 1, "NZ: Australia Post down should block NZ checkout and text the owner");
