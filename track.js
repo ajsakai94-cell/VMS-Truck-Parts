@@ -18,7 +18,7 @@
   // Google Ads tag. Fill in the two values from Google Ads (Goals > Conversions > Purchase > Tag setup):
   // id looks like "AW-123456789", purchase is the conversion label. While id is empty nothing loads.
   // The owner's own devices never load it, so AJ's test orders don't count as ad sales.
-  var ADS = { id: "", purchase: "" };
+  var ADS = { id: "AW-18592844464", purchase: "pp3XCNGqtL4dELCV4aFF" };
   window.vmsAds = ADS;
   if (ADS.id && !own) {
     window.dataLayer = window.dataLayer || [];
