@@ -1284,8 +1284,8 @@
     "Convoy 11677EH"
    ],
    "options": [
-    "Left (LH, passenger side, with number plate light) A 003 544 32 03",
-    "Right (RH, driver's side, with reversing buzzer) A 003 544 34 03"
+    "LHS + Numberplate lamp (A 003 544 32 03)",
+    "RHS + Reverse squawker (A 003 544 34 03)"
    ],
    "optionLabel": "Side",
    "specs": [
@@ -1295,7 +1295,7 @@
     ],
     [
      "Functions",
-     "Tail, stop, indicator and reverse. Left lamp has the number plate light, right lamp has the reversing buzzer"
+     "Tail, stop, indicator and reverse. LHS has the number plate lamp, RHS has the reverse squawker (reversing buzzer)"
     ],
     [
      "Voltage",
@@ -1337,6 +1337,9 @@
     "number plate light",
     "reversing buzzer",
     "reverse alarm",
+    "reverse squawker",
+    "reverse squaker",
+    "reversing beeper",
     "24V",
     "LH",
     "RH",
@@ -1351,7 +1354,7 @@
     "Arocs",
     "Antos"
    ],
-   "desc": "Full LED rear combination tail light for the Mercedes-Benz Actros MP4 and MP5. One sealed unit does the tail, stop, indicator and reverse lights, the left-hand lamp also carries the number plate light, and the right-hand lamp has the built-in reversing buzzer. Replace a cracked, faded or water-filled lamp, or LEDs that have gone dark, and stay roadworthy. Left (passenger side) is OE A 003 544 32 03, right (driver's side) is OE A 003 544 34 03. Sold each: choose your side, or add one of each for a pair. Check the number on your old lamp, or text us your VIN and we'll confirm it fits before you pay.",
+   "desc": "Full LED rear combination tail light for the Mercedes-Benz Actros MP4 and MP5. One sealed unit does the tail, stop, indicator and reverse lights, the left-hand lamp also carries the number plate light, and the right-hand lamp has the built-in reverse squawker (reversing buzzer). Replace a cracked, faded or water-filled lamp, or LEDs that have gone dark, and stay roadworthy. Left (passenger side) is OE A 003 544 32 03, right (driver's side) is OE A 003 544 34 03. Sold each: choose your side, or add one of each for a pair. Check the number on your old lamp, or text us your VIN and we'll confirm it fits before you pay.",
    "brand": "VMS",
    "mpn": "VMS-C06",
    "identifierExists": false,
