@@ -2243,6 +2243,90 @@
    "pairsWith": [
     "exhaust-manifold-gasket-om473"
    ]
+  },
+  {
+   "id": "adblue-cap",
+   "slug": "locking-adblue-cap-with-keys-mp4-mp5-actros",
+   "name": "Locking AdBlue Tank Cap with 2 Keys",
+   "cat": "Engine",
+   "price": 48.77,
+   "available": true,
+   "sku": "VMS-E09",
+   "image": "/images/adblue-cap-1000.webp",
+   "thumb": "/images/adblue-cap-400.webp",
+   "oldHandle": "",
+   "oem": [],
+   "cross": [],
+   "specs": [
+    [
+     "Fits",
+     "AdBlue (DEF) tank filler neck, 40 mm"
+    ],
+    [
+     "Lock",
+     "Key lock with flip-up dust cover"
+    ],
+    [
+     "In the box",
+     "Blue AdBlue cap and 2 keys"
+    ],
+    [
+     "Trucks",
+     "MP4 / MP5 Mercedes-Benz Actros"
+    ]
+   ],
+   "tags": [
+    "AdBlue cap",
+    "locking AdBlue cap",
+    "lockable AdBlue cap",
+    "AdBlue tank cap",
+    "AdBlue filler cap",
+    "AdBlue cap with keys",
+    "AdBlue fuel cap",
+    "DEF cap",
+    "DEF tank cap",
+    "urea tank cap",
+    "anti-theft AdBlue cap",
+    "blue AdBlue cap"
+   ],
+   "keywords": [
+    "engine",
+    "AdBlue",
+    "Ad Blue",
+    "AdBlue tank",
+    "AdBlue lid",
+    "AdBlue tank lid",
+    "AdBlue filler neck",
+    "40mm AdBlue cap",
+    "locking cap",
+    "tank cap",
+    "filler cap",
+    "lost AdBlue cap",
+    "stolen AdBlue cap",
+    "AdBlue theft",
+    "SCR",
+    "emissions",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Locking blue AdBlue (DEF) tank cap with two keys to suit the MP4 / MP5 Mercedes-Benz Actros. It screws onto the standard 40 mm AdBlue filler neck and locks with a key, so nobody can top up your tank with water or diesel or help themselves to your AdBlue. A flip-up cover keeps dirt and road grime out of the lock. AdBlue caps get lost at the bowser all the time, so it's worth keeping a spare in the cab. Aftermarket, not genuine Mercedes. Not sure it suits your truck? Send us your VIN and we'll check.",
+   "brand": "VMS",
+   "mpn": "VMS-E09",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "satchel": "small",
+   "kg": 0.2,
+   "maxQty": 5,
+   "pairsWith": [
+    "adblue-filter"
+   ]
   }
  ]
 }

@@ -549,5 +549,22 @@
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
 </item>
+<item>
+  <g:id>adblue-cap</g:id>
+  <g:title>Locking AdBlue Tank Cap with 2 Keys for Mercedes-Benz Actros MP4 / MP5</g:title>
+  <g:description>Locking blue AdBlue (DEF) tank cap with two keys to suit the MP4 / MP5 Mercedes-Benz Actros. It screws onto the standard 40 mm AdBlue filler neck and locks with a key, so nobody can top up your tank with water or diesel or help themselves to your AdBlue. A flip-up cover keeps dirt and road grime out of the lock. AdBlue caps get lost at the bowser all the time, so it&#39;s worth keeping a spare in the cab. Aftermarket, not genuine Mercedes. Not sure it suits your truck? Send us your VIN and we&#39;ll check.</g:description>
+  <g:link>https://vmstruckparts.com.au/parts/locking-adblue-cap-with-keys-mp4-mp5-actros/</g:link>
+  <g:image_link>https://vmstruckparts.com.au/images/adblue-cap-1000.webp</g:image_link>
+  <g:availability>in_stock</g:availability>
+  <g:price>48.77 AUD</g:price>
+  <g:brand>VMS</g:brand>
+  <g:mpn>VMS-E09</g:mpn>
+  <g:identifier_exists>no</g:identifier_exists>
+  <g:condition>new</g:condition>
+  <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
+  <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+</item>
 </channel>
 </rss>
