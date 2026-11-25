@@ -61,9 +61,9 @@ Every part VMS Truck Parts lists, by category. Each line: part name and link, wh
 ## Cab
 
 - [Corner Mirror Cover (Small)](https://vmstruckparts.com.au/parts/small-mirror-cover-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 960 811 14 07, A 960 811 15 07. $50.00 AUD, in stock.
-- [Driver's Door Switch Panel](https://vmstruckparts.com.au/parts/driver-door-switch-panel-mp4-actros/): MP4 Mercedes-Benz Actros. OE A 960 545 12 13, A 960 545 08 13, A 960 545 09 13. $189.00 AUD, in stock.
 - [H7 24V 70W Headlight Globes (Pair)](https://vmstruckparts.com.au/parts/h7-24v-70w-headlight-globes-2-pack-mp4-mp5-actros/): MP4 Mercedes-Benz Actros. Cross-ref Narva 48728, Narva 48729, Osram 64215, Osram Truckstar Pro 64215TSP, Philips 13972MDB1. $59.00 AUD, in stock.
 - [Main Mirror Cover (Long)](https://vmstruckparts.com.au/parts/long-mirror-cover-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 960 811 06 07, A 960 811 07 07. $72.00 AUD, in stock.
+- [Driver's Door Switch Panel](https://vmstruckparts.com.au/parts/driver-door-switch-panel-mp4-actros/): MP4 Mercedes-Benz Actros. OE A 960 545 12 13, A 960 545 08 13, A 960 545 09 13. $189.00 AUD, sold out (ask for lead time).
 
 ## Workshop
 

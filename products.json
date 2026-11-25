@@ -1186,7 +1186,7 @@
    "name": "Driver's Door Switch Panel",
    "cat": "Cab",
    "price": 189.0,
-   "available": true,
+   "available": false,
    "sku": "VMS-C05",
    "image": "/images/driver-door-switch-1000.webp",
    "thumb": "/images/driver-door-switch-400.webp",
