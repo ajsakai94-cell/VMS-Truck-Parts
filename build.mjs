@@ -56,7 +56,8 @@ const HOME = "Actros MP4 parts";
 const truckPart = p => p.fits.models.length > 0;
 // non-vehicle items (workshop gear) still name the truck we specialise in
 const WORKSHOP = " for truck workshops, great for Mercedes-Benz Actros MP4 / MP5 servicing";
-const fitsText = p => !truckPart(p) ? "Any workshop (not vehicle-specific)" : "MP4 / MP5 Mercedes-Benz Actros" + (p.fits.engines.length ? `, ${p.fits.engines.join(" / ")} engine` : "");
+const models = p => p.fits.models.join(" / ");
+const fitsText = p => !truckPart(p) ? "Any workshop (not vehicle-specific)" : models(p) + " Mercedes-Benz Actros" + (p.fits.engines.length ? `, ${p.fits.engines.join(" / ")} engine` : "");
 const products = data.products;
 
 for (const p of products) if (!CATS[p.cat]) throw new Error(`No category page set up for "${p.cat}" (part ${p.id}). Add it to CATS in build.mjs.`);
@@ -64,7 +65,20 @@ for (const p of products) if (!CATS[p.cat]) throw new Error(`No category page se
 const abs = u => u && (u.startsWith("http") ? u : SITE.url + u);
 const ld = obj => `<script type="application/ld+json">${JSON.stringify(obj).replace(/</g, "\\u003c")}</script>\n`;
 const DEFAULT_IMG = "/images/og-default.png";
-const ORG = { "@type": "Organization", "@id": SITE.url + "/#org", name: SITE.name, url: SITE.url + "/", telephone: "+61" + C.phone.replace(/\s/g, "").replace(/^0/, ""), email: C.email };
+// The shop as an entity: what AI assistants and Google read to answer "who sells Actros MP4 parts in Australia?".
+// Full version on the home and About pages; every other page points to it by @id.
+const TEL = "+61" + C.phone.replace(/\s/g, "").replace(/^0/, "");
+const ABOUT_LINE = "VMS Truck Parts is an independent online parts supplier in Melbourne, Victoria that specialises in parts for the MP4 and MP5 Mercedes-Benz Actros (OM471 and OM473 engines). Every part is listed by Mercedes-Benz OE number with aftermarket cross-references, the shop checks fitment from your VIN or rego before you pay, and orders ship Australia-wide by Australia Post or can be picked up free in Victoria.";
+const ORG = { "@type": "OnlineStore", "@id": SITE.url + "/#org", name: SITE.name, url: SITE.url + "/", telephone: TEL, email: C.email };
+const ORG_FULL = { ...ORG, alternateName: ["VMS", "vmstruckparts.com.au"], description: ABOUT_LINE,
+  slogan: "Mercedes-Benz Actros MP4 & MP5 parts specialists",
+  logo: SITE.url + "/icon-512.png", image: SITE.url + DEFAULT_IMG,
+  address: { "@type": "PostalAddress", addressLocality: "Melbourne", addressRegion: "VIC", addressCountry: "AU" },
+  areaServed: { "@type": "Country", name: "Australia" },
+  knowsAbout: ["Mercedes-Benz Actros MP4", "Mercedes-Benz Actros MP5", "OM471 engine", "OM473 engine", "Actros truck filters", "Actros brake pads", "Actros cooling parts", "Mercedes-Benz OE part numbers"],
+  contactPoint: { "@type": "ContactPoint", contactType: "sales", telephone: TEL, email: C.email, areaServed: "AU", availableLanguage: "en",
+    ...(C.hours ? { hoursAvailable: [{ "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "07:00", closes: "18:00" }, { "@type": "OpeningHoursSpecification", dayOfWeek: "Saturday", opens: "07:00", closes: "12:00" }] } : {}) },
+  hasMerchantReturnPolicy: { "@type": "MerchantReturnPolicy", applicableCountry: "AU", returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow", merchantReturnDays: 30, returnMethod: "https://schema.org/ReturnByMail", url: SITE.url + "/policies.html#returns" } };
 
 function layout({ title, desc, path, body, part = "", image = "", type = "website", jsonld = [] }) {
   const og = path ? `<meta property="og:type" content="${type}">
@@ -108,7 +122,7 @@ ${body}
   <div><b>${esc(SITE.name)}</b><span>${esc(SITE.region)}</span><span>${esc(C.phone)}</span><span>${esc(C.email)}</span></div>
   <div><b>Shop</b><a href="/">All Actros MP4 &amp; MP5 parts</a>${Object.entries(CATS).filter(([k]) => products.some(p => p.cat === k)).map(([k, v]) => `<a href="/${v.path}/">${esc(k)}</a>`).join("")}</div>
   <div><b>Guides</b>${GUIDES.map(g => `<a href="${g.path}">${esc(g.short)}</a>`).join("")}</div>
-  <div><b>Help</b><a href="/#faq">FAQ</a><a href="/policies.html#shipping">Shipping</a><a href="/policies.html#returns">Returns and refunds</a><a href="/policies.html#privacy">Privacy</a><a href="/policies.html#terms">Terms</a></div>
+  <div><b>Help</b><a href="/about/">About us</a><a href="/#faq">FAQ</a><a href="/policies.html#shipping">Shipping</a><a href="/policies.html#returns">Returns and refunds</a><a href="/policies.html#privacy">Privacy</a><a href="/policies.html#terms">Terms</a></div>
   <p class="legal">VMS Truck Parts is an independent parts supplier, not affiliated with Mercedes-Benz or Daimler Truck. Mercedes-Benz and Actros are their owners' trademarks, used only to show which trucks our parts suit. OE numbers are for reference.</p>
 </div></footer>
 
@@ -213,6 +227,7 @@ ${p.specs ? `    <p><b>At a glance:</b></p><ul class="kit">${p.specs.map(([k, v]
     <details><summary>Shipping and returns</summary><p>${shipNote} Unused parts can be returned within 30 days. <a href="/policies.html#shipping">Shipping</a> · <a href="/policies.html#returns">Returns</a></p></details>
   </div>
 </article>
+${partFaqHtml(p, shipNote)}
 ${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2><div class="grid">${pairs.map(card).join("")}</div></section>\n` : ""}${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
   const crumbItems = [[HOME, "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
   const product = {
@@ -251,7 +266,8 @@ ${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2
   const props = [...p.oem.map(n => ({ "@type": "PropertyValue", name: "Replaces OE number", value: n })),
     ...p.cross.map(n => { const [b, num] = crossSplit(n); return { "@type": "PropertyValue", name: (b ? b + " " : "") + "cross-reference", value: num }; })];
   if (props.length) product.additionalProperty = props;
-  return layout({ title: numTitle, desc: numLead + desc, path: partUrl(p), body, part: p.id, image: p.image, type: "product", jsonld: [product, crumbLd(crumbItems)] });
+  if (truckPart(p)) product.isAccessoryOrSparePartFor = p.fits.models.map(m => ({ "@type": "Product", name: `Mercedes-Benz Actros ${m}`, brand: { "@type": "Brand", name: "Mercedes-Benz" } }));
+  return layout({ title: numTitle, desc: numLead + desc, path: partUrl(p), body, part: p.id, image: p.image, type: "product", jsonld: [product, crumbLd(crumbItems), faqLd(body)] });
 }
 
 function catPage(cat) {
@@ -275,6 +291,31 @@ function notFound() {
 <section class="block"><div class="grid">${sortParts(products).map(card).join("")}</div></section>`;
   return layout({ title: `Page not found | ${SITE.name}`, desc: "Page not found.", path: "", body });
 }
+
+// ---- "Quick answers" on every part page ----
+// Plain question-and-answer text built only from products.json, so Google, ChatGPT, Perplexity and other
+// AI assistants can quote a complete, correct answer (fitment, part numbers, price, where to buy).
+// Also output as FAQPage schema (faqLd reads the same <div class="faq"> markup as the home page).
+function partFaq(p, shipNote) {
+  const nm = p.name, forTruck = truckPart(p) ? " for an Actros " + p.fits.models.join(" or ") : "";
+  const truck = truckPart(p) ? `the ${models(p)} Mercedes-Benz Actros` : "";
+  const eng = p.fits.engines.length ? ` with the ${p.fits.engines.join(" or ")} engine` : "";
+  const qa = [];
+  if (truckPart(p)) qa.push([`Will the ${nm} fit my Actros?`,
+    `This part suits ${truck}${eng}.${p.oem.length ? ` It replaces Mercedes-Benz OE ${p.oem.join(", ")}, so the easiest check is the number on your old part.` : ""} If you're not sure, text your VIN or rego to ${C.phone} and we'll confirm it fits before you pay.`]);
+  if (p.oem.length) qa.push([`What is the Mercedes-Benz part number for the ${nm}${forTruck}?`,
+    `OE ${p.oem.join(", ")}. ${p.oem.length > 1 ? "These are alternative or superseded numbers for the same part. " : ""}It's also written as ${p.oem.slice(0, 3).flatMap(n => oeForms(n).slice(1, 3)).join(", ")}.`]);
+  if (p.cross.length) qa.push([`What are the aftermarket equivalents?`,
+    `Cross-references for this part: ${p.cross.join(", ")}. Match the number on your old part before you order.`]);
+  qa.push([`Where can I buy the ${nm}${forTruck} in Australia?`,
+    `${SITE.name}, a Melbourne-based ${truckPart(p) ? "Actros MP4 and MP5 parts specialist" : "truck parts supplier"}, sells it online at ${SITE.url.replace("https://", "")}${p.price != null ? ` for ${money(p.price)} AUD` : ""}. ${p.available ? (p.price != null ? "It's in stock and you can order it straight from this page." : "It's in stock: call or text for a price.") : `It's sold out online right now: call or text ${C.phone} for a price and lead time.`} ${shipNote}`]);
+  qa.push([`Can I return it if it's the wrong part?`, `Yes. Unused parts in their original packaging can be returned within 30 days. Contact us first and we'll arrange it.`]);
+  return qa;
+}
+const partFaqHtml = (p, shipNote) => `<section class="block"><h2 class="sec">Quick answers</h2>
+<div class="faq">
+${partFaq(p, shipNote).map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("\n")}
+</div></section>`;
 
 // ---- guides ----
 const byId = id => products.find(p => p.id === id);
@@ -319,6 +360,16 @@ const FINDGUIDE = `<p>The quickest way to get the right part is the number print
 <p>Fill this in, add a photo of the old part, and send. We'll reply with the right part number and a price.</p>
 ${ASK}`;
 const GUIDES = [
+  { path: "/guides/actros-mp4-mp5-part-numbers/", short: "All MP4 / MP5 part numbers",
+    title: "Mercedes-Benz Actros MP4 / MP5 Part Numbers: Every Part We Stock",
+    desc: "Every Mercedes-Benz Actros MP4 / MP5 part we stock in one table: OE numbers, MAHLE, MANN, WVA and other cross-references, which engine it suits, price and stock.",
+    blurb: "One table of every part: OE number, cross-references, engine, price.",
+    body: () => `<p>This is every part ${esc(SITE.name)} stocks for the MP4 and MP5 Mercedes-Benz Actros, in one table. Mercedes-Benz OE numbers start with A and are printed on the old part or its box. Cross-references are the matching aftermarket numbers. You can type any of these numbers into the <a href="/#q">search box</a>, with or without the spaces.</p>
+${Object.keys(CATS).filter(c => products.some(p => p.cat === c && truckPart(p))).map(c => `<h2>${esc(c)}</h2>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>Suits</th><th>OE number</th><th>Cross-reference</th><th>Price</th></tr></thead><tbody>
+${sortParts(products.filter(p => p.cat === c && truckPart(p))).map(p => `<tr><td>${link(p)}</td><td>${esc(models(p) + (p.fits.engines.length ? ", " + p.fits.engines.join(" / ") : ""))}</td><td>${mono(p.oem)}</td><td>${mono(p.cross)}</td><td>${p.price != null ? money(p.price) : "Call"}${p.available ? "" : " (sold out)"}</td></tr>`).join("")}
+</tbody></table></div>`).join("\n")}
+<p>OE numbers are for reference. ${esc(SITE.name)} is independent and not affiliated with Mercedes-Benz or Daimler Truck. Can't see your number? Text it, or your VIN, to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll find the part.</p>` },
   { path: "/guides/find-actros-part-number/", short: "How to find your part number",
     title: "How to Find the Right Part Number for Your Actros MP4 / MP5",
     desc: "Where to find the OE part number, VIN and engine type on a Mercedes-Benz Actros MP4 / MP5, and how to get us to check the right part for your truck.",
@@ -438,12 +489,84 @@ function homePage() {
 <meta property="og:url" content="${SITE.url}/">
 <meta property="og:image" content="${SITE.url}${DEFAULT_IMG}">
 <meta name="twitter:card" content="summary_large_image">
-${ld({ "@context": "https://schema.org", "@graph": [ORG, { "@type": "WebSite", name: SITE.name, url: SITE.url + "/", publisher: { "@id": ORG["@id"] } }] })}${ld(faqLd(html))}`);
+${ld({ "@context": "https://schema.org", "@graph": [ORG_FULL, { "@type": "WebSite", name: SITE.name, url: SITE.url + "/", publisher: { "@id": ORG["@id"] } }] })}${ld(faqLd(html))}`);
   fill("cats", cats.map(c => `<a class="cat" href="${catUrl(c)}">${ICONS[c] || ""}${esc(c)}<small>${products.filter(p => p.cat === c).length}</small></a>`).join(""));
   fill("grid", sortParts(products).map(card).join(""));
   fill("ask", ASK);
   fill("guides", GUIDES.map(g => `<a class="guide" href="${g.path}"><b>${esc(g.short)}</b><span>${esc(g.blurb)}</span></a>`).join(""));
   return versionAssets(html);
+}
+
+// ---- About page: plain facts about the shop, the page AI assistants and Google use to describe who we are ----
+function aboutPage() {
+  const truckParts = products.filter(truckPart), inStock = products.filter(p => p.available);
+  const cats = Object.keys(CATS).filter(c => products.some(p => p.cat === c));
+  const body = `${crumbs([[HOME, "/"], ["About us", ""]])}
+<article class="block article">
+  <h1>About ${esc(SITE.name)}</h1>
+  <p>${esc(ABOUT_LINE)}</p>
+  <h2>What we do</h2>
+  <ul>
+  <li><b>One truck, done properly.</b> We sell parts for the MP4 and MP5 Mercedes-Benz Actros only, with the OM471 (12.8 litre) and OM473 (15.6 litre) engines. That's ${truckParts.length} parts across ${cats.map(c => `<a href="${catUrl(c)}">${esc(c.toLowerCase())}</a>`).join(", ")}.</li>
+  <li><b>Listed by part number.</b> Every part shows its Mercedes-Benz OE number, written the ways mechanics type it, plus MAHLE, MANN, Hengst, WVA, Nissens and other aftermarket equivalents. See <a href="/guides/actros-mp4-mp5-part-numbers/">every MP4 / MP5 part number</a> in one table.</li>
+  <li><b>Fitment checked before you pay.</b> Text your VIN or rego and a photo of the old part to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll confirm the right part.</li>
+  <li><b>Postage at cost.</b> Filters and small parts go in Australia Post satchels from ${money(Math.min(...Object.values(SHIP.satchels).map(z => z.price)))}, anywhere in Australia. Bigger parts are priced live to your postcode in the cart. Pickup in Victoria is free.</li>
+  <li><b>Easy returns.</b> Unused parts can be returned within 30 days. See <a href="/policies.html#returns">returns</a>.</li>
+  </ul>
+  <h2>Popular parts</h2>
+  <p>Service filters for the OM471 and OM473 (oil, fuel, water separator, air, cabin, AdBlue), the <a href="${partUrl(byId("service-kit"))}">5-filter service kit</a>, brake pads, the viscous fan clutch, starter motor, oil spinner, battery terminal sensor, mirror covers and trailer suzi coils. ${inStock.length} of our ${products.length} listings are in stock right now.</p>
+  <h2>Contact</h2>
+  <p>Call or text <a href="tel:${PHONE}">${esc(C.phone)}</a> or email <a href="mailto:${esc(C.email)}">${esc(C.email)}</a>.${C.hours ? ` ${esc(C.hours)} (Melbourne time).` : ""} We're an online shop based in ${esc(SITE.region)}.</p>
+</article>`;
+  return layout({ title: `About ${SITE.name}: Actros MP4 & MP5 Parts Specialists in Melbourne`, desc: ABOUT_LINE.slice(0, 157).replace(/[\s,(]+\S*$/, "") + "…", path: "/about/", body,
+    jsonld: [{ "@context": "https://schema.org", "@graph": [ORG_FULL, { "@type": "AboutPage", "@id": SITE.url + "/about/#page", url: SITE.url + "/about/", name: `About ${SITE.name}`, about: { "@id": ORG["@id"] }, mainEntity: { "@id": ORG["@id"] } }] }, crumbLd([[HOME, "/"], ["About us", "/about/"]])] });
+}
+
+// ---- llms.txt / llms-full.txt: a plain-text summary of the shop for AI assistants (llmstxt.org format) ----
+// llms.txt is the short map; llms-full.txt has every part with its numbers, fitment, price and stock.
+const txtPart = p => `- [${p.name}](${SITE.url}${partUrl(p)}): ${fitsText(p)}.${p.oem.length ? ` OE ${p.oem.join(", ")}.` : ""}${p.cross.length ? ` Cross-ref ${p.cross.join(", ")}.` : ""} ${p.price != null ? money(p.price) + " AUD" : "Call for price"}, ${p.available ? "in stock" : "sold out (ask for lead time)"}.`;
+const LLMS_HEAD = `# ${SITE.name}
+
+> ${ABOUT_LINE}
+
+Key facts:
+- Website: ${SITE.url}/ (online shop, prices in AUD, Stripe checkout with card, Apple Pay, Google Pay and Afterpay)
+- Specialty: parts for the Mercedes-Benz Actros MP4 and MP5 only (OM471 and OM473 engines)
+- Location: ${SITE.region}. Ships Australia-wide by Australia Post; free pickup in Victoria
+- Postage: charged at cost. Small parts in satchels from ${money(Math.min(...Object.values(SHIP.satchels).map(z => z.price)))}; bigger parts priced live to the postcode
+- Fitment check: text a VIN or rego to ${C.phone} and the shop confirms the right part before payment
+- Returns: unused parts within 30 days
+- Contact: ${C.phone} (call or text), ${C.email}${C.hours ? `, ${C.hours}` : ""}
+- Independent supplier, not affiliated with Mercedes-Benz or Daimler Truck; OE numbers are for reference
+`;
+function llmsTxt() {
+  const cats = Object.keys(CATS).filter(c => products.some(p => p.cat === c));
+  return `${LLMS_HEAD}
+## Shop by category
+
+${cats.map(c => `- [${CATS[c].title}](${SITE.url}${catUrl(c)}): ${CATS[c].intro}`).join("\n")}
+
+## Part number guides
+
+${GUIDES.map(g => `- [${g.title}](${SITE.url}${g.path}): ${g.desc}`).join("\n")}
+
+## About and policies
+
+- [About ${SITE.name}](${SITE.url}/about/): who we are and how we check fitment
+- [Shipping, returns, privacy and terms](${SITE.url}/policies.html)
+
+## Optional
+
+- [Full part list with OE numbers, cross-references, prices and stock](${SITE.url}/llms-full.txt)
+`;
+}
+function llmsFullTxt() {
+  const cats = Object.keys(CATS).filter(c => products.some(p => p.cat === c));
+  return `${LLMS_HEAD}
+Every part ${SITE.name} lists, by category. Each line: part name and link, what it suits, Mercedes-Benz OE numbers, aftermarket cross-references, price in AUD, stock.
+
+${cats.map(c => `## ${c}\n\n${sortParts(products.filter(p => p.cat === c)).map(txtPart).join("\n")}`).join("\n\n")}
+`;
 }
 
 // ---- write or check ----
@@ -453,11 +576,14 @@ for (const cat of Object.keys(CATS)) if (products.some(p => p.cat === cat)) out.
 out.set("404.html", notFound());
 for (const g of GUIDES) out.set(join(g.path.slice(1), "index.html"), guidePage(g));
 out.set("index.html", homePage());
+out.set(join("about", "index.html"), aboutPage());
+out.set("llms.txt", llmsTxt());
+out.set("llms-full.txt", llmsFullTxt());
 // hand-written pages: only their stylesheet/script links are updated
 for (const f of ["policies.html", "success.html"]) out.set(f, versionAssets(readFileSync(join(ROOT, f), "utf8")));
 
 // sitemap.xml: home, categories, parts, policies (no lastmod, so --check stays stable)
-const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), ...GUIDES.map(g => g.path), "/policies.html"];
+const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), ...GUIDES.map(g => g.path), "/about/", "/policies.html"];
 out.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `  <url><loc>${SITE.url}${u}</loc></url>`).join("\n")}
@@ -522,4 +648,4 @@ if (existsSync(partsDir)) for (const slug of readdirSync(partsDir)) {
 if (check) {
   if (stale.length) { console.error("Generated pages are out of date. Run `node build.mjs` and commit:\n  " + stale.join("\n  ")); process.exit(1); }
   console.log(`Generated pages up to date (${out.size} files).`);
-} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 6} categories, ${GUIDES.length} guides, home, 404, policies, success, sitemap.xml, feed.xml (${feedItems.length} items).`);
+} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 9} categories, ${GUIDES.length} guides, home, about, 404, policies, success, sitemap.xml, feed.xml, llms.txt, llms-full.txt (${feedItems.length} items).`);

@@ -1,5 +1,27 @@
+# Search engines and AI assistants are welcome to read and recommend the shop.
+# Named AI crawlers are listed so it's clear they're allowed (ChatGPT, Claude, Perplexity, Gemini, Copilot, Apple).
 User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /api/
+
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: DuckAssistBot
+User-agent: meta-externalagent
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
 Sitemap: https://vmstruckparts.com.au/sitemap.xml

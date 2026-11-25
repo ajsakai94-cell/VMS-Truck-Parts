@@ -1,0 +1,73 @@
+# VMS Truck Parts
+
+> VMS Truck Parts is an independent online parts supplier in Melbourne, Victoria that specialises in parts for the MP4 and MP5 Mercedes-Benz Actros (OM471 and OM473 engines). Every part is listed by Mercedes-Benz OE number with aftermarket cross-references, the shop checks fitment from your VIN or rego before you pay, and orders ship Australia-wide by Australia Post or can be picked up free in Victoria.
+
+Key facts:
+- Website: https://vmstruckparts.com.au/ (online shop, prices in AUD, Stripe checkout with card, Apple Pay, Google Pay and Afterpay)
+- Specialty: parts for the Mercedes-Benz Actros MP4 and MP5 only (OM471 and OM473 engines)
+- Location: Melbourne, Victoria, Australia. Ships Australia-wide by Australia Post; free pickup in Victoria
+- Postage: charged at cost. Small parts in satchels from $11.70; bigger parts priced live to the postcode
+- Fitment check: text a VIN or rego to 0481 309 893 and the shop confirms the right part before payment
+- Returns: unused parts within 30 days
+- Contact: 0481 309 893 (call or text), vmstruckparts@gmail.com, Mon to Fri 7am to 6pm, Sat 7am to 12pm
+- Independent supplier, not affiliated with Mercedes-Benz or Daimler Truck; OE numbers are for reference
+
+Every part VMS Truck Parts lists, by category. Each line: part name and link, what it suits, Mercedes-Benz OE numbers, aftermarket cross-references, price in AUD, stock.
+
+## Filters
+
+- [AdBlue Pump Filter](https://vmstruckparts.com.au/parts/adblue-filter-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 000 142 05 89. Cross-ref MAHLE UX 13KIT. $55.00 AUD, in stock.
+- [Cabin Pollen Filter](https://vmstruckparts.com.au/parts/cabin-filter-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 960 830 02 18. Cross-ref MAHLE LA 1006. $45.00 AUD, in stock.
+- [Engine Air Filter](https://vmstruckparts.com.au/parts/air-filter-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 004 094 69 04, A 004 094 68 04. Cross-ref MAHLE LX 5437, MANN C 50 004/1, Hengst E2059L. $120.00 AUD, in stock.
+- [Engine Oil Filter](https://vmstruckparts.com.au/parts/oil-filter-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 472 184 04 25, A 472 184 05 25, A 472 180 03 09, A 472 180 01 09, A 473 180 00 09. Cross-ref MAHLE OX 832D, MANN HU 12 001 z, Hengst E510H07 D129, Luber-finer LP5090, Baldwin P7505, Bosch F 026 407 192, Wix 57909, Donaldson P551005, Fleetguard LF17511. $42.00 AUD, in stock.
+- [Engine Oil Filter (Slim Base)](https://vmstruckparts.com.au/parts/oil-filter-slim-base-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 473 180 05 09, A 473 180 08 09. Cross-ref MAHLE OX 1389D, MANN HU 12 021 z, Hengst E523H D373, Bosch F 026 407 389, Febi 186424, Fleetguard LF17810, Sakura EO-57010, DT Spare Parts 4.72910, Trucktec 01.18.102. $42.00 AUD, in stock.
+- [Fuel Filter Kit](https://vmstruckparts.com.au/parts/fuel-filter-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 471 090 27 55, A 471 090 24 55. Cross-ref MAHLE KX 581KIT, MANN PU 12 002-2 z, Hengst E445KP D314-2. $60.00 AUD, in stock.
+- [Fuel Pre-filter / Water Separator](https://vmstruckparts.com.au/parts/diesel-water-separator-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 960 477 00 03. Cross-ref MAHLE KC 505D, MANN PL 420/7 x, Hengst H356WK. $59.00 AUD, in stock.
+- [Power Steering Filter](https://vmstruckparts.com.au/parts/power-steering-filter-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 000 184 22 25. Cross-ref MAHLE HX 15. $35.00 AUD, in stock.
+- [Service Filter Kit – 5 Filters](https://vmstruckparts.com.au/parts/service-kit-om471-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. $306.00 AUD, in stock.
+- [Air Dryer Cartridge](https://vmstruckparts.com.au/parts/air-dryer-cartridge-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 000 429 20 97, A 000 429 21 97, A 000 429 37 95. Cross-ref Knorr-Bremse K163455, MANN TB 1394/8 x, Mahle AL 35, febi 106249, Hengst T380W, Haldex 31005509. $59.00 AUD, sold out (ask for lead time).
+
+## Cooling
+
+- [Viscous Fan Clutch](https://vmstruckparts.com.au/parts/viscous-fan-clutch-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 engine. OE A 470 200 07 22. Cross-ref NRF 49159, Nissens 86140, MAHLE CFC 173 000P. $795.00 AUD, in stock.
+- [Coolant Expansion Tank](https://vmstruckparts.com.au/parts/expansion-tank-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 960 501 42 03, A 960 501 87 03. Cross-ref MAHLE CRT 235 000P, Nissens 996053. $629.00 AUD, sold out (ask for lead time).
+- [Radiator](https://vmstruckparts.com.au/parts/radiator-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM470 / OM471 / OM473 engine. OE A 960 500 08 01. Cross-ref MAHLE CR 865 000P, Nissens 67175, Nissens 671750, AVA ME2284, Frigair 0206.3021, AKS Dasis 130044N, TitanX RD119025, Highway Automotive 10033062. $1,595.00 AUD, sold out (ask for lead time).
+- [Top Radiator Hose](https://vmstruckparts.com.au/parts/top-radiator-hose-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 960 501 61 93. $235.00 AUD, sold out (ask for lead time).
+
+## Clutch
+
+- [Clutch Actuator (PowerShift)](https://vmstruckparts.com.au/parts/clutch-actuator-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. $600.00 AUD, in stock.
+- [Clutch Kit](https://vmstruckparts.com.au/parts/clutch-kit-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. $1,750.00 AUD, in stock.
+
+## Engine
+
+- [Battery Terminal Sensor (Negative)](https://vmstruckparts.com.au/parts/battery-sensor-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 012 542 62 18. $269.00 AUD, in stock.
+- [Cylinder Head (OM473)](https://vmstruckparts.com.au/parts/cylinder-head-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM472 / OM473 engine. OE A 473 010 14 20. $8,000.00 AUD, in stock.
+- [Holset Turbocharger (OM473)](https://vmstruckparts.com.au/parts/turbocharger-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM473 engine. OE A 473 096 10 99, A 473 096 18 99, A 472 096 13 99, A 472 096 15 99, A 472 096 16 99, A 472 096 10 99, A 472 096 07 99, A 472 090 00 80. Cross-ref Holset HE500WG 3789534, Holset HX55 3768075, Holset 3787000, Holset 3787029, Holset 3769546, Holset 3768077, Holset 3767882, Holset 3767880, Holset 2840201, Holset 2840199, Holset 2843802, Holset 2836378, Holset 2836376. $2,450.00 AUD, in stock.
+- [Oil Spinner (Crankcase Oil Separator)](https://vmstruckparts.com.au/parts/oil-separator-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 471 010 01 62, A 472 010 31 62. $495.00 AUD, in stock.
+- [Starter Motor 24V 7.5kW](https://vmstruckparts.com.au/parts/starter-motor-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 007 151 45 01. Cross-ref Prestolite (TRP 1549007), S5307S, DRS1034, 11139182, AZG4879, MAHLE MS 754. $575.00 AUD, in stock.
+- [Cylinder Liner Kit (OM473)](https://vmstruckparts.com.au/parts/cylinder-liner-kit-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM473 engine. $215.00 AUD, sold out (ask for lead time).
+- [Exhaust Manifold Gasket (OM473)](https://vmstruckparts.com.au/parts/exhaust-manifold-gasket-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM473 engine. OE A 472 142 18 80, A 472 142 19 80. $95.00 AUD, sold out (ask for lead time).
+- [Injector Line Seal (OM471 / OM473)](https://vmstruckparts.com.au/parts/injector-line-seal-om471-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 472 078 04 80, A 472 078 01 80, A 472 078 00 80, A 472 078 06 80. Cross-ref PAI 631368. $25.00 AUD, sold out (ask for lead time).
+
+## Brakes
+
+- [7 Pin Trailer Suzi Coil – Lighting Cable](https://vmstruckparts.com.au/parts/7-pin-trailer-light-suzi-coil/): MP4 / MP5 Mercedes-Benz Actros. Cross-ref Narva 82524, Narva 82529. $135.00 AUD, in stock.
+- [ABS/EBS Suzi Coil – 7 Core ISO 7638 Trailer Cable](https://vmstruckparts.com.au/parts/abs-ebs-trailer-cable-7-core-iso-7638/): MP4 / MP5 Mercedes-Benz Actros. Cross-ref Narva 82560, Narva 82562, Hella 8KA 227 440-081, Trail Link EL100913LT. $239.00 AUD, in stock.
+- [Brake Hose Set with M22 Connectors](https://vmstruckparts.com.au/parts/brake-hose-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 002 420 93 48, A 000 997 81 34. $150.00 AUD, in stock.
+- [Front Brake Pad Set (Axle Set)](https://vmstruckparts.com.au/parts/front-brake-pads-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 006 420 14 20, A 006 420 52 20, A 000 421 72 10. Cross-ref WVA 29246, WVA 29247, Knorr-Bremse SM7, Ferodo FCV4417PTS, Febi 16997. $169.00 AUD, sold out (ask for lead time).
+- [Rear Brake Pad Set (Axle Set)](https://vmstruckparts.com.au/parts/rear-brake-pads-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 006 420 53 20, A 006 420 15 20. Cross-ref WVA 29244, WVA 29245, Knorr-Bremse SL7, Ferodo FCV4418PTS. $169.00 AUD, sold out (ask for lead time).
+
+## Cab
+
+- [Corner Mirror Cover (Small)](https://vmstruckparts.com.au/parts/small-mirror-cover-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 960 811 14 07, A 960 811 15 07. $50.00 AUD, in stock.
+- [H7 24V 70W Headlight Globes (Pair)](https://vmstruckparts.com.au/parts/h7-24v-70w-headlight-globes-2-pack-mp4-mp5-actros/): MP4 Mercedes-Benz Actros. Cross-ref Narva 48728, Narva 48729, Osram 64215, Osram Truckstar Pro 64215TSP, Philips 13972MDB1. $59.00 AUD, in stock.
+- [Main Mirror Cover (Long)](https://vmstruckparts.com.au/parts/long-mirror-cover-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 960 811 06 07, A 960 811 07 07. $72.00 AUD, in stock.
+
+## Workshop
+
+- [Pneumatic Oil Drum Pump with Hose and Metered Gun](https://vmstruckparts.com.au/parts/pneumatic-oil-drum-pump/): Any workshop (not vehicle-specific). $895.00 AUD, in stock.
+
+## Tools
+
+- [Engine Timing Tool Kit](https://vmstruckparts.com.au/parts/timing-tool-kit-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. $750.00 AUD, sold out (ask for lead time).
