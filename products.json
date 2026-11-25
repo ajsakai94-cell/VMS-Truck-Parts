@@ -1243,6 +1243,84 @@
    "kg": 0.4
   },
   {
+   "id": "side-marker-light",
+   "slug": "side-marker-clearance-light-amber-mp4-mp5-actros",
+   "name": "Side Marker Light (Amber Clearance Lamp)",
+   "cat": "Cab",
+   "price": 24.77,
+   "available": true,
+   "sku": "VMS-C04",
+   "image": "/images/side-marker-light-1000.webp",
+   "thumb": "/images/side-marker-light-400.webp",
+   "oem": [],
+   "cross": [],
+   "specs": [
+    [
+     "Colour",
+     "Amber lens with built-in reflector"
+    ],
+    [
+     "Voltage",
+     "24 volt"
+    ],
+    [
+     "Fitting",
+     "Two mounting studs, right-angle bulb holder at the back"
+    ],
+    [
+     "Side",
+     "Fits left or right"
+    ],
+    [
+     "Sold as",
+     "Each (one light)"
+    ]
+   ],
+   "tags": [
+    "side marker light",
+    "side marker lamp",
+    "side clearance light",
+    "clearance lamp",
+    "amber marker light",
+    "side repeater lamp",
+    "side position light",
+    "outline marker lamp",
+    "amber reflector lamp",
+    "Seitenmarkierungsleuchte"
+   ],
+   "keywords": [
+    "lights",
+    "lighting",
+    "marker",
+    "clearance",
+    "amber",
+    "orange",
+    "yellow",
+    "reflector",
+    "side lamp",
+    "24V",
+    "LH",
+    "RH",
+    "left",
+    "right"
+   ],
+   "desc": "Amber side marker (side clearance) light with a built-in reflector for the Mercedes-Benz Actros MP4 and MP5. Clips in on two studs with a right-angle bulb holder at the back, and fits either side. Replace a cracked, faded or water-filled lens and stay roadworthy. Sold each, so order as many as you need.",
+   "brand": "VMS",
+   "mpn": "VMS-C04",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "satchel": "small",
+   "kg": 0.15,
+   "maxQty": 12
+  },
+  {
    "id": "viscous-fan-clutch",
    "slug": "viscous-fan-clutch-mp4-mp5-actros",
    "name": "Viscous Fan Clutch",
