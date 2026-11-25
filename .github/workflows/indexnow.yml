@@ -1,0 +1,22 @@
+# Tells Bing (which ChatGPT search and Microsoft Copilot use), Yandex and other IndexNow engines
+# that pages changed, so new parts and prices show up in AI answers within days instead of weeks.
+# Runs after a merge to main, once Cloudflare Pages has had time to deploy. The key file is 6d207b727b29c594ed7afc15ce19c9c2.txt.
+name: Ping IndexNow
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for Cloudflare Pages to deploy
+        run: sleep 180
+      - name: Send every sitemap URL to IndexNow
+        run: |
+          URLS=$(grep -o '<loc>[^<]*</loc>' sitemap.xml | sed 's/<[^>]*>//g' | jq -R . | jq -s .)
+          BODY=$(jq -n --argjson u "$URLS" '{host:"vmstruckparts.com.au",key:"6d207b727b29c594ed7afc15ce19c9c2",keyLocation:"https://vmstruckparts.com.au/6d207b727b29c594ed7afc15ce19c9c2.txt",urlList:$u}')
+          CODE=$(curl -s -o /dev/null -w '%{http_code}' -X POST https://api.indexnow.org/indexnow -H 'Content-Type: application/json; charset=utf-8' -d "$BODY")
+          echo "IndexNow answered HTTP $CODE"
+          case "$CODE" in 200|202) ;; *) echo "::warning::IndexNow returned $CODE";; esac

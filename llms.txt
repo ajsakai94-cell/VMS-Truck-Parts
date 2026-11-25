@@ -1,0 +1,43 @@
+# VMS Truck Parts
+
+> VMS Truck Parts is an independent online parts supplier in Melbourne, Victoria that specialises in parts for the MP4 and MP5 Mercedes-Benz Actros (OM471 and OM473 engines). Every part is listed by Mercedes-Benz OE number with aftermarket cross-references, the shop checks fitment from your VIN or rego before you pay, and orders ship Australia-wide by Australia Post or can be picked up free in Victoria.
+
+Key facts:
+- Website: https://vmstruckparts.com.au/ (online shop, prices in AUD, Stripe checkout with card, Apple Pay, Google Pay and Afterpay)
+- Specialty: parts for the Mercedes-Benz Actros MP4 and MP5 only (OM471 and OM473 engines)
+- Location: Melbourne, Victoria, Australia. Ships Australia-wide by Australia Post; free pickup in Victoria
+- Postage: charged at cost. Small parts in satchels from $11.70; bigger parts priced live to the postcode
+- Fitment check: text a VIN or rego to 0481 309 893 and the shop confirms the right part before payment
+- Returns: unused parts within 30 days
+- Contact: 0481 309 893 (call or text), vmstruckparts@gmail.com, Mon to Fri 7am to 6pm, Sat 7am to 12pm
+- Independent supplier, not affiliated with Mercedes-Benz or Daimler Truck; OE numbers are for reference
+
+## Shop by category
+
+- [Actros MP4 & MP5 Filters: Oil, Fuel, Air and Cabin (OM471 / OM473)](https://vmstruckparts.com.au/filters/): Oil, fuel, air, cabin, AdBlue and power steering filters and air dryer cartridges for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy.
+- [Actros MP4 & MP5 Cooling Parts: Radiator, Fan Clutch, Expansion Tank](https://vmstruckparts.com.au/cooling/): Radiators, viscous fan clutches and coolant expansion tanks for the MP4 and MP5 Mercedes-Benz Actros, with OE numbers and MAHLE, Nissens and NRF cross-references.
+- [Actros MP4 & MP5 Clutch Kits and Clutch Actuators](https://vmstruckparts.com.au/clutch/): Clutch kits and clutch actuators for the MP4 and MP5 Mercedes-Benz Actros. Send us your VIN and we'll confirm the right part for your gearbox before you pay.
+- [Actros MP4 & MP5 Engine Parts (OM471 / OM473)](https://vmstruckparts.com.au/engine/): Starter motors, cylinder heads, liner kits, oil spinners (crankcase oil separators) and battery sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros.
+- [Actros MP4 & MP5 Brake Pads, Air and Trailer Parts](https://vmstruckparts.com.au/brakes/): Front and rear brake pads, brake hoses, air-line fittings and trailer suzi coils (ABS/EBS ISO 7638 and 7 pin lighting) for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number with WVA, Knorr-Bremse and Narva cross-references.
+- [Actros MP4 & MP5 Cab Parts: Mirror Covers and Headlight Globes](https://vmstruckparts.com.au/cab/): Main and corner mirror covers (left and right), H7 24V headlight globes and other cab parts for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number.
+- [Truck Workshop Equipment for Actros MP4 / MP5 Servicing](https://vmstruckparts.com.au/workshop-equipment/): Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any truck workshop, and are handy for oil services on the Mercedes-Benz Actros MP4 / MP5.
+- [Actros MP4 & MP5 Workshop Tools](https://vmstruckparts.com.au/workshop-tools/): Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros.
+
+## Part number guides
+
+- [Mercedes-Benz Actros MP4 / MP5 Part Numbers: Every Part We Stock](https://vmstruckparts.com.au/guides/actros-mp4-mp5-part-numbers/): Every Mercedes-Benz Actros MP4 / MP5 part we stock in one table: OE numbers, MAHLE, MANN, WVA and other cross-references, which engine it suits, price and stock.
+- [How to Find the Right Part Number for Your Actros MP4 / MP5](https://vmstruckparts.com.au/guides/find-actros-part-number/): Where to find the OE part number, VIN and engine type on a Mercedes-Benz Actros MP4 / MP5, and how to get us to check the right part for your truck.
+- [Actros MP4 Service Intervals and Filter Checklist](https://vmstruckparts.com.au/guides/actros-mp4-service-intervals/): How service intervals work on the MP4 / MP5 Mercedes-Benz Actros with the OM471 and OM473, which filters are changed at a service, and their OE numbers.
+- [OM471 / OM473 Filter Part Numbers for the Actros MP4 / MP5](https://vmstruckparts.com.au/guides/om471-om473-filter-part-numbers/): Mercedes-Benz OE numbers and MAHLE, MANN and Hengst cross-references for every OM471 / OM473 filter on the MP4 / MP5 Actros.
+- [Actros MP4 Service Filter Kit Part Numbers (OM471 / OM473)](https://vmstruckparts.com.au/guides/actros-mp4-filter-kit-part-numbers/): The 5 filters in an Actros MP4 / MP5 service kit with every OE number written the ways mechanics search it, plus MAHLE, MANN and Hengst equivalents.
+- [Actros MP4 / MP5 Brake Pad Part Numbers: Front and Rear](https://vmstruckparts.com.au/guides/actros-mp4-brake-pad-part-numbers/): Front and rear brake pad numbers for the Mercedes-Benz Actros MP4 / MP5: OE A 006 420 14 20 (A0064201420) and A 006 420 53 20 (A0064205320), WVA numbers and calipers.
+- [Actros MP4 Engine and Cooling Part Numbers (OM471 / OM473)](https://vmstruckparts.com.au/guides/actros-mp4-engine-cooling-part-numbers/): OE numbers and aftermarket equivalents for the Actros MP4 / MP5 fan clutch, expansion tank, starter motor, oil spinner, cylinder head and battery sensor.
+
+## About and policies
+
+- [About VMS Truck Parts](https://vmstruckparts.com.au/about/): who we are and how we check fitment
+- [Shipping, returns, privacy and terms](https://vmstruckparts.com.au/policies.html)
+
+## Optional
+
+- [Full part list with OE numbers, cross-references, prices and stock](https://vmstruckparts.com.au/llms-full.txt)
