@@ -36,14 +36,14 @@ const shipRate = p => (p.satchel ? [].concat(p.satchel).reduce((t, z) => t + SHI
   + (p.pack || !p.satchel ? (p.shipClass ? SHIP.rates[p.shipClass] : SHIP.flatRate) : 0);
 
 const CATS = {
-  Filters: { path: "filters", title: "Actros MP4 / MP5 Filters", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters and air dryer cartridges for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
-  Cooling: { path: "cooling", title: "Actros MP4 / MP5 Cooling Parts", intro: "Radiators, viscous fan clutches and coolant expansion tanks for the MP4 and MP5 Mercedes-Benz Actros, with OE numbers and MAHLE, Nissens and NRF cross-references." },
-  Clutch: { path: "clutch", title: "Actros MP4 / MP5 Clutch Parts", intro: "Clutch kits and clutch actuators for the MP4 and MP5 Mercedes-Benz Actros. Send us your VIN and we'll confirm the right part for your gearbox before you pay." },
-  Engine: { path: "engine", title: "Actros MP4 / MP5 Engine Parts", intro: "Starter motors, cylinder heads, liner kits, oil spinners (crankcase oil separators) and battery sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
-  Brakes: { path: "brakes", title: "Actros MP4 / MP5 Brake and Air Parts", intro: "Front and rear brake pads, brake hoses, air-line fittings and trailer suzi coils (ABS/EBS ISO 7638 and 7 pin lighting) for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number with WVA, Knorr-Bremse and Narva cross-references." },
-  Cab: { path: "cab", title: "Actros MP4 / MP5 Cab Parts", intro: "Main and corner mirror covers (left and right), H7 24V headlight globes and other cab parts for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
+  Filters: { path: "filters", title: "Actros MP4 & MP5 Filters: Oil, Fuel, Air and Cabin (OM471 / OM473)", intro: "Oil, fuel, air, cabin, AdBlue and power steering filters and air dryer cartridges for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. Every filter lists its OE number and MAHLE, MANN and Hengst equivalents, so you can match the number on your old filter before you buy." },
+  Cooling: { path: "cooling", title: "Actros MP4 & MP5 Cooling Parts: Radiator, Fan Clutch, Expansion Tank", intro: "Radiators, viscous fan clutches and coolant expansion tanks for the MP4 and MP5 Mercedes-Benz Actros, with OE numbers and MAHLE, Nissens and NRF cross-references." },
+  Clutch: { path: "clutch", title: "Actros MP4 & MP5 Clutch Kits and Clutch Actuators", intro: "Clutch kits and clutch actuators for the MP4 and MP5 Mercedes-Benz Actros. Send us your VIN and we'll confirm the right part for your gearbox before you pay." },
+  Engine: { path: "engine", title: "Actros MP4 & MP5 Engine Parts (OM471 / OM473)", intro: "Starter motors, cylinder heads, liner kits, oil spinners (crankcase oil separators) and battery sensors for the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
+  Brakes: { path: "brakes", title: "Actros MP4 & MP5 Brake Pads, Air and Trailer Parts", intro: "Front and rear brake pads, brake hoses, air-line fittings and trailer suzi coils (ABS/EBS ISO 7638 and 7 pin lighting) for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number with WVA, Knorr-Bremse and Narva cross-references." },
+  Cab: { path: "cab", title: "Actros MP4 & MP5 Cab Parts: Mirror Covers and Headlight Globes", intro: "Main and corner mirror covers (left and right), H7 24V headlight globes and other cab parts for the MP4 and MP5 Mercedes-Benz Actros, listed by OE number." },
   Workshop: { path: "workshop-equipment", title: "Truck Workshop Equipment for Actros MP4 / MP5 Servicing", intro: "Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any truck workshop, and are handy for oil services on the Mercedes-Benz Actros MP4 / MP5." },
-  Tools: { path: "workshop-tools", title: "Actros MP4 / MP5 Workshop Tools", intro: "Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
+  Tools: { path: "workshop-tools", title: "Actros MP4 & MP5 Workshop Tools", intro: "Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros." },
 };
 
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -51,6 +51,8 @@ const money = n => "$" + n.toLocaleString("en-AU", { minimumFractionDigits: 2, m
 const shortMoney = n => "$" + (Number.isInteger(n) ? n.toLocaleString("en-AU") : n.toFixed(2));
 const partUrl = p => `/parts/${p.slug}/`;
 const catUrl = cat => `/${CATS[cat].path}/`;
+// first breadcrumb on every page: gives Google the words people search for as the link text to the home page
+const HOME = "Actros MP4 parts";
 const truckPart = p => p.fits.models.length > 0;
 // non-vehicle items (workshop gear) still name the truck we specialise in
 const WORKSHOP = " for truck workshops, great for Mercedes-Benz Actros MP4 / MP5 servicing";
@@ -104,7 +106,7 @@ ${body}
 
 <footer><div class="wrap">
   <div><b>${esc(SITE.name)}</b><span>${esc(SITE.region)}</span><span>${esc(C.phone)}</span><span>${esc(C.email)}</span></div>
-  <div><b>Shop</b>${Object.entries(CATS).filter(([k]) => products.some(p => p.cat === k)).map(([k, v]) => `<a href="/${v.path}/">${esc(k)}</a>`).join("")}</div>
+  <div><b>Shop</b><a href="/">All Actros MP4 &amp; MP5 parts</a>${Object.entries(CATS).filter(([k]) => products.some(p => p.cat === k)).map(([k, v]) => `<a href="/${v.path}/">${esc(k)}</a>`).join("")}</div>
   <div><b>Guides</b>${GUIDES.map(g => `<a href="${g.path}">${esc(g.short)}</a>`).join("")}</div>
   <div><b>Help</b><a href="/#faq">FAQ</a><a href="/policies.html#shipping">Shipping</a><a href="/policies.html#returns">Returns and refunds</a><a href="/policies.html#privacy">Privacy</a><a href="/policies.html#terms">Terms</a></div>
   <p class="legal">VMS Truck Parts is an independent parts supplier, not affiliated with Mercedes-Benz or Daimler Truck. Mercedes-Benz and Actros are their owners' trademarks, used only to show which trucks our parts suit. OE numbers are for reference.</p>
@@ -194,7 +196,7 @@ function partPage(p) {
     ["Condition", "New"],
     p.tags?.length && ["Also called", esc(p.tags.join(", "))],
   ].filter(Boolean).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
-  const body = `${crumbs([["Home", "/"], [p.cat, catUrl(p.cat)], [p.name, ""]])}
+  const body = `${crumbs([[HOME, "/"], [p.cat, catUrl(p.cat)], [p.name, ""]])}
 <article class="pdp">
   <div class="pic big">${picBig(p)}</div>
   <div class="info">
@@ -212,7 +214,7 @@ ${p.specs ? `    <p><b>At a glance:</b></p><ul class="kit">${p.specs.map(([k, v]
   </div>
 </article>
 ${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2><div class="grid">${pairs.map(card).join("")}</div></section>\n` : ""}${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
-  const crumbItems = [["Home", "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
+  const crumbItems = [[HOME, "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
   const product = {
     "@context": "https://schema.org", "@type": "Product",
     name: p.name + (truckPart(p) ? " to suit Mercedes-Benz Actros MP4 / MP5" : WORKSHOP),
@@ -255,14 +257,14 @@ ${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2
 function catPage(cat) {
   const c = CATS[cat];
   const list = sortParts(products.filter(p => p.cat === cat));
-  const body = `${crumbs([["Home", "/"], [cat, ""]])}
+  const body = `${crumbs([[HOME, "/"], [cat, ""]])}
 <section class="block catintro">
   <h1>${esc(c.title)}</h1>
   <p>${esc(c.intro)}</p>
   <p class="note">${list.length} part${list.length === 1 ? "" : "s"} · Australia Post to your postcode · Free pickup in Melbourne</p>
 </section>
 <section class="block"><h2 class="vh">All ${esc(cat.toLowerCase())} parts</h2><div class="grid">${list.map((p, i) => card(p, i < 2)).join("")}</div></section>`;
-  return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.length > 160 ? c.intro.slice(0, 157).replace(/[\s,(]+\S*$/, "") + "…" : c.intro, path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([["Home", "/"], [cat, catUrl(cat)]])] });
+  return layout({ title: `${c.title} | ${SITE.name}`, desc: c.intro.length > 160 ? c.intro.slice(0, 157).replace(/[\s,(]+\S*$/, "") + "…" : c.intro, path: catUrl(cat), body, image: list.find(p => p.image)?.image, jsonld: [crumbLd([[HOME, "/"], [cat, catUrl(cat)]])] });
 }
 
 function notFound() {
@@ -402,14 +404,19 @@ ${list.map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.oem.
 <p>Some of these differ between the OM471 (12.8 litre) and the OM473 (15.6 litre). Each part page says which engine it suits. If you're not sure, the <a href="/guides/find-actros-part-number/">part number guide</a> shows where to find the engine type, or text your VIN to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll check.</p>`; } },
 ];
 function guidePage(g) {
-  const body = `${crumbs([["Home", "/"], [g.short, ""]])}
+  const body = `${crumbs([[HOME, "/"], [g.short, ""]])}
 <article class="block article">
   <h1>${esc(g.title)}</h1>
 ${g.body()}
 </article>`;
   return layout({ title: `${g.title} | ${SITE.name}`, desc: g.desc, path: g.path, body,
-    jsonld: [{ "@context": "https://schema.org", "@type": "Article", headline: g.title, description: g.desc, url: SITE.url + g.path, publisher: { "@id": ORG["@id"] } }, crumbLd([["Home", "/"], [g.short, g.path]])] });
+    jsonld: [{ "@context": "https://schema.org", "@type": "Article", headline: g.title, description: g.desc, url: SITE.url + g.path, publisher: { "@id": ORG["@id"] } }, crumbLd([[HOME, "/"], [g.short, g.path]])] });
 }
+
+// FAQPage schema from the home page's <details> FAQ, so the questions and answers are spelled out for Google
+const strip = h => h.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/\s+/g, " ").trim();
+const faqLd = html => ({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: [...(html.match(/<div class="faq">([\s\S]*?)<\/div>/)?.[1] || "").matchAll(/<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>/g)]
+  .map(([, q, a]) => ({ "@type": "Question", name: strip(q), acceptedAnswer: { "@type": "Answer", text: strip(a) } })) });
 
 // ---- home page: fill the marked regions of index.html so the page works without JavaScript ----
 const ICONS = Function(readFileSync(join(ROOT, "app.js"), "utf8").match(/const ICONS=(\{[\s\S]*?\n\});/)[1].replace(/^/, "return "))();
@@ -431,7 +438,7 @@ function homePage() {
 <meta property="og:url" content="${SITE.url}/">
 <meta property="og:image" content="${SITE.url}${DEFAULT_IMG}">
 <meta name="twitter:card" content="summary_large_image">
-${ld({ "@context": "https://schema.org", "@graph": [ORG, { "@type": "WebSite", name: SITE.name, url: SITE.url + "/", publisher: { "@id": ORG["@id"] } }] })}`);
+${ld({ "@context": "https://schema.org", "@graph": [ORG, { "@type": "WebSite", name: SITE.name, url: SITE.url + "/", publisher: { "@id": ORG["@id"] } }] })}${ld(faqLd(html))}`);
   fill("cats", cats.map(c => `<a class="cat" href="${catUrl(c)}">${ICONS[c] || ""}${esc(c)}<small>${products.filter(p => p.cat === c).length}</small></a>`).join(""));
   fill("grid", sortParts(products).map(card).join(""));
   fill("ask", ASK);
