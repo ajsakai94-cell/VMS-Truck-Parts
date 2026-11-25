@@ -67,6 +67,7 @@ Every part VMS Truck Parts lists, by category. Each line: part name and link, wh
 - [Main Mirror Cover (Long)](https://vmstruckparts.com.au/parts/long-mirror-cover-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. OE A 960 811 06 07, A 960 811 07 07. $69.00 AUD, in stock.
 - [Side Marker Light (Amber Clearance Lamp)](https://vmstruckparts.com.au/parts/side-marker-clearance-light-amber-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros. $24.77 AUD, in stock.
 - [Driver's Door Switch Panel](https://vmstruckparts.com.au/parts/driver-door-switch-panel-mp4-actros/): MP4 Mercedes-Benz Actros. OE A 960 545 12 13, A 960 545 08 13, A 960 545 09 13. $189.00 AUD, sold out (ask for lead time).
+- [Exterior Sun Visor, Big Cab (Windscreen Visor)](https://vmstruckparts.com.au/parts/sun-visor-mp4-actros/): MP4 Mercedes-Benz Actros. OE A 960 811 01 10, A 960 811 23 10. $395.00 AUD, sold out (ask for lead time).
 
 ## Workshop
 

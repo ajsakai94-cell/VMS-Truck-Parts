@@ -1378,6 +1378,106 @@
    "maxQty": 10
   },
   {
+   "id": "sun-visor",
+   "slug": "sun-visor-mp4-actros",
+   "name": "Exterior Sun Visor, Big Cab (Windscreen Visor)",
+   "cat": "Cab",
+   "price": 395,
+   "available": false,
+   "sku": "VMS-C07",
+   "image": "/images/sun-visor-1000.webp",
+   "thumb": "/images/sun-visor-400.webp",
+   "oem": [
+    "A 960 811 01 10",
+    "A 960 811 23 10"
+   ],
+   "cross": [],
+   "specs": [
+    [
+     "Type",
+     "External windscreen sun visor (roof peak / sun shade)"
+    ],
+    [
+     "Cab",
+     "Big cab (BigSpace / GigaSpace)"
+    ],
+    [
+     "Colour",
+     "Black"
+    ],
+    [
+     "Mounting",
+     "Bolts to the factory visor mounting points on the cab roof"
+    ],
+    [
+     "Shown",
+     "Top view and underside view of the same visor"
+    ],
+    [
+     "Sold as",
+     "Each (one full-width visor)"
+    ]
+   ],
+   "tags": [
+    "sun visor",
+    "exterior sun visor",
+    "windscreen sun visor",
+    "external sun visor",
+    "outside sun visor",
+    "truck sun visor",
+    "cab sun visor",
+    "sun shade",
+    "windscreen visor",
+    "roof visor",
+    "visor peak",
+    "Sonnenblende",
+    "big cab sun visor",
+    "BigSpace sun visor",
+    "GigaSpace sun visor"
+   ],
+   "keywords": [
+    "cab",
+    "body parts",
+    "panel",
+    "exterior",
+    "windscreen",
+    "roof",
+    "sun",
+    "glare",
+    "visor",
+    "sunvisor",
+    "sun-visor",
+    "9608110110",
+    "A9608110110",
+    "960 811 01 10",
+    "9608112310",
+    "A9608112310",
+    "960 811 23 10",
+    "Euro 6",
+    "StreamSpace",
+    "BigSpace",
+    "GigaSpace",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "External windscreen sun visor for the big-cab Mercedes-Benz Actros MP4 (Euro 6). It mounts above the windscreen on the factory visor points and cuts glare from a low sun, the visor most Actros drivers run. Replace a cracked, faded or wind-damaged visor, or fit one where it's missing. OE A 960 811 01 10, also listed as A 960 811 23 10. It suits the big cab (BigSpace / GigaSpace), not the lower ClassicSpace or StreamSpace cabs, so check the number on your old visor or text us your VIN and we'll confirm it fits before you pay. It's a long item, so freight is quoted to your door, or pick up free in Victoria.",
+   "brand": "VMS",
+   "mpn": "VMS-C07",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4"
+    ],
+    "engines": []
+   },
+   "freightQuote": true,
+   "pairsWith": [
+    "long-mirror-cover",
+    "led-tail-light"
+   ]
+  },
+  {
    "id": "viscous-fan-clutch",
    "slug": "viscous-fan-clutch-mp4-mp5-actros",
    "name": "Viscous Fan Clutch",
