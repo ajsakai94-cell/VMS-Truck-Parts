@@ -10,6 +10,7 @@
 import { alertOwner } from "./notify.js";
 
 const PAC = "https://digitalapi.auspost.com.au/postage/parcel/domestic/calculate.json";
+const PAC_INTL_BASE = "https://digitalapi.auspost.com.au/postage/parcel/international";
 const MAX_KG = 22, MAX_CM = 105, MAX_M3 = 0.25; // Australia Post domestic parcel limits
 const SLACK = 1.1; // combined parcels need a bit more room than the parts' boxes add up to
 
@@ -60,10 +61,50 @@ function packSatchels(sizes, units) {
   return bags.map(b => order.find(k => sizes[k].fits >= b.fits));
 }
 
-// Returns { cents, label, quote, needsPostcode }. quote: true = freight quoted by phone (e.g. cylinder head).
-export async function quoteShipping(env, data, items, postcode) {
+// New Zealand (AJ, 24 Nov 2026): small satchel parts only. Boxed, heavy and freight-quoted parts stay
+// Australia-only. Everything goes in one parcel, priced live by Australia Post International Standard
+// (tracked) on its weight: the parts' "kg" plus a little for the satchel/packing. No flat fallback:
+// if Australia Post can't price it, the cart says to call us rather than guess (AJ: charge what postage costs).
+export const COUNTRIES = { AU: "Australia", NZ: "New Zealand" };
+export const nzOk = p => !!(p && p.satchel && !p.pack && !p.freightQuote);
+const NZ_PACKING_KG = 0.15, INTL_MAX_KG = 20;
+
+async function quoteNZ(env, lines) {
+  const no = lines.filter(l => !nzOk(l.p));
+  if (no.length) return { cents: 0, unavailable: true, label: `${no.map(l => l.p.name).join(", ")} ${no.length > 1 ? "ship" : "ships"} within Australia only. Remove ${no.length > 1 ? "them" : "it"} to order to New Zealand, or call us.` };
+  const kg = Math.round((lines.reduce((t, l) => t + (Number(l.p.kg) || 0.5) * l.qty, 0) + NZ_PACKING_KG) * 100) / 100;
+  if (kg > INTL_MAX_KG) return { cents: 0, unavailable: true, label: "That's too heavy for one parcel to New Zealand. Call us for a price." };
+  if (!env.AUSPOST_API_KEY) return { cents: 0, unavailable: true, label: "Couldn't price postage to New Zealand. Call us.", error: "AUSPOST_API_KEY not set" };
+  const get = async (path, params) => {
+    const res = await fetch(`${PAC_INTL_BASE}/${path}?${new URLSearchParams(params)}`, { headers: { "AUTH-KEY": env.AUSPOST_API_KEY, "Accept": "application/json" } });
+    if (!res.ok) throw new Error("Australia Post " + res.status + " " + (await res.text()).slice(0, 200));
+    return res.json();
+  };
+  try {
+    let cost;
+    try {
+      const out = await get("calculate.json", { country_code: "NZ", weight: kg, service_code: "INT_PARCEL_STD_OWN_PACKAGING" });
+      cost = Number(out && out.postage_result && out.postage_result.total_cost);
+      if (!(cost > 0)) throw new Error("Australia Post gave no price");
+    } catch (e) {
+      // If that service code is ever renamed, take the Standard price from the list of services to NZ
+      const out = await get("service.json", { country_code: "NZ", weight: kg });
+      const list = [].concat((out && out.services && out.services.service) || []);
+      const std = list.find(x => /_STD_/.test(x.code || "")) || list.find(x => /standard/i.test(x.name || ""));
+      cost = Number(std && std.price);
+      if (!(cost > 0)) throw e;
+    }
+    return { cents: Math.round(cost * 100), label: "Australia Post International Standard to New Zealand (tracked)", source: "auspost-intl", country: "NZ", kg };
+  } catch (e) {
+    return { cents: 0, unavailable: true, label: "Couldn't price postage to New Zealand. Call us.", error: String(e.message || e) };
+  }
+}
+
+// Returns { cents, label, quote, needsPostcode, unavailable }. quote: true = freight quoted by phone (e.g. cylinder head).
+export async function quoteShipping(env, data, items, postcode, country = "AU") {
   const s = data.shipping, byId = Object.fromEntries(data.products.map(p => [p.id, p]));
   const lines = items.map(it => ({ p: byId[it.id], qty: Math.floor(Number(it.qty)) })).filter(l => l.p && l.qty >= 1);
+  if (country === "NZ") return quoteNZ(env, lines);
   if (lines.some(l => l.p.freightQuote)) return { cents: 0, quote: true, label: "Freight quoted separately (we'll call you before sending)" };
   const each = (l, f) => Array.from({ length: l.qty }, f).flat();
 
@@ -112,8 +153,10 @@ export async function onRequestPost({ request, env, waitUntil }) {
   if (!items.length) return json({ error: "Your cart is empty" }, 400);
   const origin = new URL(request.url).origin;
   const data = await (await fetch(origin + "/products.json")).json();
-  const q = await quoteShipping(env, data, items, body.postcode);
+  const country = body.country === "NZ" ? "NZ" : "AU";
+  const q = await quoteShipping(env, data, items, body.postcode, country);
   // The flat-rate fallback keeps checkout working, but it may under- or over-charge: tell AJ the live quote broke
   if (q.error && q.source === "flat" && waitUntil) waitUntil(alertOwner(env, "auspost", `Australia Post postage quoting failed (${String(q.error).slice(0, 100)}). Boxed parts are on flat rates until it's fixed.`).catch(() => {}));
-  return json({ cents: q.cents, label: q.label, quote: !!q.quote, source: q.source || null, needsPostcode: !!q.needsPostcode, error: q.error || null });
+  if (q.error && country === "NZ" && waitUntil) waitUntil(alertOwner(env, "auspost-nz", `Australia Post couldn't price postage to New Zealand (${String(q.error).slice(0, 100)}). NZ customers can't check out until it's fixed.`).catch(() => {}));
+  return json({ cents: q.cents, label: q.label, quote: !!q.quote, source: q.source || null, needsPostcode: !!q.needsPostcode, unavailable: !!q.unavailable, country, error: q.error || null });
 }

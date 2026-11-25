@@ -46,19 +46,24 @@ export async function onRequestPost({ request, env, waitUntil }) {
 
   // No free shipping. Priced to the postcode from the cart; Stripe's own address form can't change it,
   // so the postcode is in the option name and the session metadata for checking at dispatch.
-  const postcode = /^\d{4}$/.test(String(body.postcode || "")) ? String(body.postcode) : "";
-  const ship = await quoteShipping(env, data, items, postcode);
+  // New Zealand: small satchel parts only (shipping.js refuses anything else), NZ addresses only, no pickup.
+  const nz = body.country === "NZ";
+  const postcode = !nz && /^\d{4}$/.test(String(body.postcode || "")) ? String(body.postcode) : "";
+  const ship = await quoteShipping(env, data, items, postcode, nz ? "NZ" : "AU");
+  if (ship.unavailable) return json({ error: ship.label }, 400);
   const options = ship.quote
     ? [{ name: "Delivery: " + ship.label.charAt(0).toLowerCase() + ship.label.slice(1), amount: 0 }]
+    : nz ? [{ name: ship.label, amount: ship.cents, min: 4, max: 10 }]
     : [{ name: ship.label, amount: ship.cents, min: 2, max: 7 }];
   if (postcode) form.append("metadata[quoted_postcode]", postcode);
+  form.append("metadata[ship_country]", nz ? "NZ" : "AU");
   form.append("metadata[shipping_source]", ship.source || "quote");
   // Links the Stripe session to the visitor in the site activity log (see /admin/)
   const vid = String(body.vid || "").replace(/[^a-z0-9]/gi, "").slice(0, 40), sid = String(body.sid || "").replace(/[^a-z0-9]/gi, "").slice(0, 40);
   if (vid) { form.append("client_reference_id", vid); form.append("metadata[visitor]", vid); }
   const own = body.own ? 1 : 0;
   if (own) form.append("metadata[owner_test]", "yes"); // the owner's own device: a test, not a customer
-  if (data.shipping.pickup || ship.quote) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
+  if (!nz && (data.shipping.pickup || ship.quote)) options.push({ name: "Pickup in Victoria (we'll message you)", amount: 0 });
   options.forEach((o, n) => {
     const k = `shipping_options[${n}][shipping_rate_data]`;
     form.append(`${k}[type]`, "fixed_amount");
@@ -74,7 +79,7 @@ export async function onRequestPost({ request, env, waitUntil }) {
   });
 
   form.append("mode", "payment");
-  form.append("shipping_address_collection[allowed_countries][0]", "AU");
+  form.append("shipping_address_collection[allowed_countries][0]", nz ? "NZ" : "AU");
   form.append("phone_number_collection[enabled]", "true");
   form.append("billing_address_collection", "auto");
   form.append("success_url", origin + "/success.html?session={CHECKOUT_SESSION_ID}");
@@ -101,6 +106,6 @@ export async function onRequestPost({ request, env, waitUntil }) {
     waitUntil(alertOwner(env, "stripe-error", `checkout failed for a customer: ${error.slice(0, 120)}`).catch(() => {}));
     return json({ error }, 502);
   }
-  log({ n: "checkout_session", p: { session: out.id, total: out.amount_total / 100, shipping: ship.cents / 100, shippingSource: ship.source || "quote", postcode: postcode || undefined, items } });
+  log({ n: "checkout_session", p: { session: out.id, total: out.amount_total / 100, shipping: ship.cents / 100, shippingSource: ship.source || "quote", postcode: postcode || undefined, country: nz ? "NZ" : undefined, items } });
   return json({ url: out.url });
 }

@@ -42,6 +42,8 @@ export async function sendSms(env, to, body) {
   if (!smsReady(env)) return { skipped: "SMS not set up" };
   const num = mobile(to);
   if (!num) return { error: "No mobile number on the order" };
+  // Texts go out from the office phone's Australian plan: overseas (e.g. NZ) customers get the email only
+  if (!num.startsWith("+61")) return { skipped: "Overseas number, email only" };
   if (gatewayReady(env)) return sendViaGateway(env, num, body);
   const msg = { source: "vms-site", to: num, body };
   if (env.CLICKSEND_FROM) msg.from = env.CLICKSEND_FROM;
