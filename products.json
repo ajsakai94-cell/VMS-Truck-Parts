@@ -1267,6 +1267,117 @@
    "kg": 0.4
   },
   {
+   "id": "led-tail-light",
+   "slug": "led-tail-light-mp4-mp5-actros",
+   "name": "LED Tail Light (Rear Combination Lamp)",
+   "cat": "Cab",
+   "price": 249.0,
+   "available": true,
+   "sku": "VMS-C06",
+   "image": "/images/led-tail-light-1000.webp",
+   "thumb": "/images/led-tail-light-400.webp",
+   "oem": [
+    "A 003 544 32 03",
+    "A 003 544 34 03"
+   ],
+   "cross": [
+    "Convoy 11677EH"
+   ],
+   "options": [
+    "LHS + Numberplate lamp (A 003 544 32 03)",
+    "RHS + Reverse squawker (A 003 544 34 03)"
+   ],
+   "optionLabel": "Side",
+   "specs": [
+    [
+     "Type",
+     "Full LED, no globes to replace"
+    ],
+    [
+     "Functions",
+     "Tail, stop, indicator and reverse. LHS has the number plate lamp, RHS has the reverse squawker (reversing buzzer)"
+    ],
+    [
+     "Voltage",
+     "24 volt"
+    ],
+    [
+     "Size",
+     "About 370 x 130 x 82 mm"
+    ],
+    [
+     "Sold as",
+     "Each (one lamp). Pick left or right, or add one of each for a pair"
+    ]
+   ],
+   "tags": [
+    "LED tail light",
+    "LED tail lamp",
+    "rear combination lamp",
+    "rear light",
+    "tail light assembly",
+    "stop tail indicator lamp",
+    "brake light",
+    "rear lamp cluster",
+    "LED rear lamp",
+    "Heckleuchte",
+    "Rückleuchte"
+   ],
+   "keywords": [
+    "lights",
+    "lighting",
+    "LED",
+    "tail",
+    "rear",
+    "stop",
+    "brake",
+    "indicator",
+    "blinker",
+    "reverse",
+    "number plate light",
+    "reversing buzzer",
+    "reverse alarm",
+    "reverse squawker",
+    "reverse squaker",
+    "reversing beeper",
+    "24V",
+    "LH",
+    "RH",
+    "left",
+    "right",
+    "0035443203",
+    "A0035443203",
+    "003 544 32 03",
+    "0035443403",
+    "A0035443403",
+    "003 544 34 03",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Full LED rear combination tail light for the Mercedes-Benz Actros MP4 and MP5. One sealed unit does the tail, stop, indicator and reverse lights, the left-hand lamp also carries the number plate light, and the right-hand lamp has the built-in reverse squawker (reversing buzzer). Replace a cracked, faded or water-filled lamp, or LEDs that have gone dark, and stay roadworthy. Left (passenger side) is OE A 003 544 32 03, right (driver's side) is OE A 003 544 34 03. Sold each: choose your side, or add one of each for a pair. Check the number on your old lamp, or text us your VIN and we'll confirm it fits before you pay.",
+   "brand": "VMS",
+   "mpn": "VMS-C06",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": []
+   },
+   "pairsWith": [
+    "side-marker-light"
+   ],
+   "pack": [
+    42,
+    18,
+    14,
+    1.5
+   ],
+   "maxQty": 10
+  },
+  {
    "id": "viscous-fan-clutch",
    "slug": "viscous-fan-clutch-mp4-mp5-actros",
    "name": "Viscous Fan Clutch",
