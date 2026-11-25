@@ -1380,7 +1380,7 @@
   {
    "id": "sun-visor",
    "slug": "sun-visor-mp4-actros",
-   "name": "Exterior Sun Visor (Windscreen Visor)",
+   "name": "Exterior Sun Visor, Big Cab (Windscreen Visor)",
    "cat": "Cab",
    "price": 395,
    "available": false,
@@ -1391,12 +1391,15 @@
     "A 960 811 01 10",
     "A 960 811 23 10"
    ],
-   "cross": [
-   ],
+   "cross": [],
    "specs": [
     [
      "Type",
      "External windscreen sun visor (roof peak / sun shade)"
+    ],
+    [
+     "Cab",
+     "Big cab (BigSpace / GigaSpace)"
     ],
     [
      "Colour",
@@ -1427,7 +1430,10 @@
     "windscreen visor",
     "roof visor",
     "visor peak",
-    "Sonnenblende"
+    "Sonnenblende",
+    "big cab sun visor",
+    "BigSpace sun visor",
+    "GigaSpace sun visor"
    ],
    "keywords": [
     "cab",
@@ -1454,7 +1460,7 @@
     "Arocs",
     "Antos"
    ],
-   "desc": "External windscreen sun visor for the Mercedes-Benz Actros MP4 (Euro 6). It mounts above the windscreen on the factory visor points and cuts glare from a low sun, the visor most Actros drivers run. Replace a cracked, faded or wind-damaged visor, or fit one where it's missing. OE A 960 811 01 10, also listed as A 960 811 23 10. Mercedes used different visors for the different cab heights, so check the number on your old visor or text us your VIN and we'll confirm it fits before you pay. It's a long item, so freight is quoted to your door, or pick up free in Victoria.",
+   "desc": "External windscreen sun visor for the big-cab Mercedes-Benz Actros MP4 (Euro 6). It mounts above the windscreen on the factory visor points and cuts glare from a low sun, the visor most Actros drivers run. Replace a cracked, faded or wind-damaged visor, or fit one where it's missing. OE A 960 811 01 10, also listed as A 960 811 23 10. It suits the big cab (BigSpace / GigaSpace), not the lower ClassicSpace or StreamSpace cabs, so check the number on your old visor or text us your VIN and we'll confirm it fits before you pay. It's a long item, so freight is quoted to your door, or pick up free in Victoria.",
    "brand": "VMS",
    "mpn": "VMS-C07",
    "identifierExists": false,
