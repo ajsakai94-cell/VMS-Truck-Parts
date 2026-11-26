@@ -50,6 +50,7 @@ Every part VMS Truck Parts lists, by category. Each line: part name and link, wh
 - [Cylinder Liner Kit (OM473)](https://vmstruckparts.com.au/parts/cylinder-liner-kit-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM473 engine. $219.00 AUD, sold out (ask for lead time).
 - [Exhaust Manifold Gasket (OM473)](https://vmstruckparts.com.au/parts/exhaust-manifold-gasket-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM473 engine. OE A 472 142 18 80, A 472 142 19 80. $95.00 AUD, sold out (ask for lead time).
 - [Injector Line Seal (OM471 / OM473)](https://vmstruckparts.com.au/parts/injector-line-seal-om471-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 472 078 04 80, A 472 078 01 80, A 472 078 00 80, A 472 078 06 80. Cross-ref PAI 631368. $24.77 AUD, sold out (ask for lead time).
+- [Oil Sump Drain Plug (OM471 / OM473)](https://vmstruckparts.com.au/parts/oil-sump-drain-plug-om471-om473-mp4-mp5-actros/): MP4 / MP5 Mercedes-Benz Actros, OM471 / OM473 engine. OE A 001 990 75 17. Cross-ref febi 100989, Trucktec 01.67.544, DT Spare Parts 4.91215, Auger 97761, Sampa 209.153, Wilmink WG1835022. $34.77 AUD, sold out (ask for lead time).
 
 ## Brakes
 

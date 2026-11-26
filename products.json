@@ -2538,6 +2538,116 @@
    "pairsWith": [
     "adblue-filter"
    ]
+  },
+  {
+   "id": "oil-sump-plug",
+   "slug": "oil-sump-drain-plug-om471-om473-mp4-mp5-actros",
+   "name": "Oil Sump Drain Plug (OM471 / OM473)",
+   "cat": "Engine",
+   "price": 34.77,
+   "available": false,
+   "sku": "VMS-E10",
+   "image": "/images/oil-sump-plug-1000.webp",
+   "thumb": "/images/oil-sump-plug-400.webp",
+   "oldHandle": "",
+   "oem": [
+    "A 001 990 75 17"
+   ],
+   "cross": [
+    "febi 100989",
+    "Trucktec 01.67.544",
+    "DT Spare Parts 4.91215",
+    "Auger 97761",
+    "Sampa 209.153",
+    "Wilmink WG1835022"
+   ],
+   "specs": [
+    [
+     "Position",
+     "Bottom of the plastic oil sump (oil pan)"
+    ],
+    [
+     "Type",
+     "Plastic wing-head drain plug with valve tip and O-ring"
+    ],
+    [
+     "Length",
+     "approx. 38 mm"
+    ],
+    [
+     "In the box",
+     "1 plug with O-ring fitted"
+    ],
+    [
+     "Engines",
+     "OM470, OM471, OM473"
+    ],
+    [
+     "Trucks",
+     "MP4 / MP5 Mercedes-Benz Actros, Arocs, Antos"
+    ]
+   ],
+   "tags": [
+    "oil sump plug",
+    "sump plug",
+    "oil drain plug",
+    "sump drain plug",
+    "oil pan drain plug",
+    "oil pan plug",
+    "plastic sump plug",
+    "sump drain valve",
+    "oil drain valve",
+    "screw plug oil sump",
+    "OM471 sump plug",
+    "OM473 sump plug",
+    "DD13 drain plug",
+    "DD15 drain plug"
+   ],
+   "keywords": [
+    "engine",
+    "oil change",
+    "servicing",
+    "oil leak",
+    "sump leak",
+    "broken sump plug",
+    "cracked sump plug",
+    "plastic oil pan",
+    "0019907517",
+    "A0019907517",
+    "001 990 75 17",
+    "100989",
+    "01.67.544",
+    "4.91215",
+    "97761",
+    "DD13",
+    "DD15",
+    "DD16",
+    "Detroit Diesel",
+    "Arocs",
+    "Antos"
+   ],
+   "desc": "Plastic oil sump drain plug to suit the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros, OE A 001 990 75 17 (also fitted to Arocs, Antos and the Detroit DD13 / DD15 family). It's the black wing-head plug with the green O-ring that sits in the bottom of the plastic sump. These crack or get chewed up from being over-tightened or hit with a rattle gun, and once the O-ring goes hard it'll weep oil. Worth keeping a spare for oil changes. Same part as febi 100989, Trucktec 01.67.544 and DT 4.91215. Hand tight plus a quarter turn, never an impact gun. Aftermarket, not genuine Mercedes. Not sure it suits your truck? Send us your VIN and we'll check.",
+   "brand": "VMS",
+   "mpn": "VMS-E10",
+   "identifierExists": false,
+   "condition": "new",
+   "fits": {
+    "models": [
+     "MP4",
+     "MP5"
+    ],
+    "engines": [
+     "OM471",
+     "OM473"
+    ]
+   },
+   "satchel": "small",
+   "kg": 0.05,
+   "maxQty": 5,
+   "pairsWith": [
+    "oil-filter",
+    "service-kit"
+   ]
   }
  ]
 }

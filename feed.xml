@@ -583,5 +583,22 @@
   <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
 
 </item>
+<item>
+  <g:id>oil-sump-plug</g:id>
+  <g:title>Oil Sump Drain Plug (OM471 / OM473) for Mercedes-Benz Actros MP4 / MP5 – OE A 001 990 75 17</g:title>
+  <g:description>Plastic oil sump drain plug to suit the OM471 and OM473 engines in the MP4 / MP5 Mercedes-Benz Actros, OE A 001 990 75 17 (also fitted to Arocs, Antos and the Detroit DD13 / DD15 family). It&#39;s the black wing-head plug with the green O-ring that sits in the bottom of the plastic sump. These crack or get chewed up from being over-tightened or hit with a rattle gun, and once the O-ring goes hard it&#39;ll weep oil. Worth keeping a spare for oil changes. Same part as febi 100989, Trucktec 01.67.544 and DT 4.91215. Hand tight plus a quarter turn, never an impact gun. Aftermarket, not genuine Mercedes. Not sure it suits your truck? Send us your VIN and we&#39;ll check. Replaces OE A 001 990 75 17. Cross-reference: febi 100989, Trucktec 01.67.544, DT Spare Parts 4.91215, Auger 97761, Sampa 209.153, Wilmink WG1835022.</g:description>
+  <g:link>https://vmstruckparts.com.au/parts/oil-sump-drain-plug-om471-om473-mp4-mp5-actros/</g:link>
+  <g:image_link>https://vmstruckparts.com.au/images/oil-sump-plug-1000.webp</g:image_link>
+  <g:availability>out_of_stock</g:availability>
+  <g:price>34.77 AUD</g:price>
+  <g:brand>VMS</g:brand>
+  <g:mpn>VMS-E10</g:mpn>
+  <g:identifier_exists>no</g:identifier_exists>
+  <g:condition>new</g:condition>
+  <g:google_product_category>Vehicles &amp; Parts &gt; Vehicle Parts &amp; Accessories &gt; Motor Vehicle Parts</g:google_product_category>
+  <g:product_type>Actros MP4 MP5 &gt; Engine</g:product_type>
+  <g:shipping><g:country>AU</g:country><g:service>Standard</g:service><g:price>11.70 AUD</g:price></g:shipping>
+
+</item>
 </channel>
 </rss>
