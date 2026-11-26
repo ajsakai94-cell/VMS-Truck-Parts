@@ -122,6 +122,18 @@ document.addEventListener("click",e=>{
 });
 on("pAdd","click",()=>{if(!current)return;const k=key(current.id,current.options?$("pOpt").value:null);if(current.maxQty&&(cart[k]||0)>=current.maxQty){$("pAdd").textContent=`Only ${current.maxQty} available`;T("add_blocked",{id:k,maxQty:current.maxQty});return}cart[k]=(cart[k]||0)+1;save();renderCart();$("pAdd").textContent=`Added (${cart[k]} in cart)`;
   T("add_to_cart",{id:current.id,name:current.name,opt:current.options?$("pOpt").value:undefined,price:current.price,qty:cart[k],value:cartVal(),cart:cartSnap()})});
+// Kit page: postage checked live to a postcode (same /api/shipping the cart and checkout use, so the
+// number matches), and an Add to cart bar pinned to the bottom of a phone once the main button scrolls away.
+on("postCheck","submit",async e=>{e.preventDefault();const f=$("postCheck"),out=$("postOut"),v=$("postPc").value.replace(/\D/g,"").slice(0,4);
+  if(v.length!==4){out.textContent="Enter a 4 digit Australian postcode.";return}
+  pc=v;try{localStorage.setItem("vms-pc",pc)}catch(x){}renderCart();out.textContent="Checking with Australia Post…";
+  try{const r=await fetch("/api/shipping",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({items:[{id:f.dataset.id,qty:1}],postcode:v,country:"AU"})});const j=await r.json();
+    if(!r.ok||!(j.cents>0))throw new Error(j.error||"no price");
+    out.innerHTML=`<b>${money(j.cents/100)}</b> to ${v} by Australia Post, tracked. Or free pickup in Melbourne.`;T("postage_check",{postcode:v,cents:j.cents,source:j.source})}
+  catch(x){out.textContent="Couldn't check postage just now. Add it to the cart to see it, or call 0481 309 893.";T("postage_check_failed",{postcode:v,error:String(x.message||x).slice(0,120)})}});
+try{if($("postPc"))$("postPc").value=localStorage.getItem("vms-pc")||""}catch(x){}
+on("stickyAdd","click",()=>{$("pAdd").click();$("stickyAdd").textContent=$("pAdd").textContent});
+if($("stickyBuy")&&$("pAdd")&&"IntersectionObserver" in window)new IntersectionObserver(([en])=>{$("stickyBuy").hidden=en.isIntersecting||en.boundingClientRect.top>0}).observe($("pAdd"));
 on("searchForm","submit",e=>{e.preventDefault();st.q=$("q").value;st.cat=null;all();trackSearch("submitted");$("parts").scrollIntoView({behavior:"smooth"})});
 on("q","input",e=>{st.q=e.target.value;st.cat=null;renderCats();renderGrid();trackSearch("typed")});
 on("toSearch","click",e=>{e.preventDefault();$("q").scrollIntoView({behavior:"smooth",block:"center"});$("q").focus({preventScroll:true})});
