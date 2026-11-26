@@ -23,10 +23,9 @@ var cart=null;try{cart=JSON.parse(localStorage.getItem("vms-cart")||"null");loca
 window.vmsTrack("purchase",{session:new URLSearchParams(location.search).get("session"),cart:cart});
 </script>
 <script>
-// After a paid order: (1) tell Google Ads about the sale, if the Ads tag is switched on in track.js, so the
-// ads can be judged on sales rather than clicks; (2) Google Customer Reviews: Google offers the buyer a short
-// survey after the parcel should have arrived. The ratings become seller stars on Google Shopping
-// (Merchant Center 5904115734). Each step is skipped quietly if anything fails.
+// After a paid order: tell Google Ads about the sale, if the Ads tag is switched on in track.js, so the
+// ads can be judged on sales rather than clicks. Skipped quietly if anything fails.
+// (Google Customer Reviews was removed 26 Nov 2026: AJ prefers no reviews.)
 (function(){
   var s=new URLSearchParams(location.search).get("session");if(!s)return;
   var ads=window.vmsAds||{},sent=false;
@@ -38,10 +37,6 @@ window.vmsTrack("purchase",{session:new URLSearchParams(location.search).get("se
   }
   fetch("/api/order-summary?session="+encodeURIComponent(s)).then(function(r){return r.ok?r.json():null}).then(function(o){
     adsSale(o);
-    if(!o||!o.email)return;
-    window.renderOptIn=function(){window.gapi.load("surveyoptin",function(){window.gapi.surveyoptin.render({
-      merchant_id:5904115734,order_id:o.order,email:o.email,delivery_country:o.country,estimated_delivery_date:o.eta,opt_in_style:"CENTER_DIALOG"})})};
-    var g=document.createElement("script");g.src="https://apis.google.com/js/platform.js?onload=renderOptIn";g.async=true;document.body.appendChild(g);
   }).catch(function(){adsSale(null)});
 })();
 </script>
