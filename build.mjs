@@ -121,7 +121,7 @@ ${body}
 <footer><div class="wrap">
   <div><b>${esc(SITE.name)}</b><span>${esc(SITE.region)}</span><span>${esc(C.phone)}</span><span>${esc(C.email)}</span></div>
   <div><b>Shop</b><a href="/">All Actros MP4 &amp; MP5 parts</a>${Object.entries(CATS).filter(([k]) => products.some(p => p.cat === k)).map(([k, v]) => `<a href="/${v.path}/">${esc(k)}</a>`).join("")}</div>
-  <div><b>Guides</b>${GUIDES.map(g => `<a href="${g.path}">${esc(g.short)}</a>`).join("")}</div>
+  <div><b>Guides</b>${GUIDES.slice(0, 6).map(g => `<a href="${g.path}">${esc(g.short)}</a>`).join("")}<a href="/guides/">All guides</a></div>
   <div><b>Help</b><a href="/about/">About us</a><a href="/#faq">FAQ</a><a href="/policies.html#shipping">Shipping</a><a href="/policies.html#returns">Returns and refunds</a><a href="/policies.html#privacy">Privacy</a><a href="/policies.html#terms">Terms</a></div>
   <p class="legal">VMS Truck Parts is an independent parts supplier, not affiliated with Mercedes-Benz or Daimler Truck. Mercedes-Benz and Actros are their owners' trademarks, used only to show which trucks our parts suit. OE numbers are for reference.</p>
 </div></footer>
@@ -228,7 +228,7 @@ ${p.specs ? `    <p><b>At a glance:</b></p><ul class="kit">${p.specs.map(([k, v]
   </div>
 </article>
 ${partFaqHtml(p, shipNote)}
-${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2><div class="grid">${pairs.map(card).join("")}</div></section>\n` : ""}${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
+${guidesFor(p).length ? `<section class="block"><h2 class="sec">Guides for this part</h2><div class="guides">${guidesFor(p).map(guideCard).join("")}</div></section>\n` : ""}${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2><div class="grid">${pairs.map(card).join("")}</div></section>\n` : ""}${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
   const crumbItems = [[HOME, "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
   const product = {
     "@context": "https://schema.org", "@type": "Product",
@@ -329,6 +329,7 @@ const SERVICE = [
   ["cabin-filter", "Yearly, or sooner if airflow from the vents drops."],
   ["adblue-filter", "As the maintenance system shows, or if you get an AdBlue / emissions warning."],
   ["power-steering-filter", "Whenever the power steering fluid is changed."],
+  ["air-dryer-cartridge", "Every 1 to 2 years, or sooner if you're draining water from the air tanks."],
 ];
 
 // ---- "find my part" help: engine picker (home page) and the text/email request form (home page + guide) ----
@@ -454,14 +455,221 @@ ${list.map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem)}</td><td>${mono(p.oem.
 <h2>Which engine?</h2>
 <p>Some of these differ between the OM471 (12.8 litre) and the OM473 (15.6 litre). Each part page says which engine it suits. If you're not sure, the <a href="/guides/find-actros-part-number/">part number guide</a> shows where to find the engine type, or text your VIN to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll check.</p>`; } },
 ];
+// ---- more guides: problem / comparison guides that answer real searches and point to the parts ----
+// Facts come from products.json and the MP4 research notes. Anything a part page doesn't confirm is worded as "usually" or "check".
+const P = id => { const p = byId(id); if (!p) throw new Error(`Guide links to missing part "${id}"`); return p; };
+const oe1 = id => `<span class="mono">${esc(P(id).oem[0])}</span>`;
+const both = p => p.fits.engines.includes("OM471") && p.fits.engines.includes("OM473");
+const MODEL_TABLE = `<div class="tablewrap"><table><thead><tr><th>Model on the cab</th><th>Power</th><th>Engine (usually)</th></tr></thead><tbody>
+<tr><td>2643, 2646</td><td>430 to 460 hp</td><td>OM471 (12.8 litre)</td></tr>
+<tr><td>2653</td><td>530 hp</td><td>OM471 (12.8 litre)</td></tr>
+<tr><td>2658, 2663</td><td>580 to 630 hp</td><td>OM473 (15.6 litre)</td></tr>
+</tbody></table></div>`;
+const partRows = list => list.map(p => `<tr><td>${link(p)}</td><td>${esc(p.fits.engines.join(" / ") || "Any")}</td><td>${mono(p.oem.slice(0, 2))}</td><td>${p.price != null ? money(p.price) : "Call"}${p.available ? "" : " (sold out)"}</td></tr>`).join("");
+const MORE_GUIDES = [
+  { path: "/guides/om471-vs-om473-parts/", short: "OM471 vs OM473 parts", updated: "2026-11-26",
+    title: "OM471 vs OM473: Which Actros MP4 / MP5 Parts Are Different?",
+    desc: "Which Actros MP4 / MP5 parts are the same on the OM471 (12.8 L) and OM473 (15.6 L), which are different, and how to tell which engine your truck has.",
+    blurb: "Which parts are shared between the two engines, which aren't, and how to tell yours.",
+    parts: ["service-kit", "oil-filter", "viscous-fan-clutch", "turbocharger-om473", "cylinder-head-om473", "injector-line-seal"],
+    faq: [
+      ["Do the OM471 and OM473 use the same filters?", "Mostly, yes. Per the MAHLE MP4 / MP5 catalogue, the oil, fuel, pre-filter and air filters are the same parts on both engines, and our service filter kit suits both. The oil filter also comes in a newer slim-base style (A 473 180 05 09), so match the number on your old filter."],
+      ["How do I tell if my Actros has an OM471 or an OM473?", "The model number on the cab is the quickest guide: 2643, 2646 and 2653 usually have the 12.8 litre OM471, and 2658 and 2663 usually have the 15.6 litre OM473. The engine type is also on the plate on the engine block and on your service records. Or text your VIN or rego to " + C.phone + " and we'll check."],
+      ["Is the OM471 the same as the Detroit DD15?", "They come from the same engine family (and the OM473 matches the DD16), so some parts are shared. Don't assume a part swaps across unless its page says so: our OM473 cylinder head is one that is listed for the DD15 / DD16 as well."],
+    ],
+    body: () => { const truck = products.filter(p => truckPart(p) && p.fits.engines.length);
+      const shared = sortParts(truck.filter(both)), diff = sortParts(truck.filter(p => !both(p)));
+      return `<p>The MP4 and MP5 Mercedes-Benz Actros sold in Australia came with one of two six-cylinder engines: the <b>OM471</b> (12.8 litre) or the bigger <b>OM473</b> (15.6 litre). Most service parts are the same on both. The ones that differ are mostly the big engine parts: the head, the liners, the turbo and the exhaust manifold.</p>
+<h2>Which engine have you got?</h2>
+<p>The model number on the cab gives you the power: the last two digits are the horsepower divided by ten.</p>
+${MODEL_TABLE}
+<p>That's the usual pattern, not a guarantee. The engine type is also on the plate on the engine block and in your service records. If you're not sure, the <a href="/guides/find-actros-part-number/">part number guide</a> shows where to look, or text your VIN to <a href="sms:${PHONE}">${esc(C.phone)}</a>.</p>
+<h2>Parts that suit both engines</h2>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>Engines</th><th>OE number</th><th>Price</th></tr></thead><tbody>
+${partRows(shared)}
+</tbody></table></div>
+<p>The ${link(P("service-kit"))} (oil, fuel, water separator, air and cabin filters) suits both engines too.</p>
+<h2>Parts that are engine-specific</h2>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>Listed for</th><th>OE number</th><th>Price</th></tr></thead><tbody>
+${partRows(diff)}
+</tbody></table></div>
+<p>A part listed for one engine only isn't always wrong for the other, but it hasn't been confirmed. For example, our ${link(P("viscous-fan-clutch"))} is listed for the OM471. If you have an OM473, send us the number off your old part and we'll check before you order.</p>
+<h2>Parts that don't depend on the engine</h2>
+<p>Brake pads, trailer suzi coils, mirror covers, lights, the clutch and most cab parts are the same whichever engine you have. Where an MP4 and MP5 part differ, the part page says so. See <a href="/guides/actros-mp4-vs-mp5-parts/">MP4 vs MP5 parts</a>.</p>`; } },
+
+  { path: "/guides/actros-mp4-vs-mp5-parts/", short: "MP4 vs MP5 parts", updated: "2026-11-26",
+    title: "Actros MP4 vs MP5: Do the Same Parts Fit Both?",
+    desc: "Which Mercedes-Benz Actros parts fit both the MP4 and the MP5, which are MP4 only, and how to check before you order.",
+    blurb: "Most mechanical parts fit both. Here's which ones don't, and how to check.",
+    parts: ["service-kit", "brake-pads-front", "h7-globe-24v", "driver-door-switch", "sun-visor", "long-mirror-cover"],
+    faq: [
+      ["Do MP4 filters fit the MP5 Actros?", "Our filters are listed for both the MP4 and the MP5, because both use the OM471 and OM473 engines. Match the OE number on your old filter to be sure."],
+      ["What years is the MP4 Actros in Australia?", "Roughly late 2016 or early 2017 to 2020, when the MP5 replaced it. Build dates vary, so the date on your rego papers or the data plate is a better guide than the year it was first registered."],
+      ["Which parts are different between the MP4 and MP5?", "Mostly cab, body and electrical parts. On this site the H7 headlight globes, the driver's door switch panel and the big-cab exterior sun visor are listed for the MP4 only. Each part page says which trucks it suits."],
+    ],
+    body: () => { const truck = products.filter(truckPart); const mp4only = sortParts(truck.filter(p => !p.fits.models.includes("MP5")));
+      return `<p>The MP4 Actros went on sale in Australia around late 2016 to early 2017. The MP5 replaced it from 2020. Both use the same OM471 and OM473 engines, so most engine, filter, cooling, brake and driveline parts are the same. The differences are mostly in the cab: switches, lights and some body panels.</p>
+<p>Of the ${truck.length} truck parts on this site, ${truck.length - mp4only.length} are listed for both the MP4 and MP5. The rest are listed for the MP4 only.</p>
+<h2>Parts listed for the MP4 only</h2>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>OE number</th><th>Price</th></tr></thead><tbody>
+${mp4only.map(p => `<tr><td>${link(p)}</td><td>${mono(p.oem.slice(0, 2))}</td><td>${p.price != null ? money(p.price) : "Call"}${p.available ? "" : " (sold out)"}</td></tr>`).join("")}
+</tbody></table></div>
+<p>"MP4 only" means we've only confirmed it on the MP4. It may suit some MP5s, so text us the number off your old part if you have an MP5.</p>
+<h2>Parts that fit both</h2>
+<p>Filters, brake pads, cooling parts, the clutch, the starter and most engine parts suit both. The <a href="/guides/actros-mp4-mp5-part-numbers/">full part number table</a> shows what each part suits, and every part page says it in the "Fits" line.</p>
+<h2>How to check before you order</h2>
+<ul>
+<li><b>Match the number on the old part.</b> Mercedes OE numbers start with A, like <span class="mono">A 960 545 12 13</span>. Type it into the <a href="/#q">search box</a>.</li>
+<li><b>Check the build date</b> on the rego papers or the data plate in the door frame. A truck first registered in 2020 or 2021 could be either model.</li>
+<li><b>Send us your VIN or rego.</b> Text it to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll confirm the right part before you pay.</li>
+</ul>`; } },
+
+  { path: "/guides/actros-mp4-losing-coolant/", short: "MP4 losing coolant", updated: "2026-11-26",
+    title: "Actros MP4 Losing Coolant? What to Check First",
+    desc: "The usual reasons an Actros MP4 / MP5 loses coolant or runs hot, in the order to check them: expansion tank, cap, hoses, radiator, water pump, EGR cooler and fan clutch.",
+    blurb: "The usual causes, in the order to check them, from cheap to expensive.",
+    parts: ["expansion-tank", "top-radiator-hose", "radiator", "viscous-fan-clutch"],
+    faq: [
+      ["Why is my Actros losing coolant with no visible leak?", "On the MP4 the most common cause is an EGR cooler cracking inside, which lets coolant into the exhaust side where you can't see it. A workshop can pressure test the cooling system to confirm it. Check the cheaper outside causes first: the expansion tank, its cap and the hoses."],
+      ["Can a cracked expansion tank cause coolant loss?", "Yes. The plastic expansion tank cracks with age and heat. A sweet smell, crusty dried coolant around the tank, or a slow drop in the level are the usual signs. Replace the cap at the same time if it doesn't hold pressure."],
+      ["What is the part number for the MP4 expansion tank?", `OE ${P("expansion-tank").oem.join(", also ")}. Aftermarket equivalents are ${P("expansion-tank").cross.join(" and ")}.`],
+      ["My Actros runs hot but isn't losing coolant. What should I check?", "Look at the viscous fan clutch. If the engine runs hot on hills or in traffic, or the fan roars all the time, or oil is leaking from the hub, the fan clutch has probably failed. A blocked radiator core is the other common cause."],
+    ],
+    body: () => `<p>Coolant loss is one of the most common problems on an MP4 Actros at 6 to 10 years old. Start with the cheap outside checks and work in. Never open the expansion tank cap while the engine is hot.</p>
+<h2>Check in this order</h2>
+<div class="tablewrap"><table><thead><tr><th>What you see</th><th>Likely cause</th><th>Part</th></tr></thead><tbody>
+<tr><td>Sweet smell, crusty dried coolant around the tank, level slowly dropping</td><td>Cracked expansion tank</td><td>${link(P("expansion-tank"))}</td></tr>
+<tr><td>Level drops, coolant pushed out of the overflow, tank looks fine</td><td>Cap not holding pressure</td><td>Replace the cap with the tank</td></tr>
+<tr><td>Wet or crusty clamps, a hose that's soft, swollen or split</td><td>Radiator hose</td><td>${link(P("top-radiator-hose"))}</td></tr>
+<tr><td>Wet core, coolant dripping under the front, engine runs hot</td><td>Radiator leaking or blocked</td><td>${link(P("radiator"))}</td></tr>
+<tr><td>Coolant weeping from the weep hole on the front of the engine</td><td>Water pump</td><td>Call us for a price</td></tr>
+<tr><td>Coolant goes down, no leak anywhere, sometimes white smoke</td><td>EGR cooler cracked inside</td><td>Workshop pressure test</td></tr>
+</tbody></table></div>
+<h2>The hidden one: the EGR cooler</h2>
+<p>Repair shops report that when an MP4 loses coolant with no visible leak, the EGR cooler cracking inside is the most common cause. The coolant goes into the exhaust side, so you won't see a drip. A workshop can confirm it with a cooling system pressure test before you spend money on parts. Rule out the tank, cap and hoses first, because they're much cheaper.</p>
+<h2>Running hot without losing coolant</h2>
+<p>If the level holds but the temperature climbs on hills or in traffic, check the ${link(P("viscous-fan-clutch"))}. A fan that roars all the time, or oil leaking from the hub, are also signs it has failed. A blocked radiator core does the same thing.</p>
+<h2>Doing the job once</h2>
+<p>If the radiator is coming out, it's worth replacing the top hose and checking the expansion tank and cap at the same time. The <a href="/guides/actros-mp4-engine-cooling-part-numbers/">engine and cooling part numbers</a> guide lists every OE number we stock. Not sure what you need? Text a photo and your VIN to <a href="sms:${PHONE}">${esc(C.phone)}</a>.</p>` },
+
+  { path: "/guides/actros-mp4-adblue-warning/", short: "MP4 AdBlue warning", updated: "2026-11-26",
+    title: "Actros MP4 AdBlue Warning or Derate: What to Check First",
+    desc: "An AdBlue or emissions warning on an Actros MP4 / MP5 can put the truck into derate. The cheap things to check first, the AdBlue filter part number, and when it's a workshop job.",
+    blurb: "Cheap checks before the workshop, and the AdBlue filter part number.",
+    parts: ["adblue-filter", "adblue-cap"],
+    faq: [
+      ["What is the AdBlue filter part number for the Actros MP4?", `OE ${P("adblue-filter").oem[0]}. MAHLE lists ${P("adblue-filter").cross[0]} for MP4 / MP5 trucks. Check the number on your old filter, or send us your VIN.`],
+      ["Can a blocked AdBlue filter cause derate?", "Yes. A blocked filter starves the AdBlue dosing pump, which can bring up an emissions warning and put the truck into derate (limp mode). It's a cheap part, so it's a sensible thing to rule out early."],
+      ["How often should the AdBlue filter be changed?", "As the truck's maintenance system shows, with the AdBlue system service, or sooner if you get an AdBlue or emissions warning."],
+      ["What if water or diesel got into the AdBlue tank?", "Don't keep running it. Contaminated AdBlue can damage the pump and the SCR system, so have the tank drained and flushed by a workshop. A locking AdBlue cap stops it happening again."],
+    ],
+    body: () => `<p>The MP4 and MP5 Actros use AdBlue (urea, also called DEF) in the SCR system to cut NOx from the exhaust. When the system sees a fault it warns you on the dash, and if the fault isn't fixed the truck goes into derate (limp mode). That's why AdBlue problems feel urgent.</p>
+<p>A warning can come from a simple supply problem or from a failed sensor. Start with the cheap checks below before paying for a diagnosis.</p>
+<h2>1. AdBlue level and quality</h2>
+<p>Check the tank isn't low and that it was filled with AdBlue, not water or diesel. Old or contaminated AdBlue causes faults too. If anything other than AdBlue went in, stop and have the tank drained and flushed. A missing or loose cap lets dirt and water in, so replace a lost one. Our ${link(P("adblue-cap"))} locks with a key, which also stops anyone topping it up with the wrong thing.</p>
+<h2>2. The AdBlue pump filter</h2>
+<p>The AdBlue pump has its own filter. When it blocks, the pump can't supply enough AdBlue to the doser, which brings up a warning. It's a cheap part, so it's worth ruling out early.</p>
+<div class="tablewrap"><table><thead><tr><th>Part</th><th>OE number</th><th>Cross-reference</th><th>Price</th></tr></thead><tbody>
+<tr><td>${link(P("adblue-filter"))}</td><td>${oe1("adblue-filter")}</td><td>${mono(P("adblue-filter").cross)}</td><td>${money(P("adblue-filter").price)}</td></tr>
+</tbody></table></div>
+<p>Match the number on your old filter before you order. Your workshop manual shows where the pump sits on your build.</p>
+<h2>3. White crystals around the lines</h2>
+<p>AdBlue dries to white crystals. Crusting around the pump, the lines or the dosing injector on the exhaust usually means a leak at that spot.</p>
+<h2>4. When it's a workshop job</h2>
+<p>If the supply side checks out, the fault is usually further along. Repair shops see AdBlue pump and dosing faults, NOx sensors, DPF regeneration problems and sticking EGR valves on Euro 6 trucks of this age. These need the fault codes read with a diagnostic tool, so take it to a workshop rather than swapping parts on a guess.</p>
+<p>Need a part your workshop has named? Text the part number to <a href="sms:${PHONE}">${esc(C.phone)}</a> and we'll find it.</p>` },
+
+  { path: "/guides/ebs-vs-7-pin-suzi-coil/", short: "EBS vs 7 pin suzi coil", updated: "2026-11-26",
+    title: "ABS/EBS vs 7 Pin Trailer Suzi Coil: Which One Do You Need?",
+    desc: "The difference between an ABS/EBS (ISO 7638) suzi coil and a 7 pin trailer light suzi coil, how to tell them apart, and when to replace one.",
+    blurb: "The two electrical suzis between truck and trailer, and how to tell them apart.",
+    parts: ["ebs-trailer-cable", "trailer-light-suzi-coil"],
+    faq: [
+      ["What's the difference between an EBS suzi coil and a normal suzi coil?", "An ABS/EBS suzi (ISO 7638) carries power and data to the trailer's ABS/EBS brake module, including roll stability control. A normal 7 pin suzi carries the trailer lights: tail, stop, indicators and auxiliary. They're not interchangeable."],
+      ["Can I use a 7 pin light suzi for the trailer EBS?", "No. The trailer brakes need the ISO 7638 ABS/EBS cable. The light suzi only carries the lighting circuits."],
+      ["Does the ABS/EBS suzi coil fit any truck?", "It suits any prime mover and trailer with ISO 7638 sockets, including the MP4 Actros. ISO 7638 is a standard plug, so the make of the truck or trailer brake system (Wabco, Knorr-Bremse or Haldex) doesn't matter."],
+      ["When should I replace a suzi coil?", "If the trailer ABS/EBS warning light comes on, a light on the trailer stops working, the plugs are loose or cracked, or the coil is cut, flattened or has lost its spring."],
+    ],
+    body: () => `<p>A prime mover and trailer are joined by the air lines plus two electrical suzi coils. One carries the trailer lights. The other, the ABS/EBS cable, carries power and data to the trailer's brake module. They look similar, but they do different jobs and the plugs are different.</p>
+<h2>Side by side</h2>
+<div class="tablewrap"><table><thead><tr><th></th><th>${link(P("ebs-trailer-cable"))}</th><th>${link(P("trailer-light-suzi-coil"))}</th></tr></thead><tbody>
+<tr><td>Carries</td><td>Power and data to the trailer ABS/EBS module, including roll stability control</td><td>Trailer lights: tail, stop, indicators and auxiliary</td></tr>
+<tr><td>Plug</td><td>ISO 7638 ABS/EBS plug, both ends</td><td>7 pin trailer plug, both ends</td></tr>
+<tr><td>Replaces</td><td>${mono(P("ebs-trailer-cable").cross)}</td><td>${mono(P("trailer-light-suzi-coil").cross)}</td></tr>
+<tr><td>Price</td><td>${money(P("ebs-trailer-cable").price)}</td><td>${money(P("trailer-light-suzi-coil").price)}</td></tr>
+</tbody></table></div>
+<h2>Signs it needs replacing</h2>
+<ul>
+<li><b>ABS/EBS cable:</b> the trailer ABS/EBS warning light comes on, the plugs are loose or cracked, or the coil is cut or flattened.</li>
+<li><b>Light suzi:</b> a trailer light flickers or stops working, a pin is burnt or corroded, or the cable has kinked at the plug.</li>
+</ul>
+<h2>Check the plug before you order</h2>
+<p>ISO 7638 ABS/EBS plugs are a standard, so the ABS/EBS cable suits any truck and trailer with those sockets. Australian trailers use more than one style of 7 pin lighting plug, so check the plug on your truck and trailer matches the photo on the part page. Not sure? Send us a photo of the plug to <a href="sms:${PHONE}">${esc(C.phone)}</a>.</p>
+<p>Doing the brakes too? See the <a href="/guides/actros-mp4-brake-pad-part-numbers/">MP4 brake pad part numbers</a>.</p>` },
+];
+GUIDES.push(...MORE_GUIDES);
+// footer and home page show these first; every guide is on /guides/
+const GUIDE_ORDER = ["actros-mp4-mp5-part-numbers", "find-actros-part-number", "actros-mp4-service-intervals", "om471-vs-om473-parts", "actros-mp4-vs-mp5-parts", "actros-mp4-losing-coolant", "actros-mp4-adblue-warning"];
+GUIDES.sort((a, b) => { const i = s => { const n = GUIDE_ORDER.indexOf(s.path.split("/")[2]); return n < 0 ? 99 : n; }; return i(a) - i(b); });
+// FAQs and linked parts for the original guides
+const EXTRA = {
+  "/guides/actros-mp4-mp5-part-numbers/": { parts: [], faq: [
+    ["Where is the part number on a Mercedes-Benz part?", "Mercedes OE numbers start with an A, like A 472 184 04 25, and are printed or stamped on the part, on a sticker, or on its box."],
+    ["Can I search with or without the spaces?", "Yes. Spaces and dashes don't matter, and you can leave off the leading A."]] },
+  "/guides/find-actros-part-number/": { parts: [], faq: [
+    ["Where is the VIN on an Actros MP4?", "The VIN (Mercedes calls it the FIN) is 17 characters and starts with W. It's on your registration papers and on the vehicle data plate in the door frame."],
+    ["Can you find the right part from my rego?", "Usually, yes. Text your rego and state, or your VIN, to " + C.phone + " with a photo of the old part and we'll reply with the right part number and a price."]] },
+  "/guides/actros-mp4-service-intervals/": { parts: ["service-kit", "oil-filter", "air-filter", "adblue-filter", "air-dryer-cartridge"], faq: [
+    ["How often does an Actros MP4 need a service?", "There's no single fixed interval. The MP4's maintenance system works out when each service is due from how the truck is used (load, kilometres, idle time, fuel and oil spec) and shows it on the instrument cluster. Go by that display and your service records."],
+    ["Which filters are changed at an MP4 service?", "A standard oil service uses five filters: engine oil, the main fuel filter, the fuel pre-filter / water separator, the engine air filter and the cabin filter. The AdBlue filter, power steering filter and air dryer cartridge are changed on their own schedules."],
+    ["How often should the air dryer cartridge be changed?", "Every 1 to 2 years, or sooner if you're draining water from the air tanks."]] },
+  "/guides/om471-om473-filter-part-numbers/": { parts: ["oil-filter", "fuel-filter", "air-filter", "diesel-water-separator"], faq: [
+    ["Are OM471 and OM473 filters the same?", "Per the MAHLE MP4 / MP5 catalogue, the oil, fuel, pre-filter and air filters are the same parts on the OM471 and the OM473. Match the number on your old filter to be sure."]] },
+  "/guides/actros-mp4-filter-kit-part-numbers/": { parts: ["service-kit"], faq: [
+    ["What's in an Actros MP4 service filter kit?", "Five filters: engine oil, the main fuel filter, the fuel pre-filter / water separator, the engine air filter and the cabin pollen filter."]] },
+  "/guides/actros-mp4-brake-pad-part-numbers/": { parts: ["brake-pads-front", "brake-pads-rear", "brake-hose"], faq: [
+    ["Are the front and rear brake pads the same on an Actros MP4?", "No. Front pads are OE A 006 420 14 20 (WVA 29246 / 29247, Knorr SM7 caliper) and rear pads are OE A 006 420 53 20 (WVA 29244 / 29245, Knorr SL7 caliper)."],
+    ["What if my MP4 has Wabco calipers?", "Some MP4s run a Wabco MAXX22L caliper, which uses a different pad (WVA 29315). Match the WVA number stamped on the backing plate of your old pad."]] },
+  "/guides/actros-mp4-engine-cooling-part-numbers/": { parts: ["viscous-fan-clutch", "expansion-tank", "starter-motor", "oil-separator"], faq: [] },
+};
+for (const g of GUIDES) Object.assign(g, { parts: [], faq: [], ...EXTRA[g.path], ...g });
+for (const g of GUIDES) for (const id of g.parts) P(id);
+const guidesFor = p => GUIDES.filter(g => g.parts.includes(p.id));
+const GUIDES_CRUMB = ["Guides", "/guides/"];
+const faqBlock = faq => faq.length ? `<section class="block"><h2 class="sec">Quick answers</h2>
+<div class="faq">
+${faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("\n")}
+</div></section>\n` : "";
+const faqSchema = faq => ({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: faq.map(([q, a]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } })) });
 function guidePage(g) {
-  const body = `${crumbs([[HOME, "/"], [g.short, ""]])}
+  const parts = g.parts.map(byId), others = GUIDES.filter(x => x !== g).slice(0, 6);
+  const body = `${crumbs([[HOME, "/"], GUIDES_CRUMB, [g.short, ""]])}
 <article class="block article">
   <h1>${esc(g.title)}</h1>
 ${g.body()}
-</article>`;
-  return layout({ title: `${g.title} | ${SITE.name}`, desc: g.desc, path: g.path, body,
-    jsonld: [{ "@context": "https://schema.org", "@type": "Article", headline: g.title, description: g.desc, url: SITE.url + g.path, publisher: { "@id": ORG["@id"] } }, crumbLd([[HOME, "/"], [g.short, g.path]])] });
+${g.updated ? `<p class="note">Updated ${new Date(g.updated + "T00:00:00Z").toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" })} by ${esc(SITE.name)}, Actros MP4 and MP5 parts specialists.</p>\n` : ""}</article>
+${faqBlock(g.faq)}${parts.length ? `<section class="block"><h2 class="sec">Parts in this guide</h2><div class="grid">${parts.map(p => card(p)).join("")}</div></section>\n` : ""}<section class="block"><h2 class="sec">More Actros MP4 guides</h2><div class="guides">${others.map(guideCard).join("")}${guideCard({ path: "/guides/", short: "All guides", blurb: `All ${GUIDES.length} guides in one place.` })}</div></section>`;
+  const article = { "@context": "https://schema.org", "@type": "Article", headline: g.title, description: g.desc, url: SITE.url + g.path, mainEntityOfPage: SITE.url + g.path, inLanguage: "en-AU",
+    author: { "@id": ORG["@id"] }, publisher: { "@id": ORG["@id"] }, ...(g.updated ? { datePublished: g.updated, dateModified: g.updated } : {}),
+    about: [{ "@type": "Thing", name: "Mercedes-Benz Actros MP4" }, { "@type": "Thing", name: "Mercedes-Benz Actros MP5" }],
+    ...(parts.length ? { mentions: parts.map(p => ({ "@type": "Product", name: p.name, url: SITE.url + partUrl(p) })) } : {}) };
+  return layout({ title: `${g.title} | ${SITE.name}`, desc: g.desc, path: g.path, body, type: "article",
+    jsonld: [{ ...ORG, "@context": "https://schema.org" }, article, crumbLd([[HOME, "/"], GUIDES_CRUMB, [g.short, g.path]]), ...(g.faq.length ? [faqSchema(g.faq)] : [])] });
+}
+const guideCard = g => `<a class="guide" href="${g.path}"><b>${esc(g.short)}</b><span>${esc(g.blurb)}</span></a>`;
+// /guides/: every guide in one place
+function guidesHub() {
+  const desc = `Free guides for Mercedes-Benz Actros MP4 / MP5 owners and mechanics: part numbers, OM471 vs OM473, MP4 vs MP5, service filters, coolant loss, AdBlue warnings and more.`;
+  const body = `${crumbs([[HOME, "/"], ["Guides", ""]])}
+<article class="block article">
+  <h1>Actros MP4 &amp; MP5 Guides</h1>
+  <p>Plain-English guides for the MP4 and MP5 Mercedes-Benz Actros with the OM471 and OM473 engines. They cover part numbers, which parts fit which truck, and what to check when something goes wrong. Each one links to the parts it mentions.</p>
+</article>
+<section class="block"><div class="guides">${GUIDES.map(guideCard).join("")}</div></section>`;
+  return layout({ title: `Actros MP4 & MP5 Guides: Part Numbers, Fitment and Fault Checks | ${SITE.name}`, desc, path: "/guides/", body,
+    jsonld: [{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Actros MP4 & MP5 Guides", url: SITE.url + "/guides/", description: desc, publisher: { "@id": ORG["@id"] },
+      mainEntity: { "@type": "ItemList", itemListElement: GUIDES.map((g, i) => ({ "@type": "ListItem", position: i + 1, url: SITE.url + g.path, name: g.title })) } },
+      crumbLd([[HOME, "/"], ["Guides", "/guides/"]])] });
 }
 
 // FAQPage schema from the home page's <details> FAQ, so the questions and answers are spelled out for Google
@@ -493,7 +701,7 @@ ${ld({ "@context": "https://schema.org", "@graph": [ORG_FULL, { "@type": "WebSit
   fill("cats", cats.map(c => `<a class="cat" href="${catUrl(c)}">${ICONS[c] || ""}${esc(c)}<small>${products.filter(p => p.cat === c).length}</small></a>`).join(""));
   fill("grid", sortParts(products).map(card).join(""));
   fill("ask", ASK);
-  fill("guides", GUIDES.map(g => `<a class="guide" href="${g.path}"><b>${esc(g.short)}</b><span>${esc(g.blurb)}</span></a>`).join(""));
+  fill("guides", GUIDES.slice(0, 7).map(guideCard).join("") + guideCard({ path: "/guides/", short: "All guides", blurb: `All ${GUIDES.length} guides: fitment, part numbers and fault checks.` }));
   return versionAssets(html);
 }
 
@@ -546,7 +754,9 @@ function llmsTxt() {
 
 ${cats.map(c => `- [${CATS[c].title}](${SITE.url}${catUrl(c)}): ${CATS[c].intro}`).join("\n")}
 
-## Part number guides
+## Guides
+
+- [All Actros MP4 & MP5 guides](${SITE.url}/guides/): every guide in one place
 
 ${GUIDES.map(g => `- [${g.title}](${SITE.url}${g.path}): ${g.desc}`).join("\n")}
 
@@ -575,6 +785,7 @@ for (const p of products) out.set(join("parts", p.slug, "index.html"), partPage(
 for (const cat of Object.keys(CATS)) if (products.some(p => p.cat === cat)) out.set(join(CATS[cat].path, "index.html"), catPage(cat));
 out.set("404.html", notFound());
 for (const g of GUIDES) out.set(join(g.path.slice(1), "index.html"), guidePage(g));
+out.set(join("guides", "index.html"), guidesHub());
 out.set("index.html", homePage());
 out.set(join("about", "index.html"), aboutPage());
 out.set("llms.txt", llmsTxt());
@@ -583,7 +794,7 @@ out.set("llms-full.txt", llmsFullTxt());
 for (const f of ["policies.html", "success.html"]) out.set(f, versionAssets(readFileSync(join(ROOT, f), "utf8")));
 
 // sitemap.xml: home, categories, parts, policies (no lastmod, so --check stays stable)
-const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), ...GUIDES.map(g => g.path), "/about/", "/policies.html"];
+const urls = ["/", ...Object.keys(CATS).filter(cat => products.some(p => p.cat === cat)).map(catUrl), ...products.map(partUrl), "/guides/", ...GUIDES.map(g => g.path), "/about/", "/policies.html"];
 out.set("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `  <url><loc>${SITE.url}${u}</loc></url>`).join("\n")}
@@ -648,4 +859,4 @@ if (existsSync(partsDir)) for (const slug of readdirSync(partsDir)) {
 if (check) {
   if (stale.length) { console.error("Generated pages are out of date. Run `node build.mjs` and commit:\n  " + stale.join("\n  ")); process.exit(1); }
   console.log(`Generated pages up to date (${out.size} files).`);
-} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 9} categories, ${GUIDES.length} guides, home, about, 404, policies, success, sitemap.xml, feed.xml, llms.txt, llms-full.txt (${feedItems.length} items).`);
+} else console.log(`Wrote ${out.size} files: ${products.length} parts, ${out.size - products.length - GUIDES.length - 10} categories, ${GUIDES.length} guides + guides hub, home, about, 404, policies, success, sitemap.xml, feed.xml, llms.txt, llms-full.txt (${feedItems.length} items).`);

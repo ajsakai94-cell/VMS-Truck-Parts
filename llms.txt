@@ -23,15 +23,22 @@ Key facts:
 - [Truck Workshop Equipment for Actros MP4 / MP5 Servicing](https://vmstruckparts.com.au/workshop-equipment/): Workshop equipment for truck servicing, such as air-operated oil drum pumps. These suit any truck workshop, and are handy for oil services on the Mercedes-Benz Actros MP4 / MP5.
 - [Actros MP4 & MP5 Workshop Tools](https://vmstruckparts.com.au/workshop-tools/): Workshop tools for servicing the OM471 and OM473 engines in the MP4 and MP5 Mercedes-Benz Actros.
 
-## Part number guides
+## Guides
+
+- [All Actros MP4 & MP5 guides](https://vmstruckparts.com.au/guides/): every guide in one place
 
 - [Mercedes-Benz Actros MP4 / MP5 Part Numbers: Every Part We Stock](https://vmstruckparts.com.au/guides/actros-mp4-mp5-part-numbers/): Every Mercedes-Benz Actros MP4 / MP5 part we stock in one table: OE numbers, MAHLE, MANN, WVA and other cross-references, which engine it suits, price and stock.
 - [How to Find the Right Part Number for Your Actros MP4 / MP5](https://vmstruckparts.com.au/guides/find-actros-part-number/): Where to find the OE part number, VIN and engine type on a Mercedes-Benz Actros MP4 / MP5, and how to get us to check the right part for your truck.
 - [Actros MP4 Service Intervals and Filter Checklist](https://vmstruckparts.com.au/guides/actros-mp4-service-intervals/): How service intervals work on the MP4 / MP5 Mercedes-Benz Actros with the OM471 and OM473, which filters are changed at a service, and their OE numbers.
+- [OM471 vs OM473: Which Actros MP4 / MP5 Parts Are Different?](https://vmstruckparts.com.au/guides/om471-vs-om473-parts/): Which Actros MP4 / MP5 parts are the same on the OM471 (12.8 L) and OM473 (15.6 L), which are different, and how to tell which engine your truck has.
+- [Actros MP4 vs MP5: Do the Same Parts Fit Both?](https://vmstruckparts.com.au/guides/actros-mp4-vs-mp5-parts/): Which Mercedes-Benz Actros parts fit both the MP4 and the MP5, which are MP4 only, and how to check before you order.
+- [Actros MP4 Losing Coolant? What to Check First](https://vmstruckparts.com.au/guides/actros-mp4-losing-coolant/): The usual reasons an Actros MP4 / MP5 loses coolant or runs hot, in the order to check them: expansion tank, cap, hoses, radiator, water pump, EGR cooler and fan clutch.
+- [Actros MP4 AdBlue Warning or Derate: What to Check First](https://vmstruckparts.com.au/guides/actros-mp4-adblue-warning/): An AdBlue or emissions warning on an Actros MP4 / MP5 can put the truck into derate. The cheap things to check first, the AdBlue filter part number, and when it's a workshop job.
 - [OM471 / OM473 Filter Part Numbers for the Actros MP4 / MP5](https://vmstruckparts.com.au/guides/om471-om473-filter-part-numbers/): Mercedes-Benz OE numbers and MAHLE, MANN and Hengst cross-references for every OM471 / OM473 filter on the MP4 / MP5 Actros.
 - [Actros MP4 Service Filter Kit Part Numbers (OM471 / OM473)](https://vmstruckparts.com.au/guides/actros-mp4-filter-kit-part-numbers/): The 5 filters in an Actros MP4 / MP5 service kit with every OE number written the ways mechanics search it, plus MAHLE, MANN and Hengst equivalents.
 - [Actros MP4 / MP5 Brake Pad Part Numbers: Front and Rear](https://vmstruckparts.com.au/guides/actros-mp4-brake-pad-part-numbers/): Front and rear brake pad numbers for the Mercedes-Benz Actros MP4 / MP5: OE A 006 420 14 20 (A0064201420) and A 006 420 53 20 (A0064205320), WVA numbers and calipers.
 - [Actros MP4 Engine and Cooling Part Numbers (OM471 / OM473)](https://vmstruckparts.com.au/guides/actros-mp4-engine-cooling-part-numbers/): OE numbers and aftermarket equivalents for the Actros MP4 / MP5 fan clutch, expansion tank, starter motor, oil spinner, cylinder head and battery sensor.
+- [ABS/EBS vs 7 Pin Trailer Suzi Coil: Which One Do You Need?](https://vmstruckparts.com.au/guides/ebs-vs-7-pin-suzi-coil/): The difference between an ABS/EBS (ISO 7638) suzi coil and a 7 pin trailer light suzi coil, how to tell them apart, and when to replace one.
 
 ## About and policies
 
