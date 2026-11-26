@@ -211,7 +211,7 @@ function partPage(p) {
     p.tags?.length && ["Also called", esc(p.tags.join(", "))],
   ].filter(Boolean).map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
   const body = `${crumbs([[HOME, "/"], [p.cat, catUrl(p.cat)], [p.name, ""]])}
-<article class="pdp">
+${p.bundle && canBuy ? kitPdp(p, spec, shipNote) : `<article class="pdp">
   <div class="pic big">${picBig(p)}</div>
   <div class="info">
     <h1>${esc(p.name)} <small>${truckPart(p) ? "to suit Mercedes-Benz Actros MP4 / MP5" : WORKSHOP.trim()}</small></h1>
@@ -226,7 +226,7 @@ ${p.specs ? `    <p><b>At a glance:</b></p><ul class="kit">${p.specs.map(([k, v]
     <dl>${spec}</dl>
     <details><summary>Shipping and returns</summary><p>${shipNote} Unused parts can be returned within 30 days. <a href="/policies.html#shipping">Shipping</a> · <a href="/policies.html#returns">Returns</a></p></details>
   </div>
-</article>
+</article>`}
 ${partFaqHtml(p, shipNote)}
 ${guidesFor(p).length ? `<section class="block"><h2 class="sec">Guides for this part</h2><div class="guides">${guidesFor(p).map(guideCard).join("")}</div></section>\n` : ""}${pairs.length ? `<section class="block"><h2 class="sec">Often replaced with</h2><div class="grid">${pairs.map(card).join("")}</div></section>\n` : ""}${related.length ? `<section class="block"><h2 class="sec">More ${esc(p.cat.toLowerCase())}</h2><div class="grid">${related.map(card).join("")}</div></section>` : ""}`;
   const crumbItems = [[HOME, "/"], [p.cat, catUrl(p.cat)], [p.name, partUrl(p)]];
@@ -270,6 +270,49 @@ ${guidesFor(p).length ? `<section class="block"><h2 class="sec">Guides for this 
   return layout({ title: numTitle, desc: numLead + desc, path: partUrl(p), body, part: p.id, image: p.image, type: "product", jsonld: [product, crumbLd(crumbItems), faqLd(body)] });
 }
 
+// Kit pages (a part with "bundle" ids): built to sell on a phone. Name, price, saving and Add to cart
+// come first, then the photo, then each filter in the box with its OE number and price on its own,
+// postage checked live to a postcode, and the reasons to buy here. Every number comes from products.json.
+function kitPdp(p, spec, shipNote) {
+  const items = p.bundle.map(id => products.find(x => x.id === id));
+  const separate = Math.round(items.reduce((t, x) => t + x.price, 0) * 100) / 100;
+  const save = Math.round((separate - p.price) * 100) / 100;
+  const tel = C.phone.replace(/\s/g, "");
+  const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
+  const sats = [].concat(p.satchel || []);
+  const satText = sats.length ? sats.map(z => `one ${z === "xl" ? "extra large" : z} satchel (${money(SHIP.satchels[z].price)})`).join(" and ") : "";
+  const postNote = Array.isArray(p.pack)
+    ? `${satText ? cap(satText) + " plus one" : "One"} box priced by Australia Post to your postcode. Or free pickup in Melbourne.`
+    : shipNote;
+  return `<article class="pdp kitpdp">
+  <div class="kithead">
+    <h1>${esc(p.name)} <small>to suit Mercedes-Benz Actros MP4 / MP5</small></h1>
+    <p class="fitline"><b>Fits:</b> ${esc(fitsText(p))}</p>
+    <div class="pricerow">${priceHtml(p).replace("price", "price big")}${save > 0 ? `<div class="saving"><span>Bought separately <s>${money(separate)}</s></span><b>You save ${money(save)}</b></div>` : ""}</div>
+    ${stockHtml(p)}
+    <button class="primary" type="button" id="pAdd">Add to cart</button>
+    <form class="postcheck" id="postCheck" data-id="${esc(p.id)}"><label for="postPc"><b>Postage</b> to your postcode</label><span><input id="postPc" inputmode="numeric" pattern="[0-9]{4}" maxlength="4" placeholder="e.g. 4655" autocomplete="postal-code"><button type="submit">Check</button></span><p class="note" id="postOut">${esc(postNote)}</p></form>
+  </div>
+  <div class="pic big">${picBig(p)}</div>
+  <div class="info">
+    <h2 class="sec">What's in the box</h2>
+    <ul class="inbox">${items.map(x => `<li><a href="${partUrl(x)}">${esc(x.name)}</a><span class="mono">${x.oem[0] ? "OE " + esc(x.oem[0]) : ""}${x.cross[0] ? `<br>${esc(x.cross[0])}` : ""}</span><span class="each">${money(x.price)}</span></li>`).join("")}
+      <li class="sum"><span>Bought separately</span><span class="each">${money(separate)}</span></li>
+      <li class="sum kitprice"><span>Kit price</span><span class="each">${money(p.price)}</span></li></ul>
+    <ul class="why">
+      <li><b>Australian seller.</b> Melbourne-based Actros MP4 and MP5 parts specialist.</li>
+      <li><b>Ships fast.</b> Usually dispatched in 1 to 2 business days by Australia Post, with tracking.</li>
+      <li><b>Not sure it fits?</b> Text your part number, rego or VIN to <a href="sms:${tel}">${esc(C.phone)}</a> and we'll check before you pay.</li>
+      <li><b>Easy returns.</b> Unused parts within 30 days.</li>
+      <li><b>Secure checkout.</b> Card, Apple Pay or Google Pay. No account needed.</li>
+    </ul>
+    <p class="desc">${esc(p.desc)}</p>
+    <dl>${spec}</dl>
+    <details><summary>Shipping and returns</summary><p>${shipNote} Unused parts can be returned within 30 days. <a href="/policies.html#shipping">Shipping</a> · <a href="/policies.html#returns">Returns</a></p></details>
+  </div>
+</article>
+<div class="stickybuy" id="stickyBuy" hidden><div><b>${money(p.price)}</b>${save > 0 ? `<span>Save ${money(save)}</span>` : ""}</div><button class="primary" type="button" id="stickyAdd">Add to cart</button></div>`;
+}
 function catPage(cat) {
   const c = CATS[cat];
   const list = sortParts(products.filter(p => p.cat === cat));
